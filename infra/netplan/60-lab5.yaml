@@ -1,0 +1,13 @@
+# /etc/netplan/60-lab5.yaml
+# enp0s3: NAT de VirtualBox (salida a Internet para apt), por DHCP.
+# enp0s8: red Host-Only del laboratorio (10.0.0.32/27) con IP fija.
+#         Sin gateway: la ruta por defecto sigue siendo la del NAT.
+network:
+  version: 2
+  ethernets:
+    enp0s3:
+      dhcp4: true
+    enp0s8:
+      dhcp4: false
+      addresses:
+        - 10.0.0.37/27
