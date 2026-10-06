@@ -1,0 +1,14 @@
+// /etc/bind/named.conf.local
+// Zonas de las que este servidor es autoritativo (primario).
+
+zone "hospital.redes.test" {
+    type primary;
+    file "/etc/bind/zones/db.hospital.redes.test";
+    allow-transfer { none; };
+};
+
+zone "0.0.10.in-addr.arpa" {
+    type primary;
+    file "/etc/bind/zones/db.10.0.0";
+    allow-transfer { none; };
+};

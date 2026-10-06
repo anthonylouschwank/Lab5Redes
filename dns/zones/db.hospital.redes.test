@@ -1,0 +1,29 @@
+; Zona directa: hospital.redes.test
+; Hospital Privado Castillejos – Laboratorio 5 CC3067
+;
+; Serial con formato AAAAMMDDNN: incrementarlo en cada cambio de la zona.
+
+$ORIGIN hospital.redes.test.
+$TTL 3600
+
+@       IN  SOA ns1.hospital.redes.test. admin.hospital.redes.test. (
+                2026100601  ; Serial
+                3600        ; Refresh (1 h)
+                900         ; Retry (15 min)
+                604800      ; Expire (1 semana)
+                300 )       ; TTL negativo (NXDOMAIN, 5 min)
+
+; Servidor de nombres y servidor de correo del dominio
+@       IN  NS  ns1.hospital.redes.test.
+@       IN  MX  10 mail.hospital.redes.test.
+
+; Servicios (todos en la VM srv)
+ns1     IN  A   10.0.0.37
+ldap    IN  A   10.0.0.37
+www     IN  A   10.0.0.37
+mail    IN  A   10.0.0.37
+ftp     IN  A   10.0.0.37
+
+; Equipos
+srv     IN  A   10.0.0.37
+cliente IN  A   10.0.0.33

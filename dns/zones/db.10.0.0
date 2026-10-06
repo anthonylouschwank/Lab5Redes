@@ -1,0 +1,16 @@
+; Zona inversa: 10.0.0.0/24 (se usan .33 y .37 de la subred 10.0.0.32/27)
+
+$ORIGIN 0.0.10.in-addr.arpa.
+$TTL 3600
+
+@       IN  SOA ns1.hospital.redes.test. admin.hospital.redes.test. (
+                2026100601  ; Serial
+                3600        ; Refresh
+                900         ; Retry
+                604800      ; Expire
+                300 )       ; TTL negativo
+
+@       IN  NS  ns1.hospital.redes.test.
+
+37      IN  PTR srv.hospital.redes.test.
+33      IN  PTR cliente.hospital.redes.test.
