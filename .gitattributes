@@ -1,0 +1,10 @@
+# Todo el repo se ejecuta en Ubuntu: forzar fin de línea LF aunque se edite en Windows
+* text=auto eol=lf
+
+# Scripts de PowerShell se ejecutan en Windows
+*.ps1 text eol=crlf
+
+# Binarios
+*.png binary
+*.jpg binary
+*.pdf binary

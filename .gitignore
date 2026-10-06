@@ -1,0 +1,21 @@
+# Credenciales en texto plano (el repo es público)
+secrets/*
+!secrets/credenciales.example.env
+
+# Imágenes ISO y discos de VM
+*.iso
+*.vdi
+*.vmdk
+
+# Salidas temporales
+*.tmp
+*.log.tmp
+tests/salidas/tmp/
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
