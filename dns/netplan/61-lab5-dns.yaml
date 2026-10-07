@@ -1,0 +1,15 @@
+# /etc/netplan/61-lab5-dns.yaml  (se combina con 60-lab5.yaml)
+# Se instala DESPUÉS de BIND9: la VM resuelve todo a través de su propio servidor
+# (ns1 = 10.0.0.37), que es autoritativo para la zona y reenvía el resto al NAT.
+network:
+  version: 2
+  ethernets:
+    enp0s3:
+      dhcp4-overrides:
+        use-dns: false
+    enp0s8:
+      nameservers:
+        addresses:
+          - 10.0.0.37
+        search:
+          - hospital.redes.test

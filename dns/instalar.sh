@@ -28,3 +28,10 @@ systemctl --no-pager --lines=0 status named
 
 echo "==> Prueba rápida"
 dig +short @127.0.0.1 "ns1.${DOMAIN}" A
+
+echo "==> La VM usa su propio BIND9 como DNS"
+install -m 600 dns/netplan/61-lab5-dns.yaml /etc/netplan/61-lab5-dns.yaml
+netplan apply
+sleep 2
+resolvectl status enp0s8 | grep -E 'DNS Servers|DNS Domain'
+dig +short "www.${DOMAIN}" A

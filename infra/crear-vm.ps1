@@ -13,13 +13,13 @@ param(
 $ErrorActionPreference = "Stop"
 $vbox = "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"
 
-if (-not (Test-Path $Iso)) { throw "No se encontró la ISO: $Iso" }
+if (-not (Test-Path $Iso)) { throw "No se encontro la ISO: $Iso" }
 
 # Adaptador Host-Only con la IP del gateway del laboratorio (10.0.0.33)
 $hostOnly = Get-NetIPAddress -AddressFamily IPv4 -IPAddress 10.0.0.33 -ErrorAction SilentlyContinue |
     ForEach-Object { (Get-NetAdapter -InterfaceIndex $_.InterfaceIndex).InterfaceDescription }
 if (-not $hostOnly) {
-    throw "No existe un adaptador Host-Only con IP 10.0.0.33. Créalo en VirtualBox > Herramientas > Network Manager."
+    throw "No existe un adaptador Host-Only con IP 10.0.0.33. Crealo en VirtualBox > Herramientas > Network Manager."
 }
 Write-Host "Adaptador Host-Only: $hostOnly"
 
@@ -41,4 +41,4 @@ $disco = Join-Path $carpeta "$Nombre.vdi"
 & $vbox storageattach $Nombre --storagectl SATA --port 0 --device 0 --type hdd --medium $disco
 & $vbox storageattach $Nombre --storagectl SATA --port 1 --device 0 --type dvddrive --medium $Iso
 
-Write-Host "VM '$Nombre' creada. Iníciala desde VirtualBox para instalar Ubuntu."
+Write-Host "VM '$Nombre' creada. Iniciala desde VirtualBox para instalar Ubuntu."
