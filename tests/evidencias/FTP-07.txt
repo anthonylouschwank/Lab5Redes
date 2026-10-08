@@ -1,0 +1,14 @@
+# FTP-07 — Descarga del archivo sin alteraciones
+# Fecha: 2026-10-08 16:08:09 CST   Equipo: srv
+# Resultado: OK
+
+$ ftpv --netrc-file /tmp/ftp.ObHO/anthony -o /tmp/ftp.ObHO/descargado.txt ftp://ftp.hospital.redes.test/archivos/prueba-ftp-160804.txt | grep -E '^[<>] (RETR|150|226)'; echo; cd /tmp/ftp.ObHO && sha256sum prueba-ftp-160804.txt descargado.txt && cmp prueba-ftp-160804.txt descargado.txt && echo 'Archivos idénticos'
+> RETR prueba-ftp-160804.txt
+< 150 Opening BINARY mode data connection for prueba-ftp-160804.txt (82 bytes).
+< 226 Transfer complete.
+
+1b23698724146ab0fde866d3f03cf4c9f647740b9b9b6f2160955f3efddce307  prueba-ftp-160804.txt
+1b23698724146ab0fde866d3f03cf4c9f647740b9b9b6f2160955f3efddce307  descargado.txt
+Archivos idénticos
+
+# Código de salida: 0

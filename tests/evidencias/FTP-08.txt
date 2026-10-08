@@ -1,0 +1,26 @@
+# FTP-08 — Restricción de directorios (chroot y permisos)
+# Fecha: 2026-10-08 16:08:09 CST   Equipo: srv
+# Resultado: OK
+
+$ echo '== CWD /etc dentro del FTP =='; ftpv --netrc-file /tmp/ftp.ObHO/anthony -Q 'CWD /etc' ftp://ftp.hospital.redes.test/ | grep -E '^[<>] (CWD|550)|curl:'; echo; echo '== CWD ../.. y PWD: sigue en la raíz del chroot =='; ftpv --netrc-file /tmp/ftp.ObHO/anthony -Q 'CWD ../..' -Q 'PWD' ftp://ftp.hospital.redes.test/ -o /dev/null | grep -E '^[<>] (CWD|250|PWD|257)'; echo; echo '== Permisos en el sistema de archivos =='; ls -ld /srv/ftp /srv/ftp/anthony; sudo ls -ld /srv/ftp/anthony/archivos; echo '$ sudo -u isabella ls /srv/ftp/anthony/archivos'; sudo -u isabella ls /srv/ftp/anthony/archivos 2>&1
+== CWD /etc dentro del FTP ==
+> CWD /etc
+< 550 Failed to change directory.
+curl: (21) QUOT command failed with 550
+
+== CWD ../.. y PWD: sigue en la raíz del chroot ==
+> PWD
+< 257 "/" is the current directory
+> CWD ../..
+< 250 Directory successfully changed.
+> PWD
+< 257 "/" is the current directory
+
+== Permisos en el sistema de archivos ==
+drwx--x--x 8 root root 4096 Oct  8 16:06 /srv/ftp
+drwxr-xr-x 3 root root 4096 Oct  8 16:06 /srv/ftp/anthony
+drwx------ 2 anthony ti 4096 Oct  8 16:08 /srv/ftp/anthony/archivos
+$ sudo -u isabella ls /srv/ftp/anthony/archivos
+ls: cannot open directory '/srv/ftp/anthony/archivos': Permission denied
+
+# Código de salida: 2

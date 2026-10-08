@@ -1,0 +1,19 @@
+# FTP-05 — Listado del directorio autorizado
+# Fecha: 2026-10-08 16:08:08 CST   Equipo: srv
+# Resultado: OK
+
+$ ftpv --netrc-file /tmp/ftp.ObHO/anthony ftp://ftp.hospital.redes.test/ | grep -vE '^[*{}]|^> (USER|PASS)|^< (331|220)'
+< 230 Login successful.
+> PWD
+< 257 "/" is the current directory
+> EPSV
+< 229 Entering Extended Passive Mode (|||40073|)
+> TYPE A
+< 200 Switching to ASCII mode.
+> LIST
+< 150 Here comes the directory listing.
+< 226 Directory send OK.
+-rw-r--r--    1 ftp      ftp           111 Oct 08 16:07 LEEME.txt
+drwx------    2 ftp      ftp          4096 Oct 08 16:07 archivos
+
+# Código de salida: 0

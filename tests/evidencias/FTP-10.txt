@@ -1,0 +1,19 @@
+# FTP-10 — Log de vsftpd (logins, rechazos y transferencias)
+# Fecha: 2026-10-08 16:08:09 CST   Equipo: srv
+# Resultado: OK
+
+$ sudo grep -E 'OK LOGIN|FAIL LOGIN|OK UPLOAD|OK DOWNLOAD' /var/log/vsftpd.log | tail -n 12
+Thu Oct  8 16:07:49 2026 [pid 17322] [anthony] OK DOWNLOAD: Client "10.0.0.37", "/LEEME.txt", 111 bytes, 80.77Kbyte/sec
+Thu Oct  8 16:08:04 2026 [pid 17543] [anthony] OK LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:08:06 2026 [pid 17561] [anthony] FAIL LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:08:08 2026 [pid 17596] [anthony] OK LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:08:08 2026 [pid 17615] [anthony] OK LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:08:08 2026 [pid 17617] [anthony] OK UPLOAD: Client "10.0.0.37", "/archivos/prueba-ftp-160804.txt", 82 bytes, 27.33Kbyte/sec
+Thu Oct  8 16:08:09 2026 [pid 17637] [anthony] OK LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:08:09 2026 [pid 17639] [anthony] OK DOWNLOAD: Client "10.0.0.37", "/archivos/prueba-ftp-160804.txt", 82 bytes, 47.47Kbyte/sec
+Thu Oct  8 16:08:09 2026 [pid 17658] [anthony] OK LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:08:09 2026 [pid 17666] [anthony] OK LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:08:09 2026 [pid 17691] [anthony] OK LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:08:09 2026 [pid 17693] [anthony] OK DOWNLOAD: Client "10.0.0.37", "/LEEME.txt", 111 bytes, 41.17Kbyte/sec
+
+# Código de salida: 0

@@ -1,0 +1,16 @@
+# FTP-06 — Carga de archivo a archivos/
+# Fecha: 2026-10-08 16:08:08 CST   Equipo: srv
+# Resultado: OK
+
+$ ftpv --netrc-file /tmp/ftp.ObHO/anthony -T /tmp/ftp.ObHO/prueba-ftp-160804.txt ftp://ftp.hospital.redes.test/archivos/ | grep -E '^[<>] (EPSV|PASV|227|229|TYPE|STOR|150|226)'; echo; sudo ls -l /srv/ftp/anthony/archivos/prueba-ftp-160804.txt; sudo sha256sum /srv/ftp/anthony/archivos/prueba-ftp-160804.txt
+> EPSV
+< 229 Entering Extended Passive Mode (|||40090|)
+> TYPE I
+> STOR prueba-ftp-160804.txt
+< 150 Ok to send data.
+< 226 Transfer complete.
+
+-rw------- 1 anthony ti 82 Oct  8 16:08 /srv/ftp/anthony/archivos/prueba-ftp-160804.txt
+1b23698724146ab0fde866d3f03cf4c9f647740b9b9b6f2160955f3efddce307  /srv/ftp/anthony/archivos/prueba-ftp-160804.txt
+
+# Código de salida: 0

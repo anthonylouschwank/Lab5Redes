@@ -23,6 +23,11 @@ prueba() {
     local f="${EVID_DIR}/${id}.txt" salida rc=0 res tmp
 
     salida="$(bash -c "$cmd" 2>&1)" || rc=$?
+    # Red de seguridad: ninguna contraseña del laboratorio queda en la evidencia
+    local v
+    for v in $(compgen -v PASS_) LDAP_ADMIN_PASS; do
+        [ -n "${!v:-}" ] && salida="${salida//"${!v}"/********}"
+    done
     tmp="$(mktemp)"
     printf '%s\n' "$salida" > "$tmp"
     if SALIDA="$tmp" bash -c "$check" < "$tmp" >/dev/null 2>&1; then res="OK"; else res="FALLA"; fi

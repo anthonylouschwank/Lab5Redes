@@ -19,6 +19,8 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -q nslcd libnss-ldapd libpam-l
 install -m 640 -o root -g nslcd ftp/nslcd.conf /etc/nslcd.conf
 systemctl enable nslcd
 systemctl restart nslcd
+# libnss-ldapd instala nscd: vaciar su caché para que tome la configuración nueva
+if command -v nscd >/dev/null; then nscd -i passwd; nscd -i group; fi
 
 echo "==> SSH solo para el administrador local (lab)"
 install -m 644 ftp/sshd-lab5.conf /etc/ssh/sshd_config.d/lab5.conf

@@ -35,3 +35,13 @@ MAIL-06	OK	Recepción por IMAP en el buzón de anthony	2026-10-08 15:47:25
 MAIL-06b	OK	Recepción por IMAP en el buzón de isabella	2026-10-08 15:47:25
 MAIL-07	OK	Destinatario inexistente	2026-10-08 15:47:27
 MAIL-08	OK	Logs de Postfix y Dovecot de las pruebas	2026-10-08 15:47:27
+FTP-01	OK	Resolución de ftp.hospital.redes.test	2026-10-08 16:08:04
+FTP-02	OK	Autenticación válida (anthony)	2026-10-08 16:08:04
+FTP-03	OK	Autenticación con contraseña incorrecta	2026-10-08 16:08:07
+FTP-04	OK	Acceso anónimo	2026-10-08 16:08:08
+FTP-05	OK	Listado del directorio autorizado	2026-10-08 16:08:08
+FTP-06	OK	Carga de archivo a archivos/	2026-10-08 16:08:08
+FTP-07	OK	Descarga del archivo sin alteraciones	2026-10-08 16:08:09
+FTP-08	OK	Restricción de directorios (chroot y permisos)	2026-10-08 16:08:09
+FTP-09	OK	Conexión de control (21) vs. conexión de datos (pasivo 40000-40100)	2026-10-08 16:08:09
+FTP-10	OK	Log de vsftpd (logins, rechazos y transferencias)	2026-10-08 16:08:09
