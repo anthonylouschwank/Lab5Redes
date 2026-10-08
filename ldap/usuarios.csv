@@ -1,0 +1,7 @@
+uid,givenName,sn,grupo,gidNumber,uidNumber,title
+anthony,Anthony,Lou,ti,5002,10001,Administrador de TI
+isabella,Isabella,Obando,medicos,5001,10002,Medico
+majo,Maria Jose,Giron,medicos,5001,10003,Medico
+leonardo,Leonardo,Mejia,medicos,5001,10004,Medico
+sebastian,Sebastian,Bustamante,ti,5002,10005,Administrador de TI
+roberto,Roberto,Najera,laboratorio,5003,10006,Laboratorista

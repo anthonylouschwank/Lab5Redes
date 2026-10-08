@@ -7,3 +7,10 @@ DNS-03b	OK	Consulta NS de la zona	2026-10-08 15:14:55
 DNS-04	OK	Consulta MX (servidor de correo)	2026-10-08 15:14:55
 DNS-05	OK	Nombre inexistente responde NXDOMAIN	2026-10-08 15:14:55
 DNS-06	OK	Resolución inversa (PTR) de 10.0.0.37	2026-10-08 15:14:55
+LDAP-01	OK	Consulta de usuarios en ou=People	2026-10-08 15:29:11
+LDAP-02	OK	Bind con usuario y contraseña correctos	2026-10-08 15:29:11
+LDAP-03	OK	Bind con contraseña incorrecta	2026-10-08 15:29:11
+LDAP-03b	OK	Bind con usuario inexistente	2026-10-08 15:29:11
+LDAP-04	OK	Atributos uid, cn, sn y mail de un usuario	2026-10-08 15:29:11
+LDAP-05	OK	Grupos por rol y sus miembros	2026-10-08 15:29:11
+LDAP-06	OK	Registro de binds en el log de slapd	2026-10-08 15:29:11

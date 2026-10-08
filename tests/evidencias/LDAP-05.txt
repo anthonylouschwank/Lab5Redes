@@ -1,0 +1,21 @@
+# LDAP-05 — Grupos por rol y sus miembros
+# Fecha: 2026-10-08 15:29:11 CST   Equipo: srv
+# Resultado: OK
+
+$ ldapsearch -x -LLL -H ldap://ldap.hospital.redes.test -b ou=Groups,dc=hospital,dc=redes,dc=test '(objectClass=posixGroup)' cn memberUid
+dn: cn=medicos,ou=Groups,dc=hospital,dc=redes,dc=test
+cn: medicos
+memberUid: isabella
+memberUid: majo
+memberUid: leonardo
+
+dn: cn=ti,ou=Groups,dc=hospital,dc=redes,dc=test
+cn: ti
+memberUid: anthony
+memberUid: sebastian
+
+dn: cn=laboratorio,ou=Groups,dc=hospital,dc=redes,dc=test
+cn: laboratorio
+memberUid: roberto
+
+# Código de salida: 0

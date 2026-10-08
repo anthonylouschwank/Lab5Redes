@@ -1,0 +1,110 @@
+# Usuarios del grupo: una cuenta por integrante en ou=People,dc=hospital,dc=redes,dc=test
+# Generado por ldap/usuarios.sh — las contraseñas están como hash SSHA.
+
+dn: uid=anthony,ou=People,dc=hospital,dc=redes,dc=test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: anthony
+cn: Anthony Lou
+givenName: Anthony
+sn: Lou
+displayName: Anthony Lou
+title: Administrador de TI
+ou: ti
+mail: anthony@hospital.redes.test
+uidNumber: 10001
+gidNumber: 5002
+homeDirectory: /home/anthony
+loginShell: /bin/bash
+userPassword: {SSHA}IsdoH/X88xGSqWg/egHNjIT1Q4Wkcgaj
+
+dn: uid=isabella,ou=People,dc=hospital,dc=redes,dc=test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: isabella
+cn: Isabella Obando
+givenName: Isabella
+sn: Obando
+displayName: Isabella Obando
+title: Medico
+ou: medicos
+mail: isabella@hospital.redes.test
+uidNumber: 10002
+gidNumber: 5001
+homeDirectory: /home/isabella
+loginShell: /bin/bash
+userPassword: {SSHA}kYEl0t8oXoRoyeI9M2htCW7iDELHbHJk
+
+dn: uid=majo,ou=People,dc=hospital,dc=redes,dc=test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: majo
+cn: Maria Jose Giron
+givenName: Maria Jose
+sn: Giron
+displayName: Maria Jose Giron
+title: Medico
+ou: medicos
+mail: majo@hospital.redes.test
+uidNumber: 10003
+gidNumber: 5001
+homeDirectory: /home/majo
+loginShell: /bin/bash
+userPassword: {SSHA}yuH+VMz2UMj7wm8dPl6rjIo6F3PI7+gF
+
+dn: uid=leonardo,ou=People,dc=hospital,dc=redes,dc=test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: leonardo
+cn: Leonardo Mejia
+givenName: Leonardo
+sn: Mejia
+displayName: Leonardo Mejia
+title: Medico
+ou: medicos
+mail: leonardo@hospital.redes.test
+uidNumber: 10004
+gidNumber: 5001
+homeDirectory: /home/leonardo
+loginShell: /bin/bash
+userPassword: {SSHA}Wg7Bd0w2AB16qWQG5cvoAGZYPSwIVSEF
+
+dn: uid=sebastian,ou=People,dc=hospital,dc=redes,dc=test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: sebastian
+cn: Sebastian Bustamante
+givenName: Sebastian
+sn: Bustamante
+displayName: Sebastian Bustamante
+title: Administrador de TI
+ou: ti
+mail: sebastian@hospital.redes.test
+uidNumber: 10005
+gidNumber: 5002
+homeDirectory: /home/sebastian
+loginShell: /bin/bash
+userPassword: {SSHA}veQcXxsb6Muad0zIY5xnovpUiWRe4wQ5
+
+dn: uid=roberto,ou=People,dc=hospital,dc=redes,dc=test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: roberto
+cn: Roberto Najera
+givenName: Roberto
+sn: Najera
+displayName: Roberto Najera
+title: Laboratorista
+ou: laboratorio
+mail: roberto@hospital.redes.test
+uidNumber: 10006
+gidNumber: 5003
+homeDirectory: /home/roberto
+loginShell: /bin/bash
+userPassword: {SSHA}jWiFDfdTnPKuBrXyQA6VE6x5BJ8Mwuw2

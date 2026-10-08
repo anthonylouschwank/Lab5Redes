@@ -1,0 +1,8 @@
+# LDAP-03 — Bind con contraseña incorrecta
+# Fecha: 2026-10-08 15:29:11 CST   Equipo: srv
+# Resultado: OK
+
+$ ldapwhoami -x -H ldap://ldap.hospital.redes.test -D uid=anthony,ou=People,dc=hospital,dc=redes,dc=test -w ContrasenaIncorrecta
+ldap_bind: Invalid credentials (49)
+
+# Código de salida: 49

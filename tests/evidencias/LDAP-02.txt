@@ -1,0 +1,8 @@
+# LDAP-02 — Bind con usuario y contraseña correctos
+# Fecha: 2026-10-08 15:29:11 CST   Equipo: srv
+# Resultado: OK
+
+$ ldapwhoami -x -H ldap://ldap.hospital.redes.test -D uid=anthony,ou=People,dc=hospital,dc=redes,dc=test -y /tmp/pw_anthony.Yc6z
+dn:uid=anthony,ou=People,dc=hospital,dc=redes,dc=test
+
+# Código de salida: 0

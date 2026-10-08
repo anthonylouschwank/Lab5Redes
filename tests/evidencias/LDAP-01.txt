@@ -1,0 +1,30 @@
+# LDAP-01 — Consulta de usuarios en ou=People
+# Fecha: 2026-10-08 15:29:11 CST   Equipo: srv
+# Resultado: OK
+
+$ ldapsearch -x -LLL -H ldap://ldap.hospital.redes.test -b ou=People,dc=hospital,dc=redes,dc=test '(objectClass=inetOrgPerson)' uid cn
+dn: uid=anthony,ou=People,dc=hospital,dc=redes,dc=test
+uid: anthony
+cn: Anthony Lou
+
+dn: uid=isabella,ou=People,dc=hospital,dc=redes,dc=test
+uid: isabella
+cn: Isabella Obando
+
+dn: uid=majo,ou=People,dc=hospital,dc=redes,dc=test
+uid: majo
+cn: Maria Jose Giron
+
+dn: uid=leonardo,ou=People,dc=hospital,dc=redes,dc=test
+uid: leonardo
+cn: Leonardo Mejia
+
+dn: uid=sebastian,ou=People,dc=hospital,dc=redes,dc=test
+uid: sebastian
+cn: Sebastian Bustamante
+
+dn: uid=roberto,ou=People,dc=hospital,dc=redes,dc=test
+uid: roberto
+cn: Roberto Najera
+
+# Código de salida: 0
