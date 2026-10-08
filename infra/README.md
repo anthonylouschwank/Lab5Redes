@@ -64,7 +64,22 @@ echo "lab ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/lab5 && sudo chmod 4
 
 Prueba: `ssh lab5 hostname` debe responder `srv` sin pedir contraseña.
 
-## 5. Red persistente
+Zona horaria (para que los logs y evidencias tengan hora local):
+
+```bash
+sudo timedatectl set-timezone America/Guatemala
+```
+
+## 5. Copiar el repositorio a la VM
+
+Desde Git Bash en Windows (copia también `secrets/`, que no está en GitHub):
+
+```bash
+bash infra/sync.sh           # repo -> lab5:~/lab5
+bash infra/sync.sh --traer   # evidencias de la VM -> tests/evidencias/
+```
+
+## 6. Red persistente
 
 `netplan/60-lab5.yaml` deja la configuración de red en el repositorio. Se instala con:
 

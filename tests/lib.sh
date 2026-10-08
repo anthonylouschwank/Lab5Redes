@@ -16,13 +16,17 @@ IP_RE="$(re "$SERVER_IP")"
 
 # prueba <ID> <descripción> <comando> <verificación>
 #   comando:      se ejecuta con bash -c; su salida (stdout+stderr) es la evidencia.
-#   verificación: comando que recibe la salida por stdin; éxito = prueba OK.
+#   verificación: comando que recibe la salida por stdin y también en el archivo $SALIDA
+#                 (para encadenar varios grep); éxito = prueba OK.
 prueba() {
     local id="$1" desc="$2" cmd="$3" check="$4"
-    local f="${EVID_DIR}/${id}.txt" salida rc=0 res
+    local f="${EVID_DIR}/${id}.txt" salida rc=0 res tmp
 
     salida="$(bash -c "$cmd" 2>&1)" || rc=$?
-    if printf '%s\n' "$salida" | bash -c "$check" >/dev/null 2>&1; then res="OK"; else res="FALLA"; fi
+    tmp="$(mktemp)"
+    printf '%s\n' "$salida" > "$tmp"
+    if SALIDA="$tmp" bash -c "$check" < "$tmp" >/dev/null 2>&1; then res="OK"; else res="FALLA"; fi
+    rm -f "$tmp"
 
     {
         echo "# ${id} — ${desc}"

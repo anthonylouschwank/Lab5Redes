@@ -1,0 +1,31 @@
+# DNS-04 — Consulta MX (servidor de correo)
+# Fecha: 2026-10-08 15:14:55 CST   Equipo: srv
+# Resultado: OK
+
+$ dig @ns1.hospital.redes.test hospital.redes.test MX
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.7-Ubuntu <<>> @ns1.hospital.redes.test hospital.redes.test MX
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 13428
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 529231b90e89f817010000006ac807cf1fee3e864434612e (good)
+;; QUESTION SECTION:
+;hospital.redes.test.		IN	MX
+
+;; ANSWER SECTION:
+hospital.redes.test.	3600	IN	MX	10 mail.hospital.redes.test.
+
+;; ADDITIONAL SECTION:
+mail.hospital.redes.test. 3600	IN	A	10.0.0.37
+
+;; Query time: 0 msec
+;; SERVER: 10.0.0.37#53(ns1.hospital.redes.test) (UDP)
+;; WHEN: Thu Oct 08 15:14:55 CST 2026
+;; MSG SIZE  rcvd: 113
+
+# Código de salida: 0

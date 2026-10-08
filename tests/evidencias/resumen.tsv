@@ -1,0 +1,9 @@
+ID	Resultado	Prueba	Fecha
+DNS-00	OK	Validación de zonas con named-checkzone	2026-10-08 15:14:54
+DNS-01	OK	Resolución del servidor DNS (ns1)	2026-10-08 15:14:54
+DNS-02	OK	Resolución de ldap, www, mail y ftp	2026-10-08 15:14:54
+DNS-03	OK	Consulta SOA (respuesta autoritativa)	2026-10-08 15:14:55
+DNS-03b	OK	Consulta NS de la zona	2026-10-08 15:14:55
+DNS-04	OK	Consulta MX (servidor de correo)	2026-10-08 15:14:55
+DNS-05	OK	Nombre inexistente responde NXDOMAIN	2026-10-08 15:14:55
+DNS-06	OK	Resolución inversa (PTR) de 10.0.0.37	2026-10-08 15:14:55

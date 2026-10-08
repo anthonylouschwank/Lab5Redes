@@ -1,0 +1,11 @@
+# DNS-02 — Resolución de ldap, www, mail y ftp
+# Fecha: 2026-10-08 15:14:54 CST   Equipo: srv
+# Resultado: OK
+
+$ for n in ldap www mail ftp; do dig @ns1.hospital.redes.test +noall +answer $n.hospital.redes.test A; done
+ldap.hospital.redes.test. 3600	IN	A	10.0.0.37
+www.hospital.redes.test. 3600	IN	A	10.0.0.37
+mail.hospital.redes.test. 3600	IN	A	10.0.0.37
+ftp.hospital.redes.test. 3600	IN	A	10.0.0.37
+
+# Código de salida: 0

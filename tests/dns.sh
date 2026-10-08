@@ -20,7 +20,7 @@ prueba DNS-02 "Resolución de ldap, www, mail y ftp" \
 
 prueba DNS-03 "Consulta SOA (respuesta autoritativa)" \
     "dig @${NS} ${DOMAIN} SOA" \
-    "grep -qE 'flags:[^;]*\baa\b' && grep -qE '\sIN\s+SOA\s+ns1\.'"
+    "grep -qE 'flags:[^;]*\baa\b' \$SALIDA && grep -qE '\sIN\s+SOA\s+ns1\.' \$SALIDA"
 
 prueba DNS-03b "Consulta NS de la zona" \
     "dig @${NS} ${DOMAIN} NS" \
@@ -32,7 +32,7 @@ prueba DNS-04 "Consulta MX (servidor de correo)" \
 
 prueba DNS-05 "Nombre inexistente responde NXDOMAIN" \
     "dig @${NS} noexiste.${DOMAIN} A" \
-    "grep -q 'status: NXDOMAIN' && grep -qE 'flags:[^;]*\baa\b'"
+    "grep -q 'status: NXDOMAIN' \$SALIDA && grep -qE 'flags:[^;]*\baa\b' \$SALIDA"
 
 prueba DNS-06 "Resolución inversa (PTR) de ${SERVER_IP}" \
     "dig @${NS} -x ${SERVER_IP}" \
