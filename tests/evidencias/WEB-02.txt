@@ -1,0 +1,21 @@
+# WEB-02 — Acceso a la página principal
+# Fecha: 2026-10-08 15:37:10 CST   Equipo: srv
+# Resultado: OK
+
+$ curl -s -i --max-time 10 http://www.hospital.redes.test/ | sed -n '1,12p;/<h1>/p;/Integrantes/p'
+HTTP/1.1 200 OK
+Date: Thu, 08 Oct 2026 21:37:10 GMT
+Server: Apache/2.4.58 (Ubuntu)
+Last-Modified: Thu, 08 Oct 2026 21:37:08 GMT
+ETag: "8bb-65d5b08a50bdc"
+Accept-Ranges: bytes
+Content-Length: 2235
+Vary: Accept-Encoding
+Content-Type: text/html
+
+<!doctype html>
+<html lang="es">
+    <h1>Hospital Privado Castillejos</h1>
+        <h2>Integrantes del grupo</h2>
+
+# Código de salida: 0

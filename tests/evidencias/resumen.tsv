@@ -14,3 +14,13 @@ LDAP-03b	OK	Bind con usuario inexistente	2026-10-08 15:29:11
 LDAP-04	OK	Atributos uid, cn, sn y mail de un usuario	2026-10-08 15:29:11
 LDAP-05	OK	Grupos por rol y sus miembros	2026-10-08 15:29:11
 LDAP-06	OK	Registro de binds en el log de slapd	2026-10-08 15:29:11
+WEB-01	OK	Resolución de www.hospital.redes.test	2026-10-08 15:37:10
+WEB-02	OK	Acceso a la página principal	2026-10-08 15:37:10
+WEB-03	OK	Intranet con usuario LDAP válido (anthony)	2026-10-08 15:37:10
+WEB-03b	OK	Intranet con otro usuario válido (isabella)	2026-10-08 15:37:10
+WEB-03c	OK	Panel de TI con miembro del grupo ti (anthony)	2026-10-08 15:37:10
+WEB-03d	OK	Panel de TI con usuario fuera del grupo ti (isabella)	2026-10-08 15:37:12
+WEB-04	OK	Intranet con contraseña incorrecta	2026-10-08 15:37:13
+WEB-04b	OK	Intranet con usuario inexistente	2026-10-08 15:37:14
+WEB-05	OK	Dependencia de LDAP: autenticación con slapd detenido	2026-10-08 15:37:16
+WEB-06	OK	Log de acceso de Apache (códigos 200/401/500)	2026-10-08 15:37:16

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Intranet – Hospital Privado Castillejos</title>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+<header>
+    <h1>Intranet del hospital</h1>
+    <p>Área protegida · autenticación con OpenLDAP</p>
+</header>
+
+<main>
+    <section>
+        <h2>Bienvenido(a), <!--#echo var="AUTHENTICATE_CN" --></h2>
+        <p>Apache validó sus credenciales contra <code>ldap.hospital.redes.test</code>.
+           Estos datos se leyeron de su entrada en el directorio:</p>
+        <table>
+            <tr><th>Usuario (uid)</th><td><!--#echo var="REMOTE_USER" --></td></tr>
+            <tr><th>Nombre (cn)</th><td><!--#echo var="AUTHENTICATE_CN" --></td></tr>
+            <tr><th>Correo (mail)</th><td><!--#echo var="AUTHENTICATE_MAIL" --></td></tr>
+            <tr><th>Cargo (title)</th><td><!--#echo var="AUTHENTICATE_TITLE" --></td></tr>
+            <tr><th>Fecha</th><td><!--#echo var="DATE_LOCAL" --></td></tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>Módulos</h2>
+        <p>Expedientes, citas y resultados de laboratorio (fuera del alcance del laboratorio 5).</p>
+        <p>
+            <a class="boton" href="/">Inicio</a>
+            <a class="boton" href="/intranet/ti/">Panel de TI</a>
+        </p>
+        <p class="nota">Para cerrar sesión con autenticación Basic, cierre el navegador.</p>
+    </section>
+</main>
+
+<footer>Hospital Privado Castillejos · Proyecto CC3067</footer>
+</body>
+</html>

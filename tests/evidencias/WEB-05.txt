@@ -1,0 +1,12 @@
+# WEB-05 — Dependencia de LDAP: autenticación con slapd detenido
+# Fecha: 2026-10-08 15:37:15 CST   Equipo: srv
+# Resultado: OK
+
+$ sudo systemctl stop slapd; systemctl is-active slapd; curl -s -i --max-time 10 --netrc-file /tmp/netrc.1Snb/anthony http://www.hospital.redes.test/intranet/ | sed -n '1p'; sleep 1; sudo tail -n 2 /var/log/apache2/hospital-error.log; sudo systemctl start slapd; systemctl is-active slapd
+inactive
+HTTP/1.1 500 Internal Server Error
+[Thu Oct 08 15:37:13.269301 2026] [auth_basic:error] [pid 6993:tid 123251814377152] [client 10.0.0.37:44466] AH01618: user noexiste not found: /intranet/
+[Thu Oct 08 15:37:14.567075 2026] [authnz_ldap:info] [pid 6993:tid 123251728574144] [client 10.0.0.37:32994] AH01695: auth_ldap authenticate: user anthony authentication failed; URI /intranet/ [LDAP: ldap_simple_bind() failed][Can't contact LDAP server]
+active
+
+# Código de salida: 0

@@ -1,0 +1,9 @@
+# WEB-03b — Intranet con otro usuario válido (isabella)
+# Fecha: 2026-10-08 15:37:10 CST   Equipo: srv
+# Resultado: OK
+
+$ curl -s -i --max-time 10 --netrc-file /tmp/netrc.1Snb/isabella http://www.hospital.redes.test/intranet/ | sed -n '1p;/<h2>Bienvenido/p'
+HTTP/1.1 200 OK
+        <h2>Bienvenido(a), Isabella Obando</h2>
+
+# Código de salida: 0

@@ -1,0 +1,23 @@
+# WEB-03 — Intranet con usuario LDAP válido (anthony)
+# Fecha: 2026-10-08 15:37:10 CST   Equipo: srv
+# Resultado: OK
+
+$ curl -s -i --max-time 10 --netrc-file /tmp/netrc.1Snb/anthony http://www.hospital.redes.test/intranet/ | sed -n '1,10p;/<h2>Bienvenido/p;/<td>/p'
+HTTP/1.1 200 OK
+Date: Thu, 08 Oct 2026 21:37:10 GMT
+Server: Apache/2.4.58 (Ubuntu)
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+Content-Type: text/html
+
+<!doctype html>
+<html lang="es">
+        <h2>Bienvenido(a), Anthony Lou</h2>
+            <tr><th>Usuario (uid)</th><td>anthony</td></tr>
+            <tr><th>Nombre (cn)</th><td>Anthony Lou</td></tr>
+            <tr><th>Correo (mail)</th><td>anthony@hospital.redes.test</td></tr>
+            <tr><th>Cargo (title)</th><td>Administrador de TI</td></tr>
+            <tr><th>Fecha</th><td>Thursday, 08-Oct-2026 15:37:10 CST</td></tr>
+
+# Código de salida: 0

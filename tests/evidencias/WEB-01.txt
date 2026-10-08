@@ -1,0 +1,8 @@
+# WEB-01 — Resolución de www.hospital.redes.test
+# Fecha: 2026-10-08 15:37:10 CST   Equipo: srv
+# Resultado: OK
+
+$ dig +noall +answer www.hospital.redes.test A
+www.hospital.redes.test. 2219	IN	A	10.0.0.37
+
+# Código de salida: 0
