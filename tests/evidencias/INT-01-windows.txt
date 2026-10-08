@@ -1,0 +1,28 @@
+﻿# INT-01 (cliente Windows) - Uso exclusivo de nombres DNS
+# Fecha: 2026-10-08 16:19:20   Equipo: TONO (10.0.0.33)
+
+== Regla NRPT: la zona del laboratorio se consulta a ns1 ==
+Namespace                                                         NameServers
+---------                                                         -----------
+{.hospital.redes.test, hospital.redes.test, .0.0.10.in-addr.arpa} 10.0.0.37
+
+== Resolucion (Resolve-DnsName) ==
+ns1.hospital.redes.test    A   10.0.0.37
+ldap.hospital.redes.test   A   10.0.0.37
+www.hospital.redes.test    A   10.0.0.37
+mail.hospital.redes.test   A   10.0.0.37
+ftp.hospital.redes.test    A   10.0.0.37
+hospital.redes.test        MX  10 mail.hospital.redes.test
+
+== Conexion a cada servicio por nombre ==
+ns1.hospital.redes.test    53    ABIERTO  conectado -> 10.0.0.37:53  
+ldap.hospital.redes.test   389   ABIERTO  conectado -> 10.0.0.37:389  
+www.hospital.redes.test    80    ABIERTO  conectado -> 10.0.0.37:80  
+mail.hospital.redes.test   25    ABIERTO  conectado -> 10.0.0.37:25  220 mail.hospital.redes.test ESMTP
+mail.hospital.redes.test   587   ABIERTO  conectado -> 10.0.0.37:587  220 mail.hospital.redes.test ESMTP
+mail.hospital.redes.test   143   ABIERTO  conectado -> 10.0.0.37:143  * OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ STARTTLS LOGINDISABLED] Dovecot (Ubuntu) ready.
+ftp.hospital.redes.test    21    ABIERTO  conectado -> 10.0.0.37:21  220 Hospital Privado Castillejos - servidor FTP
+
+== HTTP por nombre ==
+GET http://www.hospital.redes.test/ -> 200 OK, titulo: Hospital Privado Castillejos
+GET http://www.hospital.redes.test/intranet/ (sin credenciales) -> 401 Unauthorized

@@ -3,6 +3,9 @@
 # Cada prueba guarda su evidencia en tests/evidencias/<ID>.txt y registra el resultado
 # en tests/evidencias/resumen.tsv.
 
+# Archivos temporales (netrc, contraseñas) solo legibles por el usuario que corre las pruebas
+umask 077
+
 TESTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 EVID_DIR="${TESTS_DIR}/evidencias"
 RESUMEN="${EVID_DIR}/resumen.tsv"
