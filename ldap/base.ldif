@@ -1,0 +1,12 @@
+# Estructura base del directorio dc=hospital,dc=redes,dc=test
+# (la entrada raíz dc=hospital,... la crea el paquete slapd)
+
+dn: ou=People,dc=hospital,dc=redes,dc=test
+objectClass: organizationalUnit
+ou: People
+description: Personal del Hospital Privado Castillejos
+
+dn: ou=Groups,dc=hospital,dc=redes,dc=test
+objectClass: organizationalUnit
+ou: Groups
+description: Grupos por rol (medicos, ti, laboratorio)

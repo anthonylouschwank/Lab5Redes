@@ -1,0 +1,25 @@
+# Grupos por rol del Proyecto 2 (posixGroup: también los usa el sistema vía nslcd)
+
+dn: cn=medicos,ou=Groups,dc=hospital,dc=redes,dc=test
+objectClass: posixGroup
+cn: medicos
+gidNumber: 5001
+description: Personal médico
+memberUid: isabella
+memberUid: majo
+memberUid: leonardo
+
+dn: cn=ti,ou=Groups,dc=hospital,dc=redes,dc=test
+objectClass: posixGroup
+cn: ti
+gidNumber: 5002
+description: Equipo de TI
+memberUid: anthony
+memberUid: sebastian
+
+dn: cn=laboratorio,ou=Groups,dc=hospital,dc=redes,dc=test
+objectClass: posixGroup
+cn: laboratorio
+gidNumber: 5003
+description: Laboratorio clínico
+memberUid: roberto
