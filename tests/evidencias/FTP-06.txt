@@ -1,16 +1,16 @@
 # FTP-06 — Carga de archivo a archivos/
-# Fecha: 2026-10-08 16:08:08 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:36 CST   Equipo: srv
 # Resultado: OK
 
-$ ftpv --netrc-file /tmp/ftp.ObHO/anthony -T /tmp/ftp.ObHO/prueba-ftp-160804.txt ftp://ftp.hospital.redes.test/archivos/ | grep -E '^[<>] (EPSV|PASV|227|229|TYPE|STOR|150|226)'; echo; sudo ls -l /srv/ftp/anthony/archivos/prueba-ftp-160804.txt; sudo sha256sum /srv/ftp/anthony/archivos/prueba-ftp-160804.txt
+$ ftpv --netrc-file /tmp/ftp.T993/anthony -T /tmp/ftp.T993/prueba-ftp-161829.txt ftp://ftp.hospital.redes.test/archivos/ | grep -E '^[<>] (EPSV|PASV|227|229|TYPE|STOR|150|226)'; echo; sudo ls -l /srv/ftp/anthony/archivos/prueba-ftp-161829.txt; sudo sha256sum /srv/ftp/anthony/archivos/prueba-ftp-161829.txt
 > EPSV
-< 229 Entering Extended Passive Mode (|||40090|)
+< 229 Entering Extended Passive Mode (|||40000|)
 > TYPE I
-> STOR prueba-ftp-160804.txt
+> STOR prueba-ftp-161829.txt
 < 150 Ok to send data.
 < 226 Transfer complete.
 
--rw------- 1 anthony ti 82 Oct  8 16:08 /srv/ftp/anthony/archivos/prueba-ftp-160804.txt
-1b23698724146ab0fde866d3f03cf4c9f647740b9b9b6f2160955f3efddce307  /srv/ftp/anthony/archivos/prueba-ftp-160804.txt
+-rw------- 1 anthony ti 82 Oct  8 16:18 /srv/ftp/anthony/archivos/prueba-ftp-161829.txt
+d8830c08bc536d159ba54ba0c0562e2556a72bfd75fe501ef180c94073ca8c6d  /srv/ftp/anthony/archivos/prueba-ftp-161829.txt
 
 # Código de salida: 0

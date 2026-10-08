@@ -1,10 +1,10 @@
 # MAIL-07 — Destinatario inexistente
-# Fecha: 2026-10-08 15:47:26 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:28 CST   Equipo: srv
 # Resultado: OK
 
 $ swaks --server mail.hospital.redes.test --from isabella@hospital.redes.test --to noexiste@hospital.redes.test 2>&1 | grep -E 'RCPT|550'; sleep 1; sudo grep 'noexiste@' /var/log/mail.log | tail -n 1
  -> RCPT TO:<noexiste@hospital.redes.test>
 <** 550 5.1.1 <noexiste@hospital.redes.test>: Recipient address rejected: User unknown in virtual mailbox table
-2026-10-08T15:47:25.918358-06:00 srv postfix/smtpd[13913]: NOQUEUE: reject: RCPT from srv.hospital.redes.test[10.0.0.37]: 550 5.1.1 <noexiste@hospital.redes.test>: Recipient address rejected: User unknown in virtual mailbox table; from=<isabella@hospital.redes.test> to=<noexiste@hospital.redes.test> proto=ESMTP helo=<srv>
+2026-10-08T16:18:26.753695-06:00 srv postfix/smtpd[2053]: NOQUEUE: reject: RCPT from srv.hospital.redes.test[10.0.0.37]: 550 5.1.1 <noexiste@hospital.redes.test>: Recipient address rejected: User unknown in virtual mailbox table; from=<isabella@hospital.redes.test> to=<noexiste@hospital.redes.test> proto=ESMTP helo=<srv>
 
 # Código de salida: 0

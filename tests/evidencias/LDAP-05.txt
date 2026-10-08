@@ -1,5 +1,5 @@
 # LDAP-05 — Grupos por rol y sus miembros
-# Fecha: 2026-10-08 15:29:11 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:31 CST   Equipo: srv
 # Resultado: OK
 
 $ ldapsearch -x -LLL -H ldap://ldap.hospital.redes.test -b ou=Groups,dc=hospital,dc=redes,dc=test '(objectClass=posixGroup)' cn memberUid

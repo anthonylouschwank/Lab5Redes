@@ -1,5 +1,5 @@
 # DNS-02 — Resolución de ldap, www, mail y ftp
-# Fecha: 2026-10-08 15:14:54 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:27 CST   Equipo: srv
 # Resultado: OK
 
 $ for n in ldap www mail ftp; do dig @ns1.hospital.redes.test +noall +answer $n.hospital.redes.test A; done

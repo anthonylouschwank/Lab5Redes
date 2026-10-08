@@ -1,11 +1,11 @@
 # MAIL-04b — SMTP: contraseña incorrecta en submission (587)
-# Fecha: 2026-10-08 15:47:20 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:16 CST   Equipo: srv
 # Resultado: OK
 
 $ SWAKS_OPT_auth_password=ContrasenaIncorrecta swaks --server mail.hospital.redes.test --port 587 --tls --auth LOGIN --auth-user anthony --auth-hide-password --from anthony@hospital.redes.test --to isabella@hospital.redes.test 2>&1 | grep -E '535|AUTH'; sleep 1; sudo grep 'authentication failed' /var/log/mail.log | tail -n 1
 <~  250-AUTH PLAIN LOGIN
  ~> AUTH LOGIN
 <~* 535 5.7.8 Error: authentication failed: (reason unavailable)
-2026-10-08T15:47:19.497240-06:00 srv postfix/submission/smtpd[13748]: warning: srv.hospital.redes.test[10.0.0.37]: SASL LOGIN authentication failed: (reason unavailable), sasl_username=anthony@hospital.redes.test
+2026-10-08T16:18:15.115421-06:00 srv postfix/submission/smtpd[1878]: warning: srv.hospital.redes.test[10.0.0.37]: SASL LOGIN authentication failed: (reason unavailable), sasl_username=anthony@hospital.redes.test
 
 # Código de salida: 0

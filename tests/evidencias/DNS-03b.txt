@@ -1,5 +1,5 @@
 # DNS-03b — Consulta NS de la zona
-# Fecha: 2026-10-08 15:14:55 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:27 CST   Equipo: srv
 # Resultado: OK
 
 $ dig @ns1.hospital.redes.test hospital.redes.test NS
@@ -8,12 +8,12 @@ $ dig @ns1.hospital.redes.test hospital.redes.test NS
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46916
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29558
 ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; COOKIE: bbc1f9fc2822d546010000006ac807cf58c0f8485db1f13e (good)
+; COOKIE: b61d9f43d26429ef010000006ac816770abaea225c8810fc (good)
 ;; QUESTION SECTION:
 ;hospital.redes.test.		IN	NS
 
@@ -23,9 +23,9 @@ hospital.redes.test.	3600	IN	NS	ns1.hospital.redes.test.
 ;; ADDITIONAL SECTION:
 ns1.hospital.redes.test. 3600	IN	A	10.0.0.37
 
-;; Query time: 1 msec
+;; Query time: 2 msec
 ;; SERVER: 10.0.0.37#53(ns1.hospital.redes.test) (UDP)
-;; WHEN: Thu Oct 08 15:14:55 CST 2026
+;; WHEN: Thu Oct 08 16:17:27 CST 2026
 ;; MSG SIZE  rcvd: 110
 
 # Código de salida: 0

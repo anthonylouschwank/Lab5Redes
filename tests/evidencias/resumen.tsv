@@ -1,47 +1,51 @@
 ID	Resultado	Prueba	Fecha
-DNS-00	OK	Validación de zonas con named-checkzone	2026-10-08 15:14:54
-DNS-01	OK	Resolución del servidor DNS (ns1)	2026-10-08 15:14:54
-DNS-02	OK	Resolución de ldap, www, mail y ftp	2026-10-08 15:14:54
-DNS-03	OK	Consulta SOA (respuesta autoritativa)	2026-10-08 15:14:55
-DNS-03b	OK	Consulta NS de la zona	2026-10-08 15:14:55
-DNS-04	OK	Consulta MX (servidor de correo)	2026-10-08 15:14:55
-DNS-05	OK	Nombre inexistente responde NXDOMAIN	2026-10-08 15:14:55
-DNS-06	OK	Resolución inversa (PTR) de 10.0.0.37	2026-10-08 15:14:55
-LDAP-01	OK	Consulta de usuarios en ou=People	2026-10-08 15:29:11
-LDAP-02	OK	Bind con usuario y contraseña correctos	2026-10-08 15:29:11
-LDAP-03	OK	Bind con contraseña incorrecta	2026-10-08 15:29:11
-LDAP-03b	OK	Bind con usuario inexistente	2026-10-08 15:29:11
-LDAP-04	OK	Atributos uid, cn, sn y mail de un usuario	2026-10-08 15:29:11
-LDAP-05	OK	Grupos por rol y sus miembros	2026-10-08 15:29:11
-LDAP-06	OK	Registro de binds en el log de slapd	2026-10-08 15:29:11
-WEB-01	OK	Resolución de www.hospital.redes.test	2026-10-08 15:37:10
-WEB-02	OK	Acceso a la página principal	2026-10-08 15:37:10
-WEB-03	OK	Intranet con usuario LDAP válido (anthony)	2026-10-08 15:37:10
-WEB-03b	OK	Intranet con otro usuario válido (isabella)	2026-10-08 15:37:10
-WEB-03c	OK	Panel de TI con miembro del grupo ti (anthony)	2026-10-08 15:37:10
-WEB-03d	OK	Panel de TI con usuario fuera del grupo ti (isabella)	2026-10-08 15:37:12
-WEB-04	OK	Intranet con contraseña incorrecta	2026-10-08 15:37:13
-WEB-04b	OK	Intranet con usuario inexistente	2026-10-08 15:37:14
-WEB-05	OK	Dependencia de LDAP: autenticación con slapd detenido	2026-10-08 15:37:16
-WEB-06	OK	Log de acceso de Apache (códigos 200/401/500)	2026-10-08 15:37:16
-MAIL-01	OK	Resolución de mail.hospital.redes.test y registro MX	2026-10-08 15:47:10
-MAIL-02	OK	Servicios para Thunderbird: SMTP 587 y IMAP 143 con STARTTLS	2026-10-08 15:47:10
-MAIL-03	OK	IMAP: autenticación válida (anthony)	2026-10-08 15:47:12
-MAIL-04	OK	IMAP: contraseña incorrecta	2026-10-08 15:47:17
-MAIL-04b	OK	SMTP: contraseña incorrecta en submission (587)	2026-10-08 15:47:20
-MAIL-05	OK	Envío interno isabella -> anthony (SMTP + entrega LMTP)	2026-10-08 15:47:22
-MAIL-05b	OK	Respuesta anthony -> isabella (intercambio entre usuarios)	2026-10-08 15:47:25
-MAIL-06	OK	Recepción por IMAP en el buzón de anthony	2026-10-08 15:47:25
-MAIL-06b	OK	Recepción por IMAP en el buzón de isabella	2026-10-08 15:47:25
-MAIL-07	OK	Destinatario inexistente	2026-10-08 15:47:27
-MAIL-08	OK	Logs de Postfix y Dovecot de las pruebas	2026-10-08 15:47:27
-FTP-01	OK	Resolución de ftp.hospital.redes.test	2026-10-08 16:08:04
-FTP-02	OK	Autenticación válida (anthony)	2026-10-08 16:08:04
-FTP-03	OK	Autenticación con contraseña incorrecta	2026-10-08 16:08:07
-FTP-04	OK	Acceso anónimo	2026-10-08 16:08:08
-FTP-05	OK	Listado del directorio autorizado	2026-10-08 16:08:08
-FTP-06	OK	Carga de archivo a archivos/	2026-10-08 16:08:08
-FTP-07	OK	Descarga del archivo sin alteraciones	2026-10-08 16:08:09
-FTP-08	OK	Restricción de directorios (chroot y permisos)	2026-10-08 16:08:09
-FTP-09	OK	Conexión de control (21) vs. conexión de datos (pasivo 40000-40100)	2026-10-08 16:08:09
-FTP-10	OK	Log de vsftpd (logins, rechazos y transferencias)	2026-10-08 16:08:09
+DNS-00	OK	Validación de zonas con named-checkzone	2026-10-08 16:17:25
+DNS-01	OK	Resolución del servidor DNS (ns1)	2026-10-08 16:17:26
+DNS-02	OK	Resolución de ldap, www, mail y ftp	2026-10-08 16:17:27
+DNS-03	OK	Consulta SOA (respuesta autoritativa)	2026-10-08 16:17:27
+DNS-03b	OK	Consulta NS de la zona	2026-10-08 16:17:27
+DNS-04	OK	Consulta MX (servidor de correo)	2026-10-08 16:17:28
+DNS-05	OK	Nombre inexistente responde NXDOMAIN	2026-10-08 16:17:28
+DNS-06	OK	Resolución inversa (PTR) de 10.0.0.37	2026-10-08 16:17:29
+LDAP-01	OK	Consulta de usuarios en ou=People	2026-10-08 16:17:29
+LDAP-02	OK	Bind con usuario y contraseña correctos	2026-10-08 16:17:30
+LDAP-03	OK	Bind con contraseña incorrecta	2026-10-08 16:17:30
+LDAP-03b	OK	Bind con usuario inexistente	2026-10-08 16:17:31
+LDAP-04	OK	Atributos uid, cn, sn y mail de un usuario	2026-10-08 16:17:31
+LDAP-05	OK	Grupos por rol y sus miembros	2026-10-08 16:17:31
+LDAP-06	OK	Registro de binds en el log de slapd	2026-10-08 16:17:32
+WEB-01	OK	Resolución de www.hospital.redes.test	2026-10-08 16:17:33
+WEB-02	OK	Acceso a la página principal	2026-10-08 16:17:33
+WEB-03	OK	Intranet con usuario LDAP válido (anthony)	2026-10-08 16:17:34
+WEB-03b	OK	Intranet con otro usuario válido (isabella)	2026-10-08 16:17:34
+WEB-03c	OK	Panel de TI con miembro del grupo ti (anthony)	2026-10-08 16:17:35
+WEB-03d	OK	Panel de TI con usuario fuera del grupo ti (isabella)	2026-10-08 16:17:36
+WEB-04	OK	Intranet con contraseña incorrecta	2026-10-08 16:17:38
+WEB-04b	OK	Intranet con usuario inexistente	2026-10-08 16:17:40
+WEB-05	OK	Dependencia de LDAP: autenticación con slapd detenido	2026-10-08 16:17:56
+WEB-06	OK	Log de acceso de Apache (códigos 200/401/500)	2026-10-08 16:17:57
+MAIL-01	OK	Resolución de mail.hospital.redes.test y registro MX	2026-10-08 16:17:58
+MAIL-02	OK	Servicios para Thunderbird: SMTP 587 y IMAP 143 con STARTTLS	2026-10-08 16:17:59
+MAIL-03	OK	IMAP: autenticación válida (anthony)	2026-10-08 16:18:01
+MAIL-04	OK	IMAP: contraseña incorrecta	2026-10-08 16:18:07
+MAIL-04b	OK	SMTP: contraseña incorrecta en submission (587)	2026-10-08 16:18:16
+MAIL-05	OK	Envío interno isabella -> anthony (SMTP + entrega LMTP)	2026-10-08 16:18:20
+MAIL-05b	OK	Respuesta anthony -> isabella (intercambio entre usuarios)	2026-10-08 16:18:23
+MAIL-06	OK	Recepción por IMAP en el buzón de anthony	2026-10-08 16:18:25
+MAIL-06b	OK	Recepción por IMAP en el buzón de isabella	2026-10-08 16:18:26
+MAIL-07	OK	Destinatario inexistente	2026-10-08 16:18:28
+MAIL-08	OK	Logs de Postfix y Dovecot de las pruebas	2026-10-08 16:18:28
+FTP-01	OK	Resolución de ftp.hospital.redes.test	2026-10-08 16:18:29
+FTP-02	OK	Autenticación válida (anthony)	2026-10-08 16:18:30
+FTP-03	OK	Autenticación con contraseña incorrecta	2026-10-08 16:18:33
+FTP-04	OK	Acceso anónimo	2026-10-08 16:18:35
+FTP-05	OK	Listado del directorio autorizado	2026-10-08 16:18:36
+FTP-06	OK	Carga de archivo a archivos/	2026-10-08 16:18:36
+FTP-07	OK	Descarga del archivo sin alteraciones	2026-10-08 16:18:37
+FTP-08	OK	Restricción de directorios (chroot y permisos)	2026-10-08 16:18:38
+FTP-09	OK	Conexión de control (21) vs. conexión de datos (pasivo 40000-40100)	2026-10-08 16:18:39
+FTP-10	OK	Log de vsftpd (logins, rechazos y transferencias)	2026-10-08 16:18:39
+INT-01	OK	Uso exclusivo de nombres DNS (FQDN) en clientes y configuración	2026-10-08 16:18:41
+INT-03	OK	Puertos en escucha (ss -lntup)	2026-10-08 16:18:42
+INT-04	OK	Revisión de logs de cada servicio	2026-10-08 16:18:45
+INT-02	OK	Reinicio: servicios habilitados, activos y pruebas básicas	2026-10-08 16:18:48

@@ -1,12 +1,12 @@
 # FTP-09 — Conexión de control (21) vs. conexión de datos (pasivo 40000-40100)
-# Fecha: 2026-10-08 16:08:09 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:39 CST   Equipo: srv
 # Resultado: OK
 
-$ ftpv --netrc-file /tmp/ftp.ObHO/anthony --disable-epsv ftp://ftp.hospital.redes.test/LEEME.txt | grep -E '^\* (Connected|Connecting)|^[<>] (PASV|227|RETR|150|226)'
+$ ftpv --netrc-file /tmp/ftp.T993/anthony --disable-epsv ftp://ftp.hospital.redes.test/LEEME.txt | grep -E '^\* (Connected|Connecting)|^[<>] (PASV|227|RETR|150|226)'
 * Connected to ftp.hospital.redes.test (10.0.0.37) port 21
 > PASV
-< 227 Entering Passive Mode (10,0,0,37,156,91).
-* Connecting to 10.0.0.37 (10.0.0.37) port 40027
+< 227 Entering Passive Mode (10,0,0,37,156,82).
+* Connecting to 10.0.0.37 (10.0.0.37) port 40018
 * Connected to ftp.hospital.redes.test (10.0.0.37) port 21
 > RETR LEEME.txt
 < 150 Opening BINARY mode data connection for LEEME.txt (111 bytes).

@@ -1,0 +1,43 @@
+# INT-04 — Revisión de logs de cada servicio
+# Fecha: 2026-10-08 16:18:45 CST   Equipo: srv
+# Resultado: OK
+
+$ ult() { sudo grep -E "$1" "$2" | tail -n ${3:-2}; }
+     echo '== BIND9: consultas a la zona =='; sudo journalctl -u named --no-pager | grep 'query:' | grep 'hospital.redes.test' | tail -n 3
+     echo; echo '== OpenLDAP: bind aceptado (err=0) y rechazado (err=49) =='; for e in 0 49; do sudo journalctl -u slapd --no-pager | grep "RESULT tag=97 err=$e " | tail -n 1; done
+     echo; echo '== Apache: accesos 200/401/500 y motivo de los rechazos =='; for c in 200 401 500; do ult "\" $c " /var/log/apache2/hospital-access.log 1; done; ult 'Password Mismatch|not found|contact LDAP' /var/log/apache2/hospital-error.log 3
+     echo; echo '== Dovecot: login IMAP correcto y fallido =='; ult 'imap-login: Login' /var/log/mail.log 1; ult 'auth failed' /var/log/mail.log 1
+     echo; echo '== Postfix: entrega y destinatario rechazado =='; ult 'postfix/lmtp.*status=sent' /var/log/mail.log 1; ult 'User unknown' /var/log/mail.log 1
+     echo; echo '== vsftpd: logins, rechazos y transferencias =='; for e in 'OK LOGIN' 'FAIL LOGIN' 'OK UPLOAD' 'OK DOWNLOAD'; do ult "$e" /var/log/vsftpd.log 1; done
+== BIND9: consultas a la zona ==
+Oct 08 16:17:57 srv named[666]: client @0x78eee12a3518 10.0.0.37#38282 (mail.hospital.redes.test): query: mail.hospital.redes.test IN A +T (10.0.0.37)
+Oct 08 16:17:58 srv named[666]: client @0x78eee12a3518 10.0.0.37#38282 (srv.hospital.redes.test): query: srv.hospital.redes.test IN A +T (10.0.0.37)
+Oct 08 16:18:29 srv named[666]: client @0x78eee12a3518 10.0.0.37#45540 (ftp.hospital.redes.test): query: ftp.hospital.redes.test IN A +T (10.0.0.37)
+
+== OpenLDAP: bind aceptado (err=0) y rechazado (err=49) ==
+Oct 08 16:18:40 srv slapd[1813]: conn=1017 op=0 RESULT tag=97 err=0 qtime=0.000020 etime=0.005969 text=
+Oct 08 16:18:30 srv slapd[1813]: conn=1008 op=0 RESULT tag=97 err=49 qtime=0.000066 etime=0.001842 text=
+
+== Apache: accesos 200/401/500 y motivo de los rechazos ==
+10.0.0.37 - anthony [08/Oct/2026:16:18:40 -0600] "GET /intranet/ HTTP/1.1" 200 1723 "-" "curl/8.5.0"
+10.0.0.37 - noexiste [08/Oct/2026:16:17:38 -0600] "GET /intranet/ HTTP/1.1" 401 707 "-" "curl/8.5.0"
+10.0.0.37 - anthony [08/Oct/2026:16:17:40 -0600] "GET /intranet/ HTTP/1.1" 500 819 "-" "curl/8.5.0"
+[Thu Oct 08 16:17:38.600344 2026] [authnz_ldap:info] [pid 997:tid 133332629190336] [client 10.0.0.37:39240] AH01695: auth_ldap authenticate: user noexiste authentication failed; URI /intranet/ [User not found][No such object]
+[Thu Oct 08 16:17:38.600401 2026] [auth_basic:error] [pid 997:tid 133332629190336] [client 10.0.0.37:39240] AH01618: user noexiste not found: /intranet/
+[Thu Oct 08 16:17:40.630835 2026] [authnz_ldap:info] [pid 998:tid 133332218144448] [client 10.0.0.37:39252] AH01695: auth_ldap authenticate: user anthony authentication failed; URI /intranet/ [LDAP: ldap_simple_bind() failed][Can't contact LDAP server]
+
+== Dovecot: login IMAP correcto y fallido ==
+2026-10-08T16:18:40.606295-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=2316, TLS, session=<vjQrnVtdAOcKAAAl>
+2026-10-08T16:18:03.568867-06:00 srv dovecot: imap-login: Disconnected: Connection closed (auth failed, 1 attempts in 2 secs): user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, TLS, session=<oDPemltd5u0KAAAl>
+
+== Postfix: entrega y destinatario rechazado ==
+2026-10-08T16:18:21.429099-06:00 srv postfix/lmtp[1960]: 397FD14992C: to=<isabella@hospital.redes.test>, relay=mail.hospital.redes.test[private/dovecot-lmtp], delay=0.22, delays=0.07/0.01/0.02/0.11, dsn=2.0.0, status=sent (250 2.0.0 <isabella@hospital.redes.test> SFvrEa0WyGqsBwAAUxvpGw Saved)
+2026-10-08T16:18:26.753695-06:00 srv postfix/smtpd[2053]: NOQUEUE: reject: RCPT from srv.hospital.redes.test[10.0.0.37]: 550 5.1.1 <noexiste@hospital.redes.test>: Recipient address rejected: User unknown in virtual mailbox table; from=<isabella@hospital.redes.test> to=<noexiste@hospital.redes.test> proto=ESMTP helo=<srv>
+
+== vsftpd: logins, rechazos y transferencias ==
+Thu Oct  8 16:18:40 2026 [pid 2322] [anthony] OK LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:18:32 2026 [pid 2136] [anthony] FAIL LOGIN: Client "10.0.0.37"
+Thu Oct  8 16:18:36 2026 [pid 2195] [anthony] OK UPLOAD: Client "10.0.0.37", "/archivos/prueba-ftp-161829.txt", 82 bytes, 2.88Kbyte/sec
+Thu Oct  8 16:18:39 2026 [pid 2271] [anthony] OK DOWNLOAD: Client "10.0.0.37", "/LEEME.txt", 111 bytes, 6.34Kbyte/sec
+
+# Código de salida: 0

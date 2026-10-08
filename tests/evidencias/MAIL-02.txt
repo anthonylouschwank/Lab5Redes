@@ -1,5 +1,5 @@
 # MAIL-02 — Servicios para Thunderbird: SMTP 587 y IMAP 143 con STARTTLS
-# Fecha: 2026-10-08 15:47:10 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:59 CST   Equipo: srv
 # Resultado: OK
 
 $ echo '== SMTP submission 587 (EHLO después de STARTTLS) =='; printf 'EHLO cliente\r\nQUIT\r\n' | openssl s_client -quiet -starttls smtp -connect mail.hospital.redes.test:587 -CAfile /etc/ssl/certs/mail.hospital.redes.test.crt -verify_hostname mail.hospital.redes.test 2>&1 | tr -d '\r'; echo; echo '== IMAP 143 (STARTTLS) =='; printf 'a CAPABILITY\na LOGOUT\n' | openssl s_client -quiet -starttls imap -connect mail.hospital.redes.test:143 -CAfile /etc/ssl/certs/mail.hospital.redes.test.crt -verify_hostname mail.hospital.redes.test 2>&1 | tr -d '\r'

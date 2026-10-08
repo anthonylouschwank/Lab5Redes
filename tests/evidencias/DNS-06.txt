@@ -1,5 +1,5 @@
 # DNS-06 — Resolución inversa (PTR) de 10.0.0.37
-# Fecha: 2026-10-08 15:14:55 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:29 CST   Equipo: srv
 # Resultado: OK
 
 $ dig @ns1.hospital.redes.test -x 10.0.0.37
@@ -8,21 +8,21 @@ $ dig @ns1.hospital.redes.test -x 10.0.0.37
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 30934
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47171
 ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; COOKIE: 0ead9576f6f3dead010000006ac807cfaeedce77261dd202 (good)
+; COOKIE: 179fe3244a136330010000006ac816795a87b426442a406a (good)
 ;; QUESTION SECTION:
 ;37.0.0.10.in-addr.arpa.		IN	PTR
 
 ;; ANSWER SECTION:
 37.0.0.10.in-addr.arpa.	3600	IN	PTR	srv.hospital.redes.test.
 
-;; Query time: 2 msec
+;; Query time: 3 msec
 ;; SERVER: 10.0.0.37#53(ns1.hospital.redes.test) (UDP)
-;; WHEN: Thu Oct 08 15:14:55 CST 2026
+;; WHEN: Thu Oct 08 16:17:29 CST 2026
 ;; MSG SIZE  rcvd: 116
 
 # Código de salida: 0

@@ -1,9 +1,9 @@
 # MAIL-01 — Resolución de mail.hospital.redes.test y registro MX
-# Fecha: 2026-10-08 15:47:10 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:58 CST   Equipo: srv
 # Resultado: OK
 
 $ dig +noall +answer hospital.redes.test MX; dig +noall +answer mail.hospital.redes.test A
-hospital.redes.test.	3556	IN	MX	10 mail.hospital.redes.test.
-mail.hospital.redes.test. 3305	IN	A	10.0.0.37
+hospital.redes.test.	3600	IN	MX	10 mail.hospital.redes.test.
+mail.hospital.redes.test. 3600	IN	A	10.0.0.37
 
 # Código de salida: 0

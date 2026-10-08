@@ -1,16 +1,16 @@
 # MAIL-06b — Recepción por IMAP en el buzón de isabella
-# Fecha: 2026-10-08 15:47:25 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:26 CST   Equipo: srv
 # Resultado: OK
 
-$ leer isabella 'Re: Prueba MAIL-05 15:47:10'
-$ SEARCH SUBJECT "Re: Prueba MAIL-05 15:47:10"
-* SEARCH 2
-$ FETCH mensaje 2
-Date: Thu, 08 Oct 2026 15:47:22 -0600
+$ leer isabella 'Re: Prueba MAIL-05 16:17:57'
+$ SEARCH SUBJECT "Re: Prueba MAIL-05 16:17:57"
+* SEARCH 3
+$ FETCH mensaje 3
+Date: Thu, 08 Oct 2026 16:18:20 -0600
 To: isabella@hospital.redes.test
 From: anthony@hospital.redes.test
-Subject: Re: Prueba MAIL-05 15:47:10
-Message-Id: <20261008154722.014218@srv>
+Subject: Re: Prueba MAIL-05 16:17:57
+Message-Id: <20261008161820.001981@srv>
 Mensaje de prueba del Laboratorio 5 enviado por anthony.
 
 # Código de salida: 0

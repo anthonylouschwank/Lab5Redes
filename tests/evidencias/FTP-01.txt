@@ -1,8 +1,8 @@
 # FTP-01 — Resolución de ftp.hospital.redes.test
-# Fecha: 2026-10-08 16:08:04 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:29 CST   Equipo: srv
 # Resultado: OK
 
 $ dig +noall +answer ftp.hospital.redes.test A
-ftp.hospital.redes.test. 3486	IN	A	10.0.0.37
+ftp.hospital.redes.test. 3600	IN	A	10.0.0.37
 
 # Código de salida: 0

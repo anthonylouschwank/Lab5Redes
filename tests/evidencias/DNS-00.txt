@@ -1,5 +1,5 @@
 # DNS-00 — Validación de zonas con named-checkzone
-# Fecha: 2026-10-08 15:14:54 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:25 CST   Equipo: srv
 # Resultado: OK
 
 $ named-checkzone hospital.redes.test /etc/bind/zones/db.hospital.redes.test && named-checkzone 0.0.10.in-addr.arpa /etc/bind/zones/db.10.0.0

@@ -1,5 +1,5 @@
 # DNS-03 — Consulta SOA (respuesta autoritativa)
-# Fecha: 2026-10-08 15:14:55 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:27 CST   Equipo: srv
 # Resultado: OK
 
 $ dig @ns1.hospital.redes.test hospital.redes.test SOA
@@ -8,21 +8,21 @@ $ dig @ns1.hospital.redes.test hospital.redes.test SOA
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 36837
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 20928
 ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; COOKIE: 0cb6fe0beca1ffb2010000006ac807ce34fe7fd0c8fee05a (good)
+; COOKIE: ee2f1c96078aec2d010000006ac816775b7582e8aa209f51 (good)
 ;; QUESTION SECTION:
 ;hospital.redes.test.		IN	SOA
 
 ;; ANSWER SECTION:
 hospital.redes.test.	3600	IN	SOA	ns1.hospital.redes.test. admin.hospital.redes.test. 2026100601 3600 900 604800 300
 
-;; Query time: 198 msec
+;; Query time: 4 msec
 ;; SERVER: 10.0.0.37#53(ns1.hospital.redes.test) (UDP)
-;; WHEN: Thu Oct 08 15:14:55 CST 2026
+;; WHEN: Thu Oct 08 16:17:27 CST 2026
 ;; MSG SIZE  rcvd: 122
 
 # Código de salida: 0

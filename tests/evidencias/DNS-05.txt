@@ -1,5 +1,5 @@
 # DNS-05 — Nombre inexistente responde NXDOMAIN
-# Fecha: 2026-10-08 15:14:55 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:28 CST   Equipo: srv
 # Resultado: OK
 
 $ dig @ns1.hospital.redes.test noexiste.hospital.redes.test A
@@ -8,21 +8,21 @@ $ dig @ns1.hospital.redes.test noexiste.hospital.redes.test A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 7692
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 40337
 ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; COOKIE: dc1055c896c13fc6010000006ac807cfe1e2c836cfc6aab3 (good)
+; COOKIE: 8a27b10f5dd2ca24010000006ac81678947dedda665cdba2 (good)
 ;; QUESTION SECTION:
 ;noexiste.hospital.redes.test.	IN	A
 
 ;; AUTHORITY SECTION:
 hospital.redes.test.	300	IN	SOA	ns1.hospital.redes.test. admin.hospital.redes.test. 2026100601 3600 900 604800 300
 
-;; Query time: 0 msec
+;; Query time: 4 msec
 ;; SERVER: 10.0.0.37#53(ns1.hospital.redes.test) (UDP)
-;; WHEN: Thu Oct 08 15:14:55 CST 2026
+;; WHEN: Thu Oct 08 16:17:28 CST 2026
 ;; MSG SIZE  rcvd: 131
 
 # Código de salida: 0

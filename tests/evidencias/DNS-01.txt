@@ -1,5 +1,5 @@
 # DNS-01 — Resolución del servidor DNS (ns1)
-# Fecha: 2026-10-08 15:14:54 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:26 CST   Equipo: srv
 # Resultado: OK
 
 $ dig @ns1.hospital.redes.test ns1.hospital.redes.test A
@@ -8,21 +8,21 @@ $ dig @ns1.hospital.redes.test ns1.hospital.redes.test A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 55607
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25760
 ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; COOKIE: c104d218367b8f1d010000006ac807ceecd68823cd7af888 (good)
+; COOKIE: 26d46ad6b5f804dd010000006ac81675a2c53b416722874e (good)
 ;; QUESTION SECTION:
 ;ns1.hospital.redes.test.	IN	A
 
 ;; ANSWER SECTION:
 ns1.hospital.redes.test. 3600	IN	A	10.0.0.37
 
-;; Query time: 0 msec
+;; Query time: 9 msec
 ;; SERVER: 10.0.0.37#53(ns1.hospital.redes.test) (UDP)
-;; WHEN: Thu Oct 08 15:14:54 CST 2026
+;; WHEN: Thu Oct 08 16:17:25 CST 2026
 ;; MSG SIZE  rcvd: 96
 
 # Código de salida: 0

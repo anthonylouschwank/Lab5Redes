@@ -1,10 +1,10 @@
 # WEB-04 — Intranet con contraseña incorrecta
-# Fecha: 2026-10-08 15:37:13 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:38 CST   Equipo: srv
 # Resultado: OK
 
-$ curl -s -i --max-time 10 --netrc-file /tmp/netrc.1Snb/anthony-mala http://www.hospital.redes.test/intranet/ | sed -n '1p;/WWW-Authenticate/p'; sleep 1; sudo tail -n 1 /var/log/apache2/hospital-error.log
+$ curl -s -i --max-time 10 --netrc-file /tmp/netrc.KUj8/anthony-mala http://www.hospital.redes.test/intranet/ | sed -n '1p;/WWW-Authenticate/p'; sleep 1; sudo tail -n 1 /var/log/apache2/hospital-error.log
 HTTP/1.1 401 Unauthorized
 WWW-Authenticate: Basic realm="Intranet - Hospital Privado Castillejos"
-[Thu Oct 08 15:37:12.036891 2026] [auth_basic:error] [pid 6992:tid 123251822778048] [client 10.0.0.37:44464] AH01617: user anthony: authentication failure for "/intranet/": Password Mismatch
+[Thu Oct 08 16:17:36.996129 2026] [auth_basic:error] [pid 997:tid 133332714714816] [client 10.0.0.37:39224] AH01617: user anthony: authentication failure for "/intranet/": Password Mismatch
 
 # Código de salida: 0

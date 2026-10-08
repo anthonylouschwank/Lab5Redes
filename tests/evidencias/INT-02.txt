@@ -1,0 +1,37 @@
+# INT-02 — Reinicio: servicios habilitados, activos y pruebas básicas
+# Fecha: 2026-10-08 16:18:47 CST   Equipo: srv
+# Resultado: OK
+
+$ echo "Último arranque: $(uptime -s)   (uptime: $(uptime -p))"; echo
+     printf '%-9s %-10s %s\n' SERVICIO HABILITADO ESTADO
+     for s in named slapd apache2 postfix dovecot nslcd vsftpd; do printf '%-9s %-10s %s\n' $s $(systemctl is-enabled $s 2>/dev/null) $(systemctl is-active $s); done
+     echo; echo '== Red persistente =='; ip -4 -br addr show enp0s8; resolvectl dns enp0s8
+     echo; echo '== Pruebas básicas después del reinicio =='
+     echo -n 'DNS:  '; dig +short www.hospital.redes.test A
+     echo -n 'LDAP: '; ldapwhoami -x -H ldap://ldap.hospital.redes.test -D uid=isabella,ou=People,dc=hospital,dc=redes,dc=test -y /tmp/rei.TuLt/pw
+     echo -n 'Web:  '; curl -s -o /dev/null -w 'HTTP %{http_code}\n' --netrc-file /tmp/rei.TuLt/netrc http://www.hospital.redes.test/intranet/
+     echo -n 'IMAP: '; curl -s --ssl-reqd --cacert /etc/ssl/certs/mail.hospital.redes.test.crt --netrc-file /tmp/rei.TuLt/netrc imap://mail.hospital.redes.test/ -o /dev/null -w 'login OK\n'
+     echo -n 'FTP:  '; curl -s --netrc-file /tmp/rei.TuLt/netrc ftp://ftp.hospital.redes.test/ -o /dev/null -w 'login %{response_code}\n'
+Último arranque: 2026-10-08 16:16:14   (uptime: up 2 minutes)
+
+SERVICIO  HABILITADO ESTADO
+named     enabled    active
+slapd     enabled    active
+apache2   enabled    active
+postfix   enabled    active
+dovecot   enabled    active
+nslcd     enabled    active
+vsftpd    enabled    active
+
+== Red persistente ==
+enp0s8           UP             10.0.0.37/27 
+Link 3 (enp0s8): 10.0.0.37
+
+== Pruebas básicas después del reinicio ==
+DNS:  10.0.0.37
+LDAP: dn:uid=isabella,ou=People,dc=hospital,dc=redes,dc=test
+Web:  HTTP 200
+IMAP: login OK
+FTP:  login 226
+
+# Código de salida: 0

@@ -1,19 +1,19 @@
 # LDAP-06 — Registro de binds en el log de slapd
-# Fecha: 2026-10-08 15:29:11 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:32 CST   Equipo: srv
 # Resultado: OK
 
 $ sudo journalctl -u slapd --since '-10 min' --no-pager | grep -E 'BIND dn="uid=(anthony|noexiste)|RESULT tag=97 err=(0|49)' | tail -n 12
-Oct 08 15:29:10 srv slapd[4430]: conn=1004 op=0 RESULT tag=97 err=0 qtime=0.000108 etime=0.000284 text=
-Oct 08 15:29:10 srv slapd[4430]: conn=1005 op=0 RESULT tag=97 err=0 qtime=0.000020 etime=0.000096 text=
-Oct 08 15:29:11 srv slapd[4430]: conn=1006 op=0 RESULT tag=97 err=0 qtime=0.000037 etime=0.000341 text=
-Oct 08 15:29:11 srv slapd[4430]: conn=1007 op=0 BIND dn="uid=anthony,ou=People,dc=hospital,dc=redes,dc=test" method=128
-Oct 08 15:29:11 srv slapd[4430]: conn=1007 op=0 BIND dn="uid=anthony,ou=People,dc=hospital,dc=redes,dc=test" mech=SIMPLE bind_ssf=0 ssf=0
-Oct 08 15:29:11 srv slapd[4430]: conn=1007 op=0 RESULT tag=97 err=0 qtime=0.000011 etime=0.000558 text=
-Oct 08 15:29:11 srv slapd[4430]: conn=1008 op=0 BIND dn="uid=anthony,ou=People,dc=hospital,dc=redes,dc=test" method=128
-Oct 08 15:29:11 srv slapd[4430]: conn=1008 op=0 RESULT tag=97 err=49 qtime=0.000010 etime=0.000816 text=
-Oct 08 15:29:11 srv slapd[4430]: conn=1009 op=0 BIND dn="uid=noexiste,ou=People,dc=hospital,dc=redes,dc=test" method=128
-Oct 08 15:29:11 srv slapd[4430]: conn=1009 op=0 RESULT tag=97 err=49 qtime=0.000010 etime=0.000878 text=
-Oct 08 15:29:11 srv slapd[4430]: conn=1010 op=0 RESULT tag=97 err=0 qtime=0.000009 etime=0.000671 text=
-Oct 08 15:29:11 srv slapd[4430]: conn=1011 op=0 RESULT tag=97 err=0 qtime=0.000077 etime=0.000264 text=
+Oct 08 16:17:14 srv slapd[879]: conn=1001 op=0 RESULT tag=97 err=0 qtime=0.000865 etime=0.003073 text=
+Oct 08 16:17:23 srv slapd[879]: conn=1002 op=0 RESULT tag=97 err=0 qtime=0.000018 etime=0.001866 text=
+Oct 08 16:17:29 srv slapd[879]: conn=1003 op=0 RESULT tag=97 err=0 qtime=0.000012 etime=0.002704 text=
+Oct 08 16:17:30 srv slapd[879]: conn=1004 op=0 BIND dn="uid=anthony,ou=People,dc=hospital,dc=redes,dc=test" method=128
+Oct 08 16:17:30 srv slapd[879]: conn=1004 op=0 BIND dn="uid=anthony,ou=People,dc=hospital,dc=redes,dc=test" mech=SIMPLE bind_ssf=0 ssf=0
+Oct 08 16:17:30 srv slapd[879]: conn=1004 op=0 RESULT tag=97 err=0 qtime=0.000018 etime=0.000548 text=
+Oct 08 16:17:30 srv slapd[879]: conn=1005 op=0 BIND dn="uid=anthony,ou=People,dc=hospital,dc=redes,dc=test" method=128
+Oct 08 16:17:30 srv slapd[879]: conn=1005 op=0 RESULT tag=97 err=49 qtime=0.000018 etime=0.000204 text=
+Oct 08 16:17:30 srv slapd[879]: conn=1006 op=0 BIND dn="uid=noexiste,ou=People,dc=hospital,dc=redes,dc=test" method=128
+Oct 08 16:17:30 srv slapd[879]: conn=1006 op=0 RESULT tag=97 err=49 qtime=0.000053 etime=0.001408 text=
+Oct 08 16:17:31 srv slapd[879]: conn=1007 op=0 RESULT tag=97 err=0 qtime=0.000109 etime=0.001381 text=
+Oct 08 16:17:31 srv slapd[879]: conn=1008 op=0 RESULT tag=97 err=0 qtime=0.000011 etime=0.001388 text=
 
 # Código de salida: 0

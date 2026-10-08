@@ -1,5 +1,5 @@
 # FTP-04 — Acceso anónimo
-# Fecha: 2026-10-08 16:08:08 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:35 CST   Equipo: srv
 # Resultado: OK
 
 $ ftpv ftp://ftp.hospital.redes.test/ | grep -E '^[<>] (220|USER|331|PASS|530)|curl:'

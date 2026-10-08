@@ -1,32 +1,32 @@
 # MAIL-08 — Logs de Postfix y Dovecot de las pruebas
-# Fecha: 2026-10-08 15:47:27 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:28 CST   Equipo: srv
 # Resultado: OK
 
 $ sudo grep -E 'postfix/(submission/smtpd|smtpd|lmtp|qmgr)|dovecot: (imap-login|auth|lmtp)' /var/log/mail.log | grep -vE 'connect from|disconnect from' | tail -n 25
-2026-10-08T15:47:10.871834-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=14151, TLS, session=<9TKJLFtdRMkKAAAl>
-2026-10-08T15:47:12.087037-06:00 srv dovecot: auth: ldap(anthony@hospital.redes.test,10.0.0.37,<tOSbLFtdSskKAAAl>): Password mismatch (for LDAP bind)
-2026-10-08T15:47:14.101250-06:00 srv dovecot: imap-login: Disconnected: Connection closed (auth failed, 1 attempts in 2 secs): user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, TLS, session=<tOSbLFtdSskKAAAl>
-2026-10-08T15:47:17.389504-06:00 srv postfix/submission/smtpd[13748]: Anonymous TLS connection established from srv.hospital.redes.test[10.0.0.37]: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits) key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-2026-10-08T15:47:17.401104-06:00 srv dovecot: auth: ldap(anthony@hospital.redes.test,10.0.0.37): Password mismatch (for LDAP bind)
-2026-10-08T15:47:19.497240-06:00 srv postfix/submission/smtpd[13748]: warning: srv.hospital.redes.test[10.0.0.37]: SASL LOGIN authentication failed: (reason unavailable), sasl_username=anthony@hospital.redes.test
-2026-10-08T15:47:20.727658-06:00 srv postfix/submission/smtpd[13748]: Anonymous TLS connection established from srv.hospital.redes.test[10.0.0.37]: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits) key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-2026-10-08T15:47:20.738306-06:00 srv postfix/submission/smtpd[13748]: B3D6A14A0AA: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=isabella@hospital.redes.test
-2026-10-08T15:47:20.755611-06:00 srv postfix/qmgr[9828]: B3D6A14A0AA: from=<isabella@hospital.redes.test>, size=507, nrcpt=1 (queue active)
-2026-10-08T15:47:20.761759-06:00 srv dovecot: lmtp(13827): Connect from local
-2026-10-08T15:47:20.781687-06:00 srv dovecot: lmtp(anthony@hospital.redes.test)<13827><8LEwLWgPyGoDNgAAUxvpGw>: msgid=<20261008154720.014199@srv>: saved mail to INBOX
-2026-10-08T15:47:20.784067-06:00 srv postfix/lmtp[13824]: B3D6A14A0AA: to=<anthony@hospital.redes.test>, relay=mail.hospital.redes.test[private/dovecot-lmtp], delay=0.05, delays=0.02/0/0/0.02, dsn=2.0.0, status=sent (250 2.0.0 <anthony@hospital.redes.test> 8LEwLWgPyGoDNgAAUxvpGw Saved)
-2026-10-08T15:47:20.784640-06:00 srv postfix/qmgr[9828]: B3D6A14A0AA: removed
-2026-10-08T15:47:23.051581-06:00 srv postfix/submission/smtpd[13748]: Anonymous TLS connection established from srv.hospital.redes.test[10.0.0.37]: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits) key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-2026-10-08T15:47:23.064056-06:00 srv postfix/submission/smtpd[13748]: 0F81A14A0AA: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=anthony@hospital.redes.test
-2026-10-08T15:47:23.080844-06:00 srv postfix/qmgr[9828]: 0F81A14A0AA: from=<anthony@hospital.redes.test>, size=511, nrcpt=1 (queue active)
-2026-10-08T15:47:23.084059-06:00 srv dovecot: lmtp(13827): Connect from local
-2026-10-08T15:47:23.108599-06:00 srv dovecot: lmtp(isabella@hospital.redes.test)<13827><mHvsBGsPyGoDNgAAUxvpGw>: msgid=<20261008154722.014218@srv>: saved mail to INBOX
-2026-10-08T15:47:23.109970-06:00 srv postfix/lmtp[13824]: 0F81A14A0AA: to=<isabella@hospital.redes.test>, relay=mail.hospital.redes.test[private/dovecot-lmtp], delay=0.05, delays=0.02/0/0/0.02, dsn=2.0.0, status=sent (250 2.0.0 <isabella@hospital.redes.test> mHvsBGsPyGoDNgAAUxvpGw Saved)
-2026-10-08T15:47:23.112712-06:00 srv postfix/qmgr[9828]: 0F81A14A0AA: removed
-2026-10-08T15:47:25.505686-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=14245, TLS, session=<4nJoLVtdpJoKAAAl>
-2026-10-08T15:47:25.566121-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=14251, TLS, session=<mnFpLVtdppoKAAAl>
-2026-10-08T15:47:25.691439-06:00 srv dovecot: imap-login: Login: user=<isabella@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=14269, TLS, session=<2VBrLVtdtpoKAAAl>
-2026-10-08T15:47:25.759023-06:00 srv dovecot: imap-login: Login: user=<isabella@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=14275, TLS, session=<RmVsLVtdvJoKAAAl>
-2026-10-08T15:47:25.918358-06:00 srv postfix/smtpd[13913]: NOQUEUE: reject: RCPT from srv.hospital.redes.test[10.0.0.37]: 550 5.1.1 <noexiste@hospital.redes.test>: Recipient address rejected: User unknown in virtual mailbox table; from=<isabella@hospital.redes.test> to=<noexiste@hospital.redes.test> proto=ESMTP helo=<srv>
+2026-10-08T16:18:00.168715-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=1905, TLS, session=<wMHAmltd3O0KAAAl>
+2026-10-08T16:18:01.955803-06:00 srv dovecot: auth: ldap(anthony@hospital.redes.test,10.0.0.37,<oDPemltd5u0KAAAl>): Password mismatch (for LDAP bind)
+2026-10-08T16:18:03.568867-06:00 srv dovecot: imap-login: Disconnected: Connection closed (auth failed, 1 attempts in 2 secs): user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, TLS, session=<oDPemltd5u0KAAAl>
+2026-10-08T16:18:09.529335-06:00 srv postfix/submission/smtpd[1878]: Anonymous TLS connection established from srv.hospital.redes.test[10.0.0.37]: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits) key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+2026-10-08T16:18:13.602855-06:00 srv dovecot: auth: ldap(anthony@hospital.redes.test,10.0.0.37): Password mismatch (for LDAP bind)
+2026-10-08T16:18:15.115421-06:00 srv postfix/submission/smtpd[1878]: warning: srv.hospital.redes.test[10.0.0.37]: SASL LOGIN authentication failed: (reason unavailable), sasl_username=anthony@hospital.redes.test
+2026-10-08T16:18:17.638663-06:00 srv postfix/submission/smtpd[1878]: Anonymous TLS connection established from srv.hospital.redes.test[10.0.0.37]: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits) key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+2026-10-08T16:18:17.916822-06:00 srv postfix/submission/smtpd[1878]: DF57414992C: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=isabella@hospital.redes.test
+2026-10-08T16:18:17.965317-06:00 srv postfix/qmgr[1257]: DF57414992C: from=<isabella@hospital.redes.test>, size=507, nrcpt=1 (queue active)
+2026-10-08T16:18:18.198817-06:00 srv dovecot: lmtp(1964): Connect from local
+2026-10-08T16:18:18.301399-06:00 srv dovecot: lmtp(anthony@hospital.redes.test)<1964><xg8hC6oWyGqsBwAAUxvpGw>: msgid=<20261008161817.001957@srv>: saved mail to INBOX
+2026-10-08T16:18:18.304011-06:00 srv postfix/lmtp[1960]: DF57414992C: to=<anthony@hospital.redes.test>, relay=mail.hospital.redes.test[private/dovecot-lmtp], delay=0.5, delays=0.16/0.11/0.13/0.1, dsn=2.0.0, status=sent (250 2.0.0 <anthony@hospital.redes.test> xg8hC6oWyGqsBwAAUxvpGw Saved)
+2026-10-08T16:18:18.314245-06:00 srv postfix/qmgr[1257]: DF57414992C: removed
+2026-10-08T16:18:21.177564-06:00 srv postfix/submission/smtpd[1878]: Anonymous TLS connection established from srv.hospital.redes.test[10.0.0.37]: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits) key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+2026-10-08T16:18:21.240869-06:00 srv postfix/submission/smtpd[1878]: 397FD14992C: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=anthony@hospital.redes.test
+2026-10-08T16:18:21.290833-06:00 srv postfix/qmgr[1257]: 397FD14992C: from=<anthony@hospital.redes.test>, size=511, nrcpt=1 (queue active)
+2026-10-08T16:18:21.312031-06:00 srv dovecot: lmtp(1964): Connect from local
+2026-10-08T16:18:21.427555-06:00 srv dovecot: lmtp(isabella@hospital.redes.test)<1964><SFvrEa0WyGqsBwAAUxvpGw>: msgid=<20261008161820.001981@srv>: saved mail to INBOX
+2026-10-08T16:18:21.429099-06:00 srv postfix/lmtp[1960]: 397FD14992C: to=<isabella@hospital.redes.test>, relay=mail.hospital.redes.test[private/dovecot-lmtp], delay=0.22, delays=0.07/0.01/0.02/0.11, dsn=2.0.0, status=sent (250 2.0.0 <isabella@hospital.redes.test> SFvrEa0WyGqsBwAAUxvpGw Saved)
+2026-10-08T16:18:21.438763-06:00 srv postfix/qmgr[1257]: 397FD14992C: removed
+2026-10-08T16:18:24.603178-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=2009, TLS, session=<NoY3nFtdRpMKAAAl>
+2026-10-08T16:18:24.870033-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=2015, TLS, session=<mLo7nFtdSJMKAAAl>
+2026-10-08T16:18:25.509571-06:00 srv dovecot: imap-login: Login: user=<isabella@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=2034, TLS, session=<Xt9EnFtdUJMKAAAl>
+2026-10-08T16:18:25.851042-06:00 srv dovecot: imap-login: Login: user=<isabella@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=2040, TLS, session=<MRhKnFtdUpMKAAAl>
+2026-10-08T16:18:26.753695-06:00 srv postfix/smtpd[2053]: NOQUEUE: reject: RCPT from srv.hospital.redes.test[10.0.0.37]: 550 5.1.1 <noexiste@hospital.redes.test>: Recipient address rejected: User unknown in virtual mailbox table; from=<isabella@hospital.redes.test> to=<noexiste@hospital.redes.test> proto=ESMTP helo=<srv>
 
 # Código de salida: 0

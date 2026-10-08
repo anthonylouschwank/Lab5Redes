@@ -1,8 +1,8 @@
 # MAIL-05 — Envío interno isabella -> anthony (SMTP + entrega LMTP)
-# Fecha: 2026-10-08 15:47:22 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:20 CST   Equipo: srv
 # Resultado: OK
 
-$ enviar isabella anthony@hospital.redes.test 'Prueba MAIL-05 15:47:10'
+$ enviar isabella anthony@hospital.redes.test 'Prueba MAIL-05 16:17:57'
 === Trying mail.hospital.redes.test:587...
 === Connected to mail.hospital.redes.test.
 <-  220 mail.hospital.redes.test ESMTP
@@ -48,28 +48,28 @@ $ enviar isabella anthony@hospital.redes.test 'Prueba MAIL-05 15:47:10'
 <~  250 2.1.5 Ok
  ~> DATA
 <~  354 End data with <CR><LF>.<CR><LF>
- ~> Date: Thu, 08 Oct 2026 15:47:20 -0600
+ ~> Date: Thu, 08 Oct 2026 16:18:17 -0600
  ~> To: anthony@hospital.redes.test
  ~> From: isabella@hospital.redes.test
- ~> Subject: Prueba MAIL-05 15:47:10
- ~> Message-Id: <20261008154720.014199@srv>
+ ~> Subject: Prueba MAIL-05 16:17:57
+ ~> Message-Id: <20261008161817.001957@srv>
  ~> X-Mailer: swaks v20240103.0 jetmore.org/john/code/swaks/
  ~> 
  ~> Mensaje de prueba del Laboratorio 5 enviado por isabella.
  ~> 
  ~> 
  ~> .
-<~  250 2.0.0 Ok: queued as B3D6A14A0AA
+<~  250 2.0.0 Ok: queued as DF57414992C
  ~> QUIT
 <~  221 2.0.0 Bye
 === Connection closed with remote host.
 
---- /var/log/mail.log (cola B3D6A14A0AA) ---
-2026-10-08T15:46:46.639608-06:00 srv postfix/submission/smtpd[13748]: 9C17514A0AA: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=isabella@hospital.redes.test
+--- /var/log/mail.log (cola DF57414992C) ---
 2026-10-08T15:47:20.738306-06:00 srv postfix/submission/smtpd[13748]: B3D6A14A0AA: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=isabella@hospital.redes.test
-2026-10-08T15:47:20.741068-06:00 srv postfix/cleanup[13823]: B3D6A14A0AA: message-id=<20261008154720.014199@srv>
-2026-10-08T15:47:20.755611-06:00 srv postfix/qmgr[9828]: B3D6A14A0AA: from=<isabella@hospital.redes.test>, size=507, nrcpt=1 (queue active)
-2026-10-08T15:47:20.784067-06:00 srv postfix/lmtp[13824]: B3D6A14A0AA: to=<anthony@hospital.redes.test>, relay=mail.hospital.redes.test[private/dovecot-lmtp], delay=0.05, delays=0.02/0/0/0.02, dsn=2.0.0, status=sent (250 2.0.0 <anthony@hospital.redes.test> 8LEwLWgPyGoDNgAAUxvpGw Saved)
-2026-10-08T15:47:20.784640-06:00 srv postfix/qmgr[9828]: B3D6A14A0AA: removed
+2026-10-08T16:18:17.916822-06:00 srv postfix/submission/smtpd[1878]: DF57414992C: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=isabella@hospital.redes.test
+2026-10-08T16:18:17.937009-06:00 srv postfix/cleanup[1959]: DF57414992C: message-id=<20261008161817.001957@srv>
+2026-10-08T16:18:17.965317-06:00 srv postfix/qmgr[1257]: DF57414992C: from=<isabella@hospital.redes.test>, size=507, nrcpt=1 (queue active)
+2026-10-08T16:18:18.304011-06:00 srv postfix/lmtp[1960]: DF57414992C: to=<anthony@hospital.redes.test>, relay=mail.hospital.redes.test[private/dovecot-lmtp], delay=0.5, delays=0.16/0.11/0.13/0.1, dsn=2.0.0, status=sent (250 2.0.0 <anthony@hospital.redes.test> xg8hC6oWyGqsBwAAUxvpGw Saved)
+2026-10-08T16:18:18.314245-06:00 srv postfix/qmgr[1257]: DF57414992C: removed
 
 # Código de salida: 0

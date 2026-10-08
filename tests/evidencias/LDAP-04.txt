@@ -1,5 +1,5 @@
 # LDAP-04 — Atributos uid, cn, sn y mail de un usuario
-# Fecha: 2026-10-08 15:29:11 CST   Equipo: srv
+# Fecha: 2026-10-08 16:17:31 CST   Equipo: srv
 # Resultado: OK
 
 $ ldapsearch -x -LLL -H ldap://ldap.hospital.redes.test -b ou=People,dc=hospital,dc=redes,dc=test '(uid=isabella)' uid cn sn mail

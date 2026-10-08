@@ -1,0 +1,31 @@
+# INT-03 — Puertos en escucha (ss -lntup)
+# Fecha: 2026-10-08 16:18:42 CST   Equipo: srv
+# Resultado: OK
+
+$ sudo ss -lntup | grep -E 'Netid|:(53|389|80|25|587|143|21) ' ; echo; echo 'Rango pasivo FTP configurado:'; grep -E '^pasv_(min|max)_port' /etc/vsftpd.conf
+Netid State  Recv-Q Send-Q    Local Address:Port Peer Address:PortProcess                                                                            
+udp   UNCONN 0      0             10.0.0.37:53        0.0.0.0:*    users:(("named",pid=666,fd=35))                                                   
+udp   UNCONN 0      0             10.0.0.37:53        0.0.0.0:*    users:(("named",pid=666,fd=34))                                                   
+udp   UNCONN 0      0             127.0.0.1:53        0.0.0.0:*    users:(("named",pid=666,fd=29))                                                   
+udp   UNCONN 0      0             127.0.0.1:53        0.0.0.0:*    users:(("named",pid=666,fd=28))                                                   
+udp   UNCONN 0      0            127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=511,fd=16))                                         
+udp   UNCONN 0      0         127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=511,fd=14))                                         
+tcp   LISTEN 0      4096         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=511,fd=17))                                         
+tcp   LISTEN 0      4096      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=511,fd=15))                                         
+tcp   LISTEN 0      10            127.0.0.1:53        0.0.0.0:*    users:(("named",pid=666,fd=32))                                                   
+tcp   LISTEN 0      10            127.0.0.1:53        0.0.0.0:*    users:(("named",pid=666,fd=30))                                                   
+tcp   LISTEN 0      100             0.0.0.0:587       0.0.0.0:*    users:(("smtpd",pid=1878,fd=6),("master",pid=1255,fd=94))                         
+tcp   LISTEN 0      2048            0.0.0.0:389       0.0.0.0:*    users:(("slapd",pid=1813,fd=8))                                                   
+tcp   LISTEN 0      10            10.0.0.37:53        0.0.0.0:*    users:(("named",pid=666,fd=37))                                                   
+tcp   LISTEN 0      10            10.0.0.37:53        0.0.0.0:*    users:(("named",pid=666,fd=36))                                                   
+tcp   LISTEN 0      100             0.0.0.0:143       0.0.0.0:*    users:(("dovecot",pid=944,fd=36))                                                 
+tcp   LISTEN 0      100             0.0.0.0:25        0.0.0.0:*    users:(("smtpd",pid=2053,fd=6),("master",pid=1255,fd=13))                         
+tcp   LISTEN 0      32              0.0.0.0:21        0.0.0.0:*    users:(("vsftpd",pid=701,fd=3))                                                   
+tcp   LISTEN 0      2048               [::]:389          [::]:*    users:(("slapd",pid=1813,fd=9))                                                   
+tcp   LISTEN 0      511                   *:80              *:*    users:(("apache2",pid=998,fd=4),("apache2",pid=997,fd=4),("apache2",pid=995,fd=4))
+
+Rango pasivo FTP configurado:
+pasv_min_port=40000
+pasv_max_port=40100
+
+# Código de salida: 0

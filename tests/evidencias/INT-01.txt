@@ -1,0 +1,30 @@
+# INT-01 — Uso exclusivo de nombres DNS (FQDN) en clientes y configuración
+# Fecha: 2026-10-08 16:18:41 CST   Equipo: srv
+# Resultado: OK
+
+$ echo '== Acceso a cada servicio por su FQDN =='
+     echo -n 'Web  (www):  '; curl -s -o /dev/null -w 'HTTP %{http_code} desde %{remote_ip}\n' --netrc-file /tmp/int.uMBj/netrc http://www.hospital.redes.test/intranet/
+     echo -n 'LDAP (ldap): '; ldapwhoami -x -H ldap://ldap.hospital.redes.test -D uid=anthony,ou=People,dc=hospital,dc=redes,dc=test -y /tmp/int.uMBj/pw
+     echo -n 'IMAP (mail): '; curl -s --ssl-reqd --cacert /etc/ssl/certs/mail.hospital.redes.test.crt --netrc-file /tmp/int.uMBj/netrc imap://mail.hospital.redes.test/ -w 'login OK desde %{remote_ip}\n' -o /dev/null
+     echo -n 'SMTP (mail): '; printf 'QUIT\r\n' | curl -s smtp://mail.hospital.redes.test:25 -X NOOP -w '%{response_code} desde %{remote_ip}\n' -o /dev/null
+     echo -n 'FTP  (ftp):  '; curl -s --netrc-file /tmp/int.uMBj/netrc ftp://ftp.hospital.redes.test/ -o /dev/null -w 'login %{response_code} desde %{remote_ip}\n'
+     echo; echo '== Los servicios se refieren entre sí por nombre (búsqueda de la IP 10.0.0.37) =='
+     sudo grep -rn '10\.0\.0\.37' /etc/apache2/sites-enabled/ /etc/postfix/main.cf /etc/postfix/ldap-usuarios.cf /etc/dovecot/dovecot.conf /etc/dovecot/dovecot-ldap.conf.ext /etc/nslcd.conf /etc/ldap/ldap.conf /etc/vsftpd.conf || echo 'Ninguna configuración de servicio usa la IP directamente.'
+     echo; sudo grep -hE '^(uri|uris|server_host|URI)\b|AuthLDAPURL' /etc/nslcd.conf /etc/dovecot/dovecot-ldap.conf.ext /etc/postfix/ldap-usuarios.cf /etc/ldap/ldap.conf /etc/apache2/sites-enabled/hospital.conf | sed 's/^ *//' | sort -u
+== Acceso a cada servicio por su FQDN ==
+Web  (www):  HTTP 200 desde 10.0.0.37
+LDAP (ldap): dn:uid=anthony,ou=People,dc=hospital,dc=redes,dc=test
+IMAP (mail): login OK desde 10.0.0.37
+SMTP (mail): 250 desde 10.0.0.37
+FTP  (ftp):  login 226 desde 10.0.0.37
+
+== Los servicios se refieren entre sí por nombre (búsqueda de la IP 10.0.0.37) ==
+Ninguna configuración de servicio usa la IP directamente.
+
+AuthLDAPURL "ldap://ldap.hospital.redes.test/ou=People,dc=hospital,dc=redes,dc=test?uid,cn,mail,title?one?(objectClass=inetOrgPerson)"
+server_host      = ldap://ldap.hospital.redes.test
+uri ldap://ldap.hospital.redes.test
+URI     ldap://ldap.hospital.redes.test
+uris = ldap://ldap.hospital.redes.test
+
+# Código de salida: 0

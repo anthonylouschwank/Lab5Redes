@@ -1,13 +1,13 @@
 # MAIL-03 — IMAP: autenticación válida (anthony)
-# Fecha: 2026-10-08 15:47:12 CST   Equipo: srv
+# Fecha: 2026-10-08 16:18:01 CST   Equipo: srv
 # Resultado: OK
 
-$ curl -s --ssl-reqd --cacert /etc/ssl/certs/mail.hospital.redes.test.crt --netrc-file /tmp/mail.vIQN/anthony imap://mail.hospital.redes.test/; sleep 1; sudo grep 'imap-login: Login: user=<anthony@' /var/log/mail.log | tail -n 1
-* LIST (\HasNoChildren \Drafts) "/" Drafts
+$ curl -s --ssl-reqd --cacert /etc/ssl/certs/mail.hospital.redes.test.crt --netrc-file /tmp/mail.ZBn9/anthony imap://mail.hospital.redes.test/; sleep 1; sudo grep 'imap-login: Login: user=<anthony@' /var/log/mail.log | tail -n 1
 * LIST (\HasNoChildren \Sent) "/" Sent
+* LIST (\HasNoChildren \Drafts) "/" Drafts
 * LIST (\HasNoChildren \Trash) "/" Trash
 * LIST (\HasNoChildren \Junk) "/" Junk
 * LIST (\HasNoChildren) "/" INBOX
-2026-10-08T15:47:10.871834-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=14151, TLS, session=<9TKJLFtdRMkKAAAl>
+2026-10-08T16:18:00.168715-06:00 srv dovecot: imap-login: Login: user=<anthony@hospital.redes.test>, method=PLAIN, rip=10.0.0.37, lip=10.0.0.37, mpid=1905, TLS, session=<wMHAmltd3O0KAAAl>
 
 # Código de salida: 0
