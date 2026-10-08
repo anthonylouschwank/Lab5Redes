@@ -1,0 +1,75 @@
+# MAIL-05 — Envío interno isabella -> anthony (SMTP + entrega LMTP)
+# Fecha: 2026-10-08 15:47:22 CST   Equipo: srv
+# Resultado: OK
+
+$ enviar isabella anthony@hospital.redes.test 'Prueba MAIL-05 15:47:10'
+=== Trying mail.hospital.redes.test:587...
+=== Connected to mail.hospital.redes.test.
+<-  220 mail.hospital.redes.test ESMTP
+ -> EHLO srv
+<-  250-mail.hospital.redes.test
+<-  250-PIPELINING
+<-  250-SIZE 20480000
+<-  250-ETRN
+<-  250-STARTTLS
+<-  250-ENHANCEDSTATUSCODES
+<-  250-8BITMIME
+<-  250-DSN
+<-  250-SMTPUTF8
+<-  250 CHUNKING
+ -> STARTTLS
+<-  220 2.0.0 Ready to start TLS
+=== TLS started with cipher TLSv1.3:TLS_AES_256_GCM_SHA384:256
+=== TLS client certificate not requested and not sent
+=== TLS no client certificate set
+=== TLS peer[0]   subject=[/O=Hospital Privado Castillejos/CN=mail.hospital.redes.test]
+===               commonName=[mail.hospital.redes.test], subjectAltName=[DNS:mail.hospital.redes.test] notAfter=[2027-10-08T21:42:01Z]
+=== TLS peer certificate failed CA verification (self-signed certificate), passed host verification (using host mail.hospital.redes.test to verify)
+ ~> EHLO srv
+<~  250-mail.hospital.redes.test
+<~  250-PIPELINING
+<~  250-SIZE 20480000
+<~  250-ETRN
+<~  250-AUTH PLAIN LOGIN
+<~  250-ENHANCEDSTATUSCODES
+<~  250-8BITMIME
+<~  250-DSN
+<~  250-SMTPUTF8
+<~  250 CHUNKING
+ ~> AUTH LOGIN
+<~  334 VXNlcm5hbWU6
+ ~> aXNhYmVsbGE=
+<~  334 UGFzc3dvcmQ6
+ ~> UFJPVklERURfQlVUX1JFTU9WRUQ=
+<~  235 2.7.0 Authentication successful
+ ~> MAIL FROM:<isabella@hospital.redes.test>
+<~  250 2.1.0 Ok
+ ~> RCPT TO:<anthony@hospital.redes.test>
+<~  250 2.1.5 Ok
+ ~> DATA
+<~  354 End data with <CR><LF>.<CR><LF>
+ ~> Date: Thu, 08 Oct 2026 15:47:20 -0600
+ ~> To: anthony@hospital.redes.test
+ ~> From: isabella@hospital.redes.test
+ ~> Subject: Prueba MAIL-05 15:47:10
+ ~> Message-Id: <20261008154720.014199@srv>
+ ~> X-Mailer: swaks v20240103.0 jetmore.org/john/code/swaks/
+ ~> 
+ ~> Mensaje de prueba del Laboratorio 5 enviado por isabella.
+ ~> 
+ ~> 
+ ~> .
+<~  250 2.0.0 Ok: queued as B3D6A14A0AA
+ ~> QUIT
+<~  221 2.0.0 Bye
+=== Connection closed with remote host.
+
+--- /var/log/mail.log (cola B3D6A14A0AA) ---
+2026-10-08T15:46:46.639608-06:00 srv postfix/submission/smtpd[13748]: 9C17514A0AA: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=isabella@hospital.redes.test
+2026-10-08T15:47:20.738306-06:00 srv postfix/submission/smtpd[13748]: B3D6A14A0AA: client=srv.hospital.redes.test[10.0.0.37], sasl_method=LOGIN, sasl_username=isabella@hospital.redes.test
+2026-10-08T15:47:20.741068-06:00 srv postfix/cleanup[13823]: B3D6A14A0AA: message-id=<20261008154720.014199@srv>
+2026-10-08T15:47:20.755611-06:00 srv postfix/qmgr[9828]: B3D6A14A0AA: from=<isabella@hospital.redes.test>, size=507, nrcpt=1 (queue active)
+2026-10-08T15:47:20.784067-06:00 srv postfix/lmtp[13824]: B3D6A14A0AA: to=<anthony@hospital.redes.test>, relay=mail.hospital.redes.test[private/dovecot-lmtp], delay=0.05, delays=0.02/0/0/0.02, dsn=2.0.0, status=sent (250 2.0.0 <anthony@hospital.redes.test> 8LEwLWgPyGoDNgAAUxvpGw Saved)
+2026-10-08T15:47:20.784640-06:00 srv postfix/qmgr[9828]: B3D6A14A0AA: removed
+
+# Código de salida: 0

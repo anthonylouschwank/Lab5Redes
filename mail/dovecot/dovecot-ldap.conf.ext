@@ -1,0 +1,10 @@
+# /etc/dovecot/dovecot-ldap.conf.ext
+# Dovecot valida la contraseña haciendo bind a OpenLDAP como el propio usuario:
+# si el bind de uid=<usuario>,ou=People,... funciona, la contraseña es correcta.
+
+uris = ldap://ldap.hospital.redes.test
+ldap_version = 3
+base = ou=People,dc=hospital,dc=redes,dc=test
+
+auth_bind = yes
+auth_bind_userdn = uid=%n,ou=People,dc=hospital,dc=redes,dc=test
