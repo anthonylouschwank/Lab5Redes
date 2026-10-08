@@ -1,0 +1,52 @@
+# /etc/postfix/main.cf — Servidor de correo de hospital.redes.test
+# Postfix recibe y envía por SMTP; los buzones los guarda Dovecot (LMTP) y los
+# usuarios/credenciales vienen de OpenLDAP.
+
+compatibility_level = 3.6
+smtpd_banner = $myhostname ESMTP
+biff = no
+append_dot_mydomain = no
+readme_directory = no
+
+# Identidad del servidor
+myhostname = mail.hospital.redes.test
+mydomain   = hospital.redes.test
+myorigin   = $mydomain
+
+# Dominios locales del sistema (NO incluye hospital.redes.test: ese es un dominio virtual)
+mydestination = localhost, localhost.$mydomain, srv.$mydomain
+inet_interfaces = all
+inet_protocols  = ipv4
+mynetworks      = 127.0.0.0/8
+relayhost       =
+
+alias_maps      = hash:/etc/aliases
+alias_database  = hash:/etc/aliases
+
+# Dominio del hospital: un buzón por cada usuario LDAP con atributo mail.
+# Los destinatarios que no existen en LDAP se rechazan en la sesión SMTP (550).
+virtual_mailbox_domains = $mydomain
+virtual_mailbox_maps    = proxy:ldap:/etc/postfix/ldap-usuarios.cf
+virtual_alias_maps      = hash:/etc/postfix/virtual
+virtual_transport       = lmtp:unix:private/dovecot-lmtp
+
+# Autenticación SMTP delegada a Dovecot (que valida contra LDAP)
+smtpd_sasl_type  = dovecot
+smtpd_sasl_path  = private/auth
+smtpd_sasl_auth_enable = no
+smtpd_sasl_security_options = noanonymous
+
+# Solo se acepta correo para el dominio propio o de usuarios autenticados
+smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+
+# TLS (certificado autofirmado de mail.hospital.redes.test)
+smtpd_tls_cert_file = /etc/ssl/certs/mail.hospital.redes.test.crt
+smtpd_tls_key_file  = /etc/ssl/private/mail.hospital.redes.test.key
+smtpd_tls_security_level = may
+smtpd_tls_loglevel = 1
+smtp_tls_security_level = may
+
+message_size_limit = 20480000
+
+# No permitir enumerar usuarios con VRFY
+disable_vrfy_command = yes

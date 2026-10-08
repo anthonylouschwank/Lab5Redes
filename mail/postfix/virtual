@@ -1,0 +1,4 @@
+# /etc/postfix/virtual — alias del dominio (se compila con: postmap /etc/postfix/virtual)
+postmaster@hospital.redes.test  anthony@hospital.redes.test
+admin@hospital.redes.test       anthony@hospital.redes.test
+abuse@hospital.redes.test       anthony@hospital.redes.test

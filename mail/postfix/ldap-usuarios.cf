@@ -1,0 +1,10 @@
+# /etc/postfix/ldap-usuarios.cf
+# Postfix pregunta a OpenLDAP si existe un usuario con ese correo.
+# Prueba: postmap -q anthony@hospital.redes.test ldap:/etc/postfix/ldap-usuarios.cf
+
+server_host      = ldap://ldap.hospital.redes.test
+version          = 3
+search_base      = ou=People,dc=hospital,dc=redes,dc=test
+scope            = one
+query_filter     = (&(objectClass=inetOrgPerson)(mail=%s))
+result_attribute = mail
