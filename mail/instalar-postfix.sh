@@ -21,6 +21,9 @@ if [ ! -f "$CRT" ]; then
     openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
         -subj "/O=${ORG_NAME}/CN=${MAILHOST}" \
         -addext "subjectAltName=DNS:${MAILHOST}" \
+        -addext "basicConstraints=critical,CA:FALSE" \
+        -addext "keyUsage=critical,digitalSignature,keyEncipherment" \
+        -addext "extendedKeyUsage=serverAuth" \
         -keyout "$KEY" -out "$CRT"
     chmod 600 "$KEY"
 fi

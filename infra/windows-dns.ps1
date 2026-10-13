@@ -4,14 +4,16 @@
 # No se modifica el archivo hosts.
 #
 # Ejecutar en PowerShell COMO ADMINISTRADOR:
-#   powershell -ExecutionPolicy Bypass -File infra\windows-dns.ps1          # crear regla
-#   powershell -ExecutionPolicy Bypass -File infra\windows-dns.ps1 -Quitar  # eliminar regla
+#   powershell -ExecutionPolicy Bypass -File infra\windows-dns.ps1                    # servidor 10.0.0.37
+#   powershell -ExecutionPolicy Bypass -File infra\windows-dns.ps1 -Dns 192.168.1.50  # otra IP (exposicion)
+#   powershell -ExecutionPolicy Bypass -File infra\windows-dns.ps1 -Quitar            # eliminar regla
 
-param([switch]$Quitar)
+param([string]$Dns = "10.0.0.37", [switch]$Quitar)
 
 $ErrorActionPreference = "Stop"
-$dns = "10.0.0.37"
-$zonas = @(".hospital.redes.test", "hospital.redes.test", ".0.0.10.in-addr.arpa")
+$dns = $Dns
+$o = $dns.Split(".")
+$zonas = @(".hospital.redes.test", "hospital.redes.test", ".$($o[2]).$($o[1]).$($o[0]).in-addr.arpa")
 $comentario = "Lab5Redes"
 
 Get-DnsClientNrptRule | Where-Object Comment -eq $comentario | ForEach-Object {

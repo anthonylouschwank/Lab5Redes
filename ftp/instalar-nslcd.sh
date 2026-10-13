@@ -22,8 +22,11 @@ systemctl restart nslcd
 # libnss-ldapd instala nscd: vaciar su caché para que tome la configuración nueva
 if command -v nscd >/dev/null; then nscd -i passwd; nscd -i group; fi
 
-echo "==> SSH solo para el administrador local (lab)"
-install -m 644 ftp/sshd-lab5.conf /etc/ssh/sshd_config.d/lab5.conf
+# El administrador local es quien corre el script con sudo (en la VM original: lab)
+ADMIN="${SUDO_USER:-lab}"
+echo "==> SSH solo para el administrador local (${ADMIN})"
+sed "s/^AllowUsers lab$/AllowUsers ${ADMIN}/" ftp/sshd-lab5.conf > /etc/ssh/sshd_config.d/lab5.conf
+chmod 644 /etc/ssh/sshd_config.d/lab5.conf
 sshd -t
 systemctl reload ssh
 

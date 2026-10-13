@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Instala OpenLDAP con base dc=hospital,dc=redes,dc=test y carga OUs y grupos.
 # Uso (en la VM, desde la raíz del repo): sudo bash ldap/instalar.sh
+#   En un servidor LDAP nuevo, mientras el DNS aún apunta "ldap" a otro equipo:
+#   sudo LDAP_URI=ldap://localhost bash ldap/instalar.sh
 # ATENCIÓN: reconfigura slapd desde cero (borra el directorio si ya existía).
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -8,6 +10,7 @@ source lab.env
 source secrets/credenciales.env
 
 ADMIN_DN="cn=admin,${BASE_DN}"
+URI="${LDAP_URI:-ldap://ldap.${DOMAIN}}"   # dónde se cargan los datos
 PWFILE="$(mktemp)"; trap 'rm -f "$PWFILE"' EXIT
 printf '%s' "$LDAP_ADMIN_PASS" > "$PWFILE"
 
@@ -43,9 +46,9 @@ echo "==> Ajustes de cn=config (logs e índices)"
 ldapmodify -Q -c -Y EXTERNAL -H ldapi:/// -f ldap/config.ldif || true
 
 echo "==> Cargando OUs y grupos"
-ldapadd -x -H "ldap://ldap.${DOMAIN}" -D "$ADMIN_DN" -y "$PWFILE" -f ldap/base.ldif
-ldapadd -x -H "ldap://ldap.${DOMAIN}" -D "$ADMIN_DN" -y "$PWFILE" -f ldap/grupos.ldif
+ldapadd -x -H "$URI" -D "$ADMIN_DN" -y "$PWFILE" -f ldap/base.ldif
+ldapadd -x -H "$URI" -D "$ADMIN_DN" -y "$PWFILE" -f ldap/grupos.ldif
 
 systemctl enable slapd
 systemctl --no-pager --lines=0 status slapd
-ldapsearch -x -LLL -b "$BASE_DN" "(|(objectClass=organizationalUnit)(objectClass=posixGroup))" dn
+ldapsearch -x -LLL -H "$URI" -b "$BASE_DN" "(|(objectClass=organizationalUnit)(objectClass=posixGroup))" dn
