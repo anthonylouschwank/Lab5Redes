@@ -18,6 +18,8 @@ Intranet del hospital en Apache, en la misma EC2 que el LDAP (`10.0.0.46`):
 Decisiones de Anthony (`fase3/anthony/README.md`):
 - **HTTP, puerto 80** (D3). HTTPS queda como mejora.
 - Base `dc=hospital,dc=redes,dc=test`.
+- Nombre del sitio: **`www.hospital.redes.test`** (D10, el mismo del informe). En los clientes se
+  resuelve con `/etc/hosts` → `10.0.0.46`. Como es el único sitio, también responde por IP.
 - La intranet es accesible desde **Médicos, Servidores, DMZ y TI**; **nunca Visitantes ni Internet**.
 
 ## 2. Defensa en profundidad para "solo desde la red interna"
