@@ -1,6 +1,7 @@
 # Diagrama E10.1 — Hospital Privado Castillejos (Fase 3)
 
-Estado al **28/10/2026**. Actualizar los colores a medida que Majo configure y Roberto pruebe:
+Estado al **28/10/2026**, según el informe en curso. Actualizar los colores a medida que Majo configure
+y Roberto pruebe:
 - verde = **probado**
 - azul = **configurado**
 - gris punteado = **propuesto**
@@ -13,10 +14,11 @@ flowchart TB
     usuario["Administrador<br/>(consola AWS / EC2 Instance Connect)"]
 
     subgraph vpc["VPC Hospital-Castillejos-VPC · 10.0.0.0/24 · us-east-1a"]
-        igw["Internet Gateway"]
+        igw["Hospital-IGW<br/>Internet Gateway"]
 
         subgraph dmz["DMZ 10.0.0.96/28 · RT-Publica: 0.0.0.0/0 → IGW"]
-            nat["NAT instance · SG-NAT<br/>iptables MASQUERADE<br/>IP pública · src/dst check OFF"]
+            nat["Hospital-NAT<br/>NAT Gateway + Elastic IP"]
+            ec2dmz["EC2 de prueba (opcional) · SG-DMZ"]
         end
 
         subgraph ti["TI 10.0.0.112/28 · SG-TI"]
@@ -44,39 +46,44 @@ flowchart TB
     eice -->|"SSH 22"| ec2srv
     eice -->|"SSH 22"| ec2med
     eice -->|"SSH 22 (NACL regla 90)"| ec2vis
-    eice -->|"SSH 22"| nat
 
     ec2med -->|"HTTP 80 · NTP 123"| ec2srv
-    nat -->|"HTTP 80 · NTP 123"| ec2srv
     ec2ti -->|"HTTP 80 · LDAP 389 · NTP 123"| ec2srv
+    ec2dmz -.->|"HTTP 80 · NTP 123"| ec2srv
     ec2vis -.->|"BLOQUEADO (NACL + SG)"| ec2srv
     ec2srv -.->|"BLOQUEADO (SG-TI)"| ec2ti
 
+    ec2ti -->|"DHCP · NTP"| aws
     ec2srv -->|"NTP"| aws
     ec2vis -->|"NTP directo"| aws
 
-    ec2med -->|"80/443 por la ruta privada"| nat
+    ec2med -->|"0.0.0.0/0 (ruta privada)"| nat
     ec2vis -->|"80/443"| nat
     ec2srv -->|"80/443 (apt)"| nat
     nat --> igw --> internet
-    internet -.->|"BLOQUEADO (SG-NAT sin entrada)"| nat
+    internet -.->|"BLOQUEADO (sin conexiones entrantes)"| nat
 
     classDef probado fill:#d4edda,stroke:#28a745,color:#000
     classDef configurado fill:#d6e9f8,stroke:#1f6fb2,color:#000
     classDef propuesto fill:#f2f2f2,stroke:#888,stroke-dasharray:5 4,color:#000
-    class eice,ec2ti,ec2srv configurado
-    class nat,igw,ec2med,ec2vis propuesto
+    class eice,ec2ti,aws probado
+    class ec2srv,nat,igw configurado
+    class ec2med,ec2vis,ec2dmz propuesto
 ```
 
 ## Leyenda de estado (28/10)
 
 | Elemento | Estado | Evidencia |
 |---|---|---|
-| VPC, 5 subredes, 2 tablas de rutas (solo local) | configurado | Capturas de Fase 2 |
-| EC2 TI y Servidores, endpoint, SG-TI, SG-Servidores (22/ICMP), NACL Visitantes | configurado | Capturas de Fase 2 |
+| VPC, 5 subredes, tablas de rutas, SG-TI, NACL Visitantes, endpoint | configurado | Capturas de Fase 2 y estado inicial de Fase 3 |
 | SSH e ICMP TI → Servidores; TCP 22 Servidores → TI bloqueado | **probado** | Fase 2 |
-| IGW, NAT instance, rutas `0.0.0.0/0`, SG-NAT/Medicos/Visitantes, reglas nuevas de SG-Servidores, NACL regla 90 | propuesto | REGLAS-E4.4 |
-| LDAP, intranet, NTP en `10.0.0.46` | propuesto (probado en VM local, **no** en AWS) | `fase3/sebastian`, `fase3/leonardo` |
-| DHCP de AWS | configurado (por defecto) | Roberto E5.1/E5.2 |
+| **DHCP de AWS** en TI (`10.0.0.117/28`, gateway `.113`, DNS `10.0.0.2`, `ec2.internal`) | **probado** | Informe Fase 3 (salida de `ip`, `resolvectl` y lease) |
+| **chrony en TI con Amazon Time Sync** (`^*` 169.254.169.123) | **probado** | Informe Fase 3 (`chronyc tracking/sources`) |
+| Hospital-IGW + `0.0.0.0/0 → IGW` (RT-Publica) | configurado | Informe Fase 3 |
+| Hospital-NAT (NAT Gateway) + `0.0.0.0/0 → NAT` (RT-Privada) | configurado (falta la captura de `curl` desde TI y Servidores) | Informe Fase 3 |
+| SG-Servidores salida 80/443 | configurado | Informe Fase 3 |
+| slapd en `10.0.0.46` (a mano; solo `127.0.0.1`) | configurado parcialmente: pendientes los Pasos 2b/2c de REGLAS | Informe Fase 3 |
+| Entradas de SG-Servidores (80/389/123), SG-Medicos/Visitantes/DMZ, NACL regla 90, EC2 de prueba | propuesto | REGLAS-E4.4 |
+| Intranet y NTP servidor en `10.0.0.46` | propuesto en AWS (intranet probada en VM local, 9/9) | `fase3/isabella`, `fase3/leonardo` |
 
 > Lo del Lab 5 (DNS propio, correo, FTP) corrió en VMs locales y **no** forma parte de AWS.

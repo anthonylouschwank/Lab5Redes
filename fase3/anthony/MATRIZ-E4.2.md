@@ -3,7 +3,7 @@
 Subredes: **Médicos** `10.0.0.0/27` · **Servidores** `10.0.0.32/27` · **Visitantes** `10.0.0.64/27` ·
 **DMZ** `10.0.0.96/28` · **TI** `10.0.0.112/28`.
 
-Equipos: TI `10.0.0.117` y endpoint `10.0.0.122` · Servidores `10.0.0.46` · NAT (DMZ) · EC2 de prueba en
+Equipos: TI `10.0.0.117` y endpoint `10.0.0.122` · Servidores `10.0.0.46` · NAT Gateway `Hospital-NAT` (DMZ) · EC2 de prueba en
 Médicos y en Visitantes.
 
 La columna **Prueba** es el ID de `fase3/leonardo/tests_fase3.sh`. Cada fila es una prueba de su CSV.
@@ -19,11 +19,11 @@ Abreviaturas: SG = Security Group (stateful) · NACL = Network ACL (stateless) �
 |---|---|---|
 | SSH a las instancias | Solo por el EC2 Instance Connect Endpoint (SG-TI). Cada SG acepta 22 **desde SG-TI** | TI-01, TI-06, TI-07, TI-08 |
 | Visitantes con Internet pero sin acceso a las demás subredes | NACL Visitantes: deniega `10.0.0.0/24` en ambos sentidos. Internet por la NAT (el destino es una IP pública, la NACL lo permite) | VIS-01…VIS-12 |
-| TI llega a todas las subredes, ninguna llega a TI | SG-Medicos, SG-Visitantes, SG-NAT y SG-Servidores aceptan 22 desde SG-TI. **SG-TI** solo acepta 22 desde sí mismo (el endpoint). NACL Visitantes: excepción para TI | TI-06…TI-08 · SRV-01, MED-01/02, VIS-01/07, DMZ-01, NAT-01 |
+| TI llega a todas las subredes, ninguna llega a TI | SG-Medicos, SG-Visitantes, SG-DMZ (EC2 opcional) y SG-Servidores aceptan 22 desde SG-TI. **SG-TI** solo acepta 22 desde sí mismo (el endpoint). NACL Visitantes: excepción para TI | TI-06…TI-08 · SRV-01, MED-01/02, VIS-01/07, DMZ-01 |
 | Intranet desde todas las subredes excepto Visitantes, y no desde Internet | SG-Servidores 80 desde Médicos, Servidores, DMZ y TI. Servidores sin IP pública ni ruta de entrada. ufw y `Require ip` repiten la lista | TI-02, SRV-02, MED-03, DMZ-02 · VIS-02 · EXT-02 |
-| NAT | NAT instance en la DMZ: IGW, IP pública, *source/dest check* desactivado, `0.0.0.0/0` de las privadas hacia la NAT | NAT-02, VIS-11, VIS-12 |
+| NAT | **NAT Gateway** `Hospital-NAT` en la DMZ (Elastic IP). IGW + `0.0.0.0/0 → IGW` en la tabla pública y `0.0.0.0/0 → NAT` en la privada | VIS-11, VIS-12 · `apt`/`curl` desde TI y Servidores |
 | Cerrar puertos no usados (hardening) | Cada SG con lo mínimo. ufw `deny incoming` + puertos del rol. SSH sin contraseña ni root | `hardening-antes/después-<host>.txt` |
-| DHCP, NTP, LDAP | DHCP de AWS. chrony en Servidores. OpenLDAP en Servidores | E5.1–E5.2 (Roberto), TI-04, MED-05, DMZ-03, NAT-03, SRV-03, VIS-13, TI-03 |
+| DHCP, NTP, LDAP | DHCP de AWS. chrony en Servidores. OpenLDAP en Servidores | E5.1–E5.2 (Roberto), TI-04, MED-05, DMZ-03, SRV-03, VIS-13, TI-03 |
 
 ## 2. Matriz por origen
 
@@ -41,8 +41,8 @@ Abreviaturas: SG = Security Group (stateful) · NACL = Network ACL (stateless) �
 | TI-05 | Servidores | ICMP | permitido | SG-Servidores (ICMP desde SG-TI, ya existe) |
 | TI-06 | Médicos | TCP 22 | permitido | SG-Medicos (22 desde SG-TI) |
 | TI-07 | Visitantes | TCP 22 | permitido | **NACL Visitantes regla 90** (entrada 22 desde TI) y 90 (salida efímeros a TI) · SG-Visitantes |
-| TI-08 | DMZ (NAT) | TCP 22 | permitido | SG-NAT (22 desde SG-TI) |
-| — | Internet | TCP 80/443 | permitido | Ruta privada → NAT · SG-NAT. Se ve con `apt update` |
+| TI-08 | DMZ (EC2 opcional) | TCP 22 | permitido | SG-DMZ (22 desde SG-TI). OMITIDA si no hay EC2 en la DMZ |
+| — | Internet | TCP 80/443 | permitido | Ruta privada → NAT Gateway. Se ve con `apt update` / `curl https://example.com` |
 
 ### Desde Servidores (`10.0.0.32/27`)
 
@@ -51,7 +51,7 @@ Abreviaturas: SG = Security Group (stateful) · NACL = Network ACL (stateless) �
 | SRV-01 | TI | TCP 22 | **bloqueado** | SG-Servidores (sin salida hacia TI) · **SG-TI** (solo acepta desde sí mismo) |
 | SRV-02 | Servidores (sí mismo) | TCP 80 | permitido | SG-Servidores (80 desde `10.0.0.32/27`) |
 | SRV-03 | Amazon Time Sync | UDP 123 | permitido | No lo filtran SG ni NACL (servicio de AWS, ver REGLAS §6) · regla de salida explícita por seguridad |
-| — | Internet | TCP 80/443 | permitido | **SG-Servidores salida 80/443** (hoy no tiene ninguna salida) · NAT |
+| — | Internet | TCP 80/443 | permitido | **SG-Servidores salida 80/443** (agregada el 28/10) · NAT Gateway |
 
 ### Desde Médicos (`10.0.0.0/27`)
 
@@ -73,30 +73,33 @@ Abreviaturas: SG = Security Group (stateful) · NACL = Network ACL (stateless) �
 | VIS-03 | Servidores | TCP 22 | **bloqueado** | NACL salida 100 · SG-Servidores |
 | VIS-04 | Servidores | TCP 389 | **bloqueado** | NACL salida 100 · SG-Servidores |
 | VIS-05 | Médicos | TCP 22 | **bloqueado** | NACL salida 100 · SG-Medicos |
-| VIS-06 | DMZ (NAT) | TCP 22 | **bloqueado** | NACL salida 100 · SG-NAT (22 solo desde SG-TI) |
-| VIS-07…10 | TI, Servidores, Médicos, DMZ | ICMP | **bloqueado** | NACL salida 100 · SG destino (SG-NAT **no** acepta ICMP) |
-| VIS-11 | Internet `1.1.1.1` | TCP 443 | permitido | NACL salida 120 (destino público) · ruta → NAT · SG-NAT 443 |
+| VIS-06 | DMZ (EC2 opcional) | TCP 22 | **bloqueado** | NACL salida 100 · SG-DMZ (22 solo desde SG-TI). OMITIDA sin EC2 en la DMZ |
+| VIS-07…10 | TI, Servidores, Médicos, DMZ | ICMP | **bloqueado** | NACL salida 100 · SG destino (SG-Medicos y SG-DMZ **no** aceptan ICMP). VIS-10 OMITIDA sin EC2 en la DMZ |
+| VIS-11 | Internet `1.1.1.1` | TCP 443 | permitido | NACL salida 120 (destino público) · ruta → NAT Gateway |
 | VIS-12 | Internet `example.com` | HTTPS | permitido | ídem |
 | VIS-13 | Amazon Time Sync | UDP 123 | permitido | No lo filtra la NACL (servicio de AWS) |
 
-### Desde la DMZ / NAT (`10.0.0.96/28`)
+### Desde la DMZ (`10.0.0.96/28`) — solo con la EC2 opcional de la DMZ
 
 | Prueba | Destino | Protocolo/puerto | Esperado | Lo aplica |
 |---|---|---|---|---|
-| DMZ-01 / NAT-01 | TI | TCP 22 | **bloqueado** | SG-TI |
+| DMZ-01 | TI | TCP 22 | **bloqueado** | SG-TI |
 | DMZ-02 | Servidores | TCP 80 | permitido | SG-Servidores (80 desde `10.0.0.96/28`) · ufw · Apache |
-| DMZ-03 / NAT-03 | Servidores | UDP 123 | permitido | SG-Servidores (123 desde `10.0.0.96/28`) |
-| NAT-02 | Internet | HTTPS | permitido | Ruta pública → IGW · IP pública |
+| DMZ-03 | Servidores | UDP 123 | permitido | SG-Servidores (123 desde `10.0.0.96/28`) |
+| NAT-01…03 | — | — | **OMITIDA** | Eran para una NAT instance. Con NAT Gateway no hay instancia que pruebe (`IP_NAT` vacío) |
+
+Sin EC2 en la DMZ, DMZ-01…03 también quedan OMITIDAS. En el informe se explica que la DMZ solo
+aloja el NAT Gateway (servicio de AWS) y que la web pública de Fase 1 queda fuera del alcance.
 
 ### Desde Internet
 
 | Prueba | Destino | Protocolo/puerto | Esperado | Lo aplica |
 |---|---|---|---|---|
-| EXT-01 | IP pública de la NAT | TCP 22, 80, ICMP | **bloqueado** | SG-NAT: **ninguna** entrada desde `0.0.0.0/0` · `FORWARD DROP` en la NAT |
+| EXT-01 | Elastic IP del NAT Gateway | TCP 22, 80, ICMP | **bloqueado** | El NAT Gateway solo deja pasar respuestas a conexiones iniciadas desde dentro (no acepta conexiones entrantes) |
 | EXT-02 | Intranet / Servidores | cualquiera | **bloqueado** | Servidores **sin IP pública**. La ruta pública solo sale. La NAT no reenvía conexiones nuevas desde fuera |
 
 EXT-01 y EXT-02 no están en `tests_fase3.sh`. Roberto las corre **manualmente** desde una laptop con
-Internet: `Test-NetConnection <IP pública NAT> -Port 22` y `-Port 80`, que deben dar `TcpTestSucceeded : False`.
+Internet: `Test-NetConnection <Elastic IP del NAT Gateway> -Port 22` y `-Port 80`, que deben dar `TcpTestSucceeded : False`.
 En la consola se capturan "IPv4 pública: —" de Servidores y la tabla de rutas privada.
 
 ## 3. Quién bloquea qué (E4.3)
@@ -109,14 +112,14 @@ En la consola se capturan "IPv4 pública: —" de Servidores y la tabla de rutas
   administración de la EC2 de Visitantes por el endpoint fallan.
   - La excepción de salida deja que Visitantes **envíe** paquetes a puertos altos de TI. Igual no
     conecta: **SG-TI** los descarta (solo acepta 22 desde sí mismo).
-- **La NAT no necesita excepción en la NACL.** El tráfico de Visitantes hacia Internet viaja con
+- **El NAT Gateway no necesita excepción en la NACL.** El tráfico de Visitantes hacia Internet viaja con
   destino a la IP pública (por ejemplo `1.1.1.1`); la NAT es solo el siguiente salto de la ruta. La
   regla 100 (`10.0.0.0/24`) no lo afecta y la 120 lo permite. La respuesta vuelve con origen público
   y también entra por la 120. Lo comprueban **VIS-11/12**.
 - **SG-Servidores** define quién usa cada servicio: 80 sin Visitantes, 389 solo Servidores y TI, 123
   sin Visitantes. **ufw** y **Apache `Require ip`** repiten la misma lista (defensa en profundidad).
-- **Internet** no inicia nada: la única instancia con IP pública es la NAT, y su SG no tiene entrada
-  desde `0.0.0.0/0`.
+- **Internet** no inicia nada: ninguna instancia tiene IP pública; la única es la Elastic IP del NAT Gateway, que no acepta
+  conexiones entrantes.
 
 ## 4. Pruebas que conviene agregar (opcionales)
 

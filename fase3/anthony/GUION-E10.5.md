@@ -11,12 +11,12 @@ Duración objetivo: **10 min** (6 de presentación + 4 de demo). Ajustar al tiem
 | 3 | Servicios | LDAP (una cuenta por persona y grupos por rol), intranet que valida contra LDAP, NTP interno, DHCP de AWS | Sebastián / Isabella | E4.1 |
 | 4 | Seguridad | TI llega a todo y nadie llega a TI. Visitantes solo sale a Internet. La intranet no se ve desde Visitantes ni desde Internet. Hardening | Anthony / Leonardo | Matriz E4.2 |
 | 5 | Resultados | N de N pruebas PASS, por origen | Roberto | CSV / matriz |
-| 6 | Costos y cierre | Costo real de las pruebas, todo detenido (Stop). Mejoras: HTTPS, NAT Gateway para alta disponibilidad, LDAPS | Majo | Bills |
+| 6 | Costos y cierre | Costo real de las pruebas, todo detenido (Stop). Mejoras: HTTPS, NAT Gateway por zona de disponibilidad (alta disponibilidad), LDAPS | Majo | Bills |
 
 ## Demo en vivo (4 min) — orden sugerido
 
 1. **SSH por el endpoint a TI** (no hay IP pública ni puerto 22 abierto a Internet).
-2. Desde TI: `curl -u ti01 http://10.0.0.46/` → página de la intranet (login LDAP). Con una contraseña incorrecta → 401.
+2. Desde TI: `curl -u ti01 http://10.0.0.46/intranet/` → "Bienvenido(a)" (login LDAP). Con una contraseña incorrecta → 401. (O `INTRANET_URL=http://10.0.0.46 bash isabella/probar-web.sh`.)
 3. Desde TI: `ldapwhoami` con `ti01` (bind válido) y con una contraseña incorrecta → `Invalid credentials (49)`.
 4. Desde TI: `chronyc sources` → `^*` en `10.0.0.46`. En Servidores: `chronyc clients`.
 5. **Visitantes:**
@@ -29,8 +29,10 @@ Duración objetivo: **10 min** (6 de presentación + 4 de demo). Ajustar al tiem
 
 ## Preguntas probables
 
-- **¿Por qué una NAT instance y no un NAT Gateway?** Costo para un piloto y control con iptables. El
-  Gateway sería la opción en producción, por alta disponibilidad y menos mantenimiento.
+- **¿Por qué un NAT Gateway y no una NAT instance?** Es administrado por AWS (sin parches, iptables
+  ni punto de falla propio) y se configuró en minutos. A cambio, cuesta más por hora y no se puede
+  "detener": se elimina después de la demo. La NAT instance (más barata y con control por iptables)
+  se evaluó y quedó documentada como alternativa.
 - **¿Por qué no hay DHCP propio?** AWS no lo permite en una VPC. Se usa el DHCP option set y se demuestra lo que recibe cada EC2.
 - **¿Quién bloquea a Visitantes?** La NACL (stateless) y, además, los SG de destino (defensa en profundidad).
 - **¿Cómo administran sin abrir el 22 a Internet?** Con el EC2 Instance Connect Endpoint dentro de la subred TI.

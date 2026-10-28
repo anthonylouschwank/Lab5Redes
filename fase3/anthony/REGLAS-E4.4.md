@@ -1,65 +1,63 @@
 # Reglas E4.4 — SG, NACL, rutas, NAT y firewall del SO
 
-**Para Majo** (las aplica en la consola). Estado de todo lo que sigue: **propuesto**. Pasa a
-**configurado** cuando Majo lo crea y a **probado** con el CSV de `tests_fase3.sh`.
+**Para Majo** (las aplica en la consola). **Actualizado el 28/10** con lo que ya está hecho según el
+informe en curso: **NAT Gateway** (no NAT instance), IGW y rutas ya creados.
+
+Estado de cada paso: ✅ **hecho** (visto en el informe) · ⏳ **pendiente**. Lo hecho pasa a
+**probado** con el CSV de `tests_fase3.sh`.
 
 Reglas de trabajo (sección 2 del reparto):
-- **Antes de cada paso:** captura del estado previo (o exportar el SG a CSV) y del saldo.
-- **Después de cada paso:** la **comprobación** que se indica. Como mínimo, que el endpoint
-  siga abriendo SSH a **TI**. Si algo falla, se aplica la **reversión** de ese paso y se avisa a Anthony.
-- Al terminar: **Stop** de las instancias (nunca Terminate). No borrar recursos sin acuerdo del grupo.
+- **Antes de cada paso:** captura del estado previo y del saldo.
+- **Después de cada paso:** la **comprobación** indicada. Como mínimo, que el endpoint siga
+  abriendo SSH a **TI**. Si algo falla, aplicar la **reversión** de ese paso y avisar a Anthony.
+- Al terminar: **Stop** de las instancias (nunca Terminate). El **NAT Gateway no se detiene**: se
+  elimina al final, con acuerdo del grupo (Paso 9).
 
-Nombres que se usan: **SG-TI**, **SG-Servidores** (ya existen) · **SG-NAT**, **SG-Medicos**,
-**SG-Visitantes** (nuevos) · **Hospital-RT-Publica** (DMZ) · **Hospital-RT-Privada** (Médicos,
-Servidores, Visitantes, TI) · NACL de **Visitantes**.
-
----
-
-## Paso 0 — Estado inicial (solo lectura, capturas)
-
-| Elemento | Valor actual (verificado el 28/10) |
-|---|---|
-| Rutas | Ambas tablas: **solo** `10.0.0.0/24 → local`. Sin IGW ni NAT |
-| SG-TI | Entrada: SSH (22) desde SG-TI. Salida: todo IPv4 |
-| SG-Servidores | Entrada: SSH (22) e ICMP desde SG-TI. **Salida: ninguna regla** |
-| NACL Visitantes | Entrada y salida: `100 DENY 10.0.0.0/24` · `110 DENY 10.8.0.0/24` · `120 ALLOW 0.0.0.0/0` · `* DENY` |
-| NACL del resto de subredes | La predeterminada de la VPC (todo permitido). **No se cambia** |
-| Endpoint | `Hospital-EC2-Connect` en TI (`10.0.0.122`), SG-TI, *Preserve client IP* = No |
-
-Capturas: `E4.4_estado_inicial_rutas.png`, `E4.4_estado_inicial_SG-Servidores.png`,
-`E4.4_estado_inicial_NACL-Visitantes.png`.
+Nombres: **SG-TI**, **SG-Servidores** (existen) · **SG-Medicos**, **SG-Visitantes**, **SG-DMZ** (nuevos;
+SG-DMZ solo si se lanza la EC2 opcional de la DMZ) · **Hospital-RT-Publica** (DMZ) ·
+**Hospital-RT-Privada** (Médicos, Servidores, Visitantes, TI) · **Hospital-NACL-Visitantes** ·
+**Hospital-IGW** · **Hospital-NAT**.
 
 ---
 
-## Paso 1 — Crear los SG nuevos (no afecta nada de lo que ya funciona)
+## Paso 0 — Estado inicial ✅
 
-**SG-NAT** (VPC Hospital-Castillejos-VPC):
+Capturado en el informe:
+- rutas solo locales;
+- SG-Servidores con entrada SSH/ICMP desde SG-TI y **sin salida**;
+- NACL Visitantes 100/110/120/*;
+- endpoint en TI (`10.0.0.122`, *Preserve client IP* = No);
+- 3 volúmenes EBS de 8 GiB.
 
-| Dirección | Tipo | Protocolo | Puerto | Origen/Destino | Descripción |
-|---|---|---|---|---|---|
-| Entrada | HTTP | TCP | 80 | `10.0.0.0/24` | Tráfico de la VPC a reenviar a Internet (apt) |
-| Entrada | HTTPS | TCP | 443 | `10.0.0.0/24` | Tráfico de la VPC a reenviar a Internet |
-| Entrada | SSH | TCP | 22 | **SG-TI** | Administración por el endpoint |
-| Salida | Todo | Todo | Todo | `0.0.0.0/0` | Predeterminada |
+Para el informe:
+- **ocultar el ID de cuenta y los ARN** en esas capturas (E9.4);
+- **corregir el texto de la Fase 2**: SG-Servidores **no tenía** reglas de salida (Imagen 12).
 
-> **Nada** desde `0.0.0.0/0` en la entrada: la NAT tiene IP pública, pero no acepta conexiones
-> iniciadas desde Internet. **Sin ICMP**: si no, VIS-10 (Visitantes no llega a la DMZ) fallaría.
+---
 
-**SG-Medicos** y **SG-Visitantes** (para las EC2 de prueba):
+## Paso 1 — SG nuevos ⏳ (no afecta nada de lo que funciona)
+
+**SG-Medicos** y **SG-Visitantes** (para las EC2 de prueba) y, si se lanza la EC2 opcional de la DMZ,
+**SG-DMZ**:
 
 | Dirección | Tipo | Protocolo | Puerto | Origen/Destino | Descripción |
 |---|---|---|---|---|---|
 | Entrada | SSH | TCP | 22 | **SG-TI** | TI llega a todas las subredes / endpoint |
 | Salida | Todo | Todo | Todo | `0.0.0.0/0` | Predeterminada |
 
-- Reversión: borrar los SG nuevos, cuando ya no los use ninguna instancia.
-- Comprobación: ninguna, porque todavía no se usan.
+> **Sin ICMP** en la entrada: TI solo necesita SSH, y así VIS-07…10 quedan bloqueados también por el SG.
+> El NAT Gateway **no usa** Security Group.
+
+- Reversión: borrar estos SG cuando ya no los use ninguna instancia.
 
 ---
 
-## Paso 2 — Completar SG-Servidores
+## Paso 2 — SG-Servidores
 
-**Entrada** (las dos primeras ya existen):
+**Salida** ✅ (ya agregada): HTTPS TCP 443 → `0.0.0.0/0` y HTTP TCP 80 → `0.0.0.0/0` ("package downloads").
+Opcional: UDP 123 → `169.254.169.123/32`. No hace falta, porque Time Sync no se filtra (ver §6).
+
+**Entrada** ⏳ (agregar a las dos que ya existen):
 
 | Tipo | Protocolo | Puerto | Origen | Descripción |
 |---|---|---|---|---|
@@ -70,70 +68,68 @@ Capturas: `E4.4_estado_inicial_rutas.png`, `E4.4_estado_inicial_SG-Servidores.pn
 | HTTP | TCP | 80 | `10.0.0.96/28` | Intranet desde DMZ |
 | HTTP | TCP | 80 | `10.0.0.112/28` | Intranet desde TI |
 | LDAP | TCP | 389 | `10.0.0.32/27` | LDAP desde Servidores |
-| LDAP | TCP | 389 | `10.0.0.112/28` | LDAP desde TI (pruebas) |
+| LDAP | TCP | 389 | `10.0.0.112/28` | LDAP desde TI (pruebas y administración) |
 | NTP | UDP | 123 | `10.0.0.0/27` | NTP Médicos |
 | NTP | UDP | 123 | `10.0.0.32/27` | NTP Servidores |
-| NTP | UDP | 123 | `10.0.0.96/28` | NTP DMZ/NAT |
+| NTP | UDP | 123 | `10.0.0.96/28` | NTP DMZ |
 | NTP | UDP | 123 | `10.0.0.112/28` | NTP TI |
 
-**Visitantes (`10.0.0.64/27`) no aparece en ninguna regla.**
+**Visitantes (`10.0.0.64/27`) no aparece en ninguna regla.** La intranet va por **HTTP 80**, no 443:
+corregir la tabla de flujos del informe, que dice TCP/443.
 
-**Salida** (hoy no tiene ninguna):
+- Reversión: dejar en la entrada solo SSH e ICMP desde SG-TI.
+- Comprobación: SSH a TI y a Servidores por el endpoint, igual que antes.
 
-| Tipo | Protocolo | Puerto | Destino | Descripción |
-|---|---|---|---|---|
-| HTTP | TCP | 80 | `0.0.0.0/0` | `apt` por la NAT |
-| HTTPS | TCP | 443 | `0.0.0.0/0` | `apt` por la NAT |
-| NTP | UDP | 123 | `169.254.169.123/32` | Amazon Time Sync (por seguridad; ver §6) |
+### Paso 2b — slapd debe escuchar en todas las interfaces ⏳
 
-> Las **respuestas** a conexiones entrantes permitidas (intranet, LDAP, NTP, SSH) no necesitan regla de
-> salida: el SG es stateful. Sin salida hacia TI, Servidores tampoco puede iniciar nada hacia TI (SRV-01).
+En Servidores se editó `/etc/default/slapd` y slapd quedó escuchando **solo en `127.0.0.1:389`**.
+Según D5, debe escuchar en todas las interfaces, y lo filtran el SG (arriba) y ufw (`hardening.sh`).
+Si no, TI-03 falla.
 
-- Reversión: borrar las reglas nuevas, dejando solo SSH e ICMP de entrada.
-- Comprobación: desde el endpoint, SSH a TI y luego a Servidores (`10.0.0.46`). Deben funcionar igual que antes.
+```bash
+grep -n '^SLAPD_SERVICES' /etc/default/slapd              # anotar el valor actual (para revertir)
+sudo sed -i 's|^SLAPD_SERVICES=.*|SLAPD_SERVICES="ldap:/// ldapi:///"|' /etc/default/slapd
+sudo systemctl restart slapd
+sudo ss -lntp | grep ':389 '                               # 0.0.0.0:389
+```
+- Reversión: volver a poner el valor anotado y reiniciar slapd.
 
----
+### Paso 2c — usar los scripts de Sebastián para el LDAP ⏳
 
-## Paso 3 — Internet Gateway y ruta pública
+La base y las OUs se crearon a mano. Hay que cargar **con los scripts de Sebastián**: los usuarios
+`ti01`, `medico01`, `laboratorio01`…, los grupos con `memberUid` y **`svc-intranet`, que la intranet de
+Isabella necesita**. Su instalador detecta la base existente y **no borra nada**. Orden y contraseñas:
+`fase3/sebastian/README.md`.
 
-1. Crear un **Internet Gateway** (`Hospital-IGW`) y **asociarlo** a la VPC.
-2. En **Hospital-RT-Publica** (DMZ) agregar `0.0.0.0/0 → Hospital-IGW`.
-
-- Reversión: quitar la ruta, desasociar el IGW y (con acuerdo del grupo) borrarlo.
-- Comprobación: SSH a TI por el endpoint sigue funcionando. La ruta `local` no cambia.
-
----
-
-## Paso 4 — NAT instance en la DMZ
-
-1. Lanzar **Ubuntu 24.04** en la subred **DMZ** (`10.0.0.96/28`), con el tipo que salga más barato en
-   la tabla de precios (t3.nano o t3.micro), **SG-NAT** y **IP pública**
-   (*Auto-assign public IP: Enable*, o una Elastic IP).
-   - Costo: la IPv4 pública se cobra por hora. Una **Elastic IP se sigue cobrando con la instancia
-     detenida**; la IP automática se libera al hacer Stop.
-2. Instancia → *Redes* → **Cambiar comprobación de origen/destino → Detener** (desactivar
-   *source/dest check*).
-3. Anotar su IP privada: es `IP_NAT` = `IP_DMZ` en `fase3.env`.
-4. Por el endpoint, en la NAT: `sudo bash nat-instance.sh` → `RESULTADO: OK`, "La NAT tiene Internet (HTTP 200)".
-
-- Reversión: `sudo bash nat-instance.sh --revertir` y Stop de la instancia.
-- Comprobación: `nat-instance.sh` OK, y SSH a TI sigue funcionando.
+En el informe, cambiar la tabla de usuarios `ti_prueba`/`medico_prueba`/`lab_prueba` por los de
+Sebastián (`fase3/sebastian/usuarios-ficticios.csv`).
 
 ---
 
-## Paso 5 — Ruta privada hacia la NAT
+## Paso 3 — Internet Gateway y ruta pública ✅
 
-En **Hospital-RT-Privada** agregar `0.0.0.0/0 →` **la instancia NAT** (o su interfaz de red).
+`Hospital-IGW` asociado a la VPC. `Hospital-RT-Publica`: `0.0.0.0/0 → Hospital-IGW` (activa).
 
-- Reversión: quitar esa ruta.
-- Comprobación:
-  - En TI: `curl -sS -m 8 -o /dev/null -w '%{http_code}\n' https://example.com` → `200`.
-  - En Servidores, lo mismo: `200` confirma la salida 443 del Paso 2.
-  - Si falla: *source/dest check* sigue activo, falta la ruta, o SG-NAT no tiene 443 desde la VPC.
+- Reversión: quitar la ruta y desasociar el IGW.
+
+## Paso 4 — NAT Gateway ✅
+
+`Hospital-NAT` (público, zonal, subred DMZ, Elastic IP), creado el 28/10 a las 14:59 CST.
+Comprobar en la consola que su estado sea **Available**: en la captura del informe estaba *Pending*.
+
+- Reversión / cierre: ver Paso 9.
+
+## Paso 5 — Ruta privada hacia la NAT ✅
+
+`Hospital-RT-Privada`: `0.0.0.0/0 → Hospital-NAT` (activa).
+
+- Comprobación ⏳ (captura para el informe), en TI y en Servidores:
+  `curl -sS -m 8 -o /dev/null -w '%{http_code}\n' https://example.com` → `200`.
+  Si TI da 200 y Servidores no, falta la salida 443 en SG-Servidores.
 
 ---
 
-## Paso 6 — NACL de Visitantes: excepción para TI
+## Paso 6 — NACL de Visitantes: excepción para TI ⏳
 
 **Entrada:**
 
@@ -155,57 +151,59 @@ En **Hospital-RT-Privada** agregar `0.0.0.0/0 →` **la instancia NAT** (o su in
 | 120 | Todo | Todo | Todo | `0.0.0.0/0` | ALLOW |
 | * | Todo | Todo | Todo | `0.0.0.0/0` | DENY |
 
-> **¿Y la NAT?** No necesita regla. Lo que Visitantes manda a Internet lleva **destino público** (por
-> ejemplo `1.1.1.1`); la NAT es solo el siguiente salto de la ruta. La regla 100 no lo afecta y la
-> 120 lo deja pasar, y la respuesta también entra por la 120. Lo comprueban VIS-11/12.
+> **El NAT Gateway no necesita regla.** Lo que Visitantes manda a Internet lleva **destino público**
+> (por ejemplo `1.1.1.1`); el NAT es solo el siguiente salto de la ruta. La regla 100 no lo afecta y
+> la 120 lo permite, y la respuesta también entra por la 120. Lo comprueban VIS-11/12.
 >
 > La salida 90 deja que Visitantes **envíe** paquetes a puertos altos de TI, pero **SG-TI** los descarta.
 
 - Reversión: borrar las reglas 90 de entrada y salida.
-- Comprobación: después del Paso 7, SSH desde el endpoint a la EC2 de Visitantes.
 
 ---
 
-## Paso 7 — EC2 de prueba en Médicos y Visitantes
+## Paso 7 — EC2 de prueba ⏳
 
-Ubuntu 24.04, el tipo más barato de la tabla, **sin IP pública**:
+Ubuntu 24.04, tipo t3.micro (o el más barato), **sin IP pública**:
 - Médicos (`10.0.0.0/27`) con **SG-Medicos**.
 - Visitantes (`10.0.0.64/27`) con **SG-Visitantes**.
+- *(Opcional)* DMZ (`10.0.0.96/28`) con **SG-DMZ**. Sin ella, DMZ-01…03, TI-08, VIS-06 y VIS-10 quedan OMITIDAS.
 
-Anotar sus IP en `fase3.env` (`IP_MEDICOS`, `IP_VISITANTES`).
+Anotar las IP en `fase3.env`: `IP_MEDICOS`, `IP_VISITANTES` y, si existe, `IP_DMZ`. **`IP_NAT` vacío.**
 
 - Comprobación: SSH por el endpoint a cada una (TI-06/TI-07). En Visitantes, `curl https://example.com` → `200`.
 
 ---
 
-## Paso 8 — Servicios y firewall del SO (scripts)
+## Paso 8 — Servicios y firewall del SO (scripts) ⏳
 
-Orden de `fase3/leonardo/README.md` §1:
-1. NAT
-2. `chrony-servidor.sh`
-3. LDAP (Sebastián)
-4. Apache (Isabella)
-5. `chrony-cliente.sh` (Visitantes con `NTP_SERVER=169.254.169.123`)
-6. `hardening.sh <rol>`: **TI al final**
-7. `tests_fase3.sh <origen>` en cada EC2
-
-Firewall del SO (ufw) que deja `hardening.sh`:
+Orden (de `fase3/leonardo/README.md` §1, **sin** `nat-instance.sh` ni `hardening.sh nat`):
+1. `chrony-servidor.sh` en Servidores
+2. LDAP con los scripts de Sebastián (Paso 2c)
+3. Intranet: `isabella/instalar-web.sh`
+4. `chrony-cliente.sh` en TI, Médicos y DMZ; Visitantes con `NTP_SERVER=169.254.169.123`
+5. `hardening.sh servidores` / `cliente` / **`ti` al final**
+6. `tests_fase3.sh <origen>` en cada EC2
 
 | Rol / instancia | Entrada permitida por ufw |
 |---|---|
 | `servidores` (`10.0.0.46`) | 22 desde `10.0.0.112/28` · 80 desde Médicos, Servidores, DMZ y TI · 389 desde Servidores y TI · 123/udp desde la VPC |
-| `nat` | 22 desde `10.0.0.112/28` (el reenvío lo maneja la cadena `FASE3-NAT`) |
-| `ti`, `cliente` (Médicos, Visitantes) | 22 desde `10.0.0.112/28` |
+| `ti`, `cliente` (Médicos, Visitantes, DMZ) | 22 desde `10.0.0.112/28` |
 | Todos | `deny incoming`, `allow outgoing`. SSH sin contraseña ni root |
 
 ---
 
-## Paso 9 — Cierre
+## Paso 9 — Cierre ⏳
 
-1. CSV de cada `tests_fase3.sh` y archivos `hardening-*` → Roberto.
-2. Pruebas manuales EXT-01/02 desde una laptop (ver MATRIZ §2).
-3. **Stop** de NAT, Médicos, Visitantes, TI y Servidores. Captura del estado final y del costo.
-   - Si se usó Elastic IP: avisar al grupo, porque sigue cobrando aunque la instancia esté detenida.
+1. CSV de cada `tests_fase3.sh` y archivos `hardening-*` → Roberto. Pruebas manuales EXT-01/02 (MATRIZ §2).
+2. **Stop** de TI, Servidores y las EC2 de prueba. Captura del estado final.
+3. **NAT Gateway:** se cobra por hora mientras exista, aunque todo lo demás esté detenido. **Después de la
+   demo**, y con acuerdo del grupo:
+   - eliminar `Hospital-NAT`;
+   - liberar su **Elastic IP** (que también se cobra);
+   - quitar la ruta `0.0.0.0/0` de `Hospital-RT-Privada`, que queda como *blackhole*.
+
+   Si la demo es otro día: o se recrea, o se deja corriendo sabiendo el costo. Registrar el costo
+   final (Bills).
 
 ---
 
@@ -219,22 +217,23 @@ tráfico hacia y desde estos servicios de AWS:
 - **Amazon Time Sync Service** (`169.254.169.123`)
 - las direcciones reservadas del router de la VPC
 
-Por eso Visitantes resuelve nombres y sincroniza la hora aunque su NACL deniegue `10.0.0.0/24`. La
-regla de salida UDP 123 de SG-Servidores se deja por seguridad.
+Por eso Visitantes resuelve nombres y sincroniza la hora aunque su NACL deniegue `10.0.0.0/24`.
 
 **Verificar el texto exacto antes de citarlo:**
 - https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html
 - https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html
+- NAT Gateway: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
 
 ## 7. Resumen de reversión (de atrás hacia adelante)
 
 | Paso | Cómo revertir |
 |---|---|
-| 8 | `hardening.sh --revertir`, `chrony-*.sh --revertir`, `nat-instance.sh --revertir` |
+| 8 | `hardening.sh --revertir`, `chrony-*.sh --revertir` |
 | 7 | Stop de las EC2 de prueba |
 | 6 | Borrar las reglas 90 (entrada y salida) de la NACL de Visitantes |
 | 5 | Quitar `0.0.0.0/0` de Hospital-RT-Privada |
-| 4 | Stop de la NAT (y, con acuerdo, liberar la Elastic IP) |
+| 4 | Eliminar `Hospital-NAT` y liberar su Elastic IP (con acuerdo del grupo) |
 | 3 | Quitar `0.0.0.0/0` de Hospital-RT-Publica y desasociar el IGW |
-| 2 | Dejar SG-Servidores solo con SSH e ICMP desde SG-TI |
-| 1 | Borrar SG-NAT, SG-Medicos y SG-Visitantes (cuando no estén en uso) |
+| 2b | Volver a poner el `SLAPD_SERVICES` anotado y reiniciar slapd |
+| 2 | Dejar SG-Servidores solo con SSH e ICMP de entrada y sin salida (estado de Fase 2) |
+| 1 | Borrar SG-Medicos, SG-Visitantes y SG-DMZ (cuando no estén en uso) |

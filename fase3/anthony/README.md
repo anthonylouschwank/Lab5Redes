@@ -17,7 +17,15 @@ Casillas: E2.5, E2.6, E4.1, E4.2, E4.3, E4.4, E10.1, E10.5 (borrador).
 - **configurado**: existe en AWS o en la instancia, sin prueba que lo demuestre.
 - **probado**: hay una prueba con evidencia (CSV de `tests_fase3.sh`, captura o salida).
 
-Al 28/10 solo está **probado** lo de Fase 2: SSH e ICMP de TI a Servidores, y TCP/22 de Servidores a TI bloqueado.
+Estado al 28/10 (según el informe en curso):
+- **Probado:**
+  - lo de Fase 2: SSH e ICMP de TI a Servidores, y TCP/22 de Servidores a TI bloqueado;
+  - **DHCP de AWS** (TI recibió `10.0.0.117/28`, gateway `.113`, DNS `10.0.0.2`, `ec2.internal`);
+  - **chrony de TI sincronizado con Amazon Time Sync** (`^*` en `169.254.169.123`).
+- **Configurado (Majo):**
+  - Internet Gateway, NAT Gateway y las rutas `0.0.0.0/0` de ambas tablas;
+  - salida 80/443 de SG-Servidores;
+  - slapd en Servidores (a mano; falta pasar a los scripts de Sebastián).
 
 ---
 
@@ -26,14 +34,15 @@ Al 28/10 solo está **probado** lo de Fase 2: SSH e ICMP de TI a Servidores, y T
 | # | Decisión | Motivo | Impacto en los scripts |
 |---|---|---|---|
 | D1 | Dominio y base LDAP: **`hospital.redes.test`** / **`dc=hospital,dc=redes,dc=test`** | Es la base que se implementó y probó en el Lab 5, y la que ya usan Sebastián y Leonardo. Reemplaza al `hospital.internal` de Fase 1, que solo era un nombre propuesto para una zona DNS que no se creó. | Ninguno: coincide con `LDAP_BASE` y `LDAP_BASE_DN`. |
-| D2 | **NAT instance** en la DMZ (no NAT Gateway) | Usa el `nat-instance.sh` de Leonardo, ya probado localmente. Sirve además como equipo de prueba de la DMZ y demuestra iptables. El costo final se confirma con la tabla de precios de Majo (pendiente). | `nat-instance.sh` sí se usa. `IP_NAT` = `IP_DMZ` = IP privada de la NAT. |
+| D2 | **NAT Gateway** público zonal `Hospital-NAT` en la DMZ, con Elastic IP (**actualizada el 28/10**: primero se eligió una NAT instance) | Majo ya lo creó el 28/10 a las 14:59, con la ruta privada `0.0.0.0/0 → NAT`. Cambiarlo el día de la entrega es más riesgoso que usarlo. Es administrado por AWS (sin parches ni iptables) y no tiene Security Group. **Costo:** se cobra por hora mientras exista, aunque las instancias estén en Stop, así que **se elimina después de la demo** (junto con su Elastic IP), con acuerdo del grupo. | `nat-instance.sh` y `hardening.sh nat` **no se usan**. `IP_NAT` queda vacío (NAT-01…03 = OMITIDA). La DMZ solo tiene equipo de prueba si se lanza una EC2 ahí (`IP_DMZ`). |
 | D3 | Intranet por **HTTP (TCP 80)** | Es lo que asumen el *hardening*, los tests y la intranet. HTTPS con certificado autofirmado (Fase 1) queda como mejora documentada. | Ninguno: `INTRANET_PORTS=80`, `INTRANET_SCHEME=http`. |
 | D4 | LDAP, NTP e intranet en la **misma EC2 Servidores `10.0.0.46`** | El PDF permite juntar servicios. Ahorra costo, y Apache consulta LDAP por `127.0.0.1` sin pasar por el SG. | — |
-| D5 | **LDAP 389 solo desde Servidores y TI** | Contrato de Sebastián. Los clientes no consultan LDAP directamente: se autentican en la intranet. | `LDAP_ALLOW_CIDRS` igual; MED-04 y VIS-04 bloqueados. |
+| D5 | **LDAP 389 solo desde Servidores y TI**. slapd escucha en todas las interfaces (`ldap:/// ldapi:///`) y **lo filtran el SG y ufw** | Contrato de Sebastián. Los clientes no consultan LDAP directamente: se autentican en la intranet. Si slapd escuchara solo en `127.0.0.1`, TI-03 fallaría y no se podría administrar ni probar desde TI. | `LDAP_ALLOW_CIDRS` igual; TI-03 permitido; MED-04 y VIS-04 bloqueados. **En AWS hay que revertir la edición de `/etc/default/slapd`** (REGLAS Paso 2b). |
 | D6 | **DHCP: el de AWS** (DHCP option set de la VPC, sin cambios) | AWS no permite un servidor DHCP propio en la VPC. Se documenta lo que recibe una EC2 (Roberto, E5.1/E5.2). Un option set propio (por ejemplo, entregar NTP `10.0.0.46`) es **opcional** y no es necesario para cumplir. | Ninguno. |
 | D7 | **NTP**: chrony en Servidores (fuente Amazon Time Sync `169.254.169.123`). Los clientes de Médicos, TI, DMZ y NAT apuntan a `10.0.0.46`. **Visitantes usa Amazon Time Sync directo** | La regla "Visitantes no llega a otras subredes" le impide llegar a `10.0.0.46`. | Ya contemplado (VIS-13). |
-| D8 | **SSH** a todas las instancias **solo por el EC2 Instance Connect Endpoint** (`10.0.0.122`, SG-TI) | Ninguna instancia acepta SSH desde Internet. La NAT tiene IP pública pero su SG no acepta nada iniciado desde Internet. | `SSH_ALLOW_CIDRS=10.0.0.112/28`. |
-| D9 | **Internet** (por la NAT) solo **TCP 80/443** | Alcanza para `apt` y para la navegación de Visitantes. Cierra todo lo demás (*hardening*). | SG-NAT. Los tests usan 443. |
+| D8 | **SSH** a todas las instancias **solo por el EC2 Instance Connect Endpoint** (`10.0.0.122`, SG-TI) | Ninguna instancia tiene IP pública. La única IP pública es la Elastic IP del NAT Gateway, que por diseño solo deja pasar respuestas a conexiones iniciadas desde dentro. | `SSH_ALLOW_CIDRS=10.0.0.112/28`. |
+| D9 | **Internet** (por la NAT) para `apt` y la navegación de Visitantes | El NAT Gateway no tiene SG: el tráfico de salida lo limita el SG **de origen** (por ejemplo, SG-Servidores sale solo por 80/443). | Los tests usan 443. |
+| D10 | **Nombres**: `www.hospital.redes.test` (intranet) y `ldap.hospital.redes.test` → `10.0.0.46`, resueltos con **`/etc/hosts`** en los clientes | Así lo dice el informe (E2.5). No hace falta un DNS propio en Fase 3 (no es requisito). Los scripts y tests usan la IP, así que no dependen de los nombres. | `INTRANET_SERVERNAME=www.hospital.redes.test` (Isabella). |
 
 ## 2. Dominio, base LDAP, grupos y usuarios (E2.6)
 
@@ -79,16 +88,19 @@ Permisos por grupo:
 | Intranet (Apache + LDAP) | Servidores `10.0.0.46` | TCP 80 | Médicos, Servidores, DMZ, TI (**no** Visitantes) | LDAP en `127.0.0.1:389` | `fase3/isabella/` |
 | NTP servidor (chrony) | Servidores `10.0.0.46` | UDP 123 | Médicos, Servidores, DMZ, TI, NAT | Amazon Time Sync `169.254.169.123` | `chrony-servidor.sh` |
 | NTP cliente | TI, Médicos, DMZ/NAT · Visitantes → Time Sync | — | — | `10.0.0.46` UDP 123 | `chrony-cliente.sh` |
-| NAT (iptables MASQUERADE) | NAT instance (DMZ `10.0.0.96/28`, IP pública) | reenvío TCP 80/443 | Todas las subredes privadas (`apt`, Visitantes navega) | Internet Gateway, rutas, *source/dest check* desactivado | `nat-instance.sh` |
+| NAT | **NAT Gateway `Hospital-NAT`** (DMZ `10.0.0.96/28`, Elastic IP). Servicio de AWS, sin instancia | — | Todas las subredes privadas (`apt`, Visitantes navega) | Internet Gateway `Hospital-IGW`, ruta pública `0.0.0.0/0 → IGW`, ruta privada `0.0.0.0/0 → NAT` | — (consola, Majo) |
 | DHCP | AWS (DHCP option set de la VPC) | — | Todas | — | — (se documenta) |
 | DNS | AWS (Amazon DNS `10.0.0.2`) | — | Todas (resolver nombres para `apt`) | — | — |
 | Firewall del SO (ufw) | Todas | — | — | — | `hardening.sh <rol>` |
 
-EC2 de prueba (las lanza Majo, se detienen al terminar): una en **Médicos** y una en **Visitantes**. La
-NAT instance hace de equipo de la **DMZ**.
+EC2 de prueba (las lanza Majo, se detienen al terminar): una en **Médicos** y una en **Visitantes**.
+**Opcional:** una en la **DMZ** (el NAT Gateway no es una instancia y no se puede usar como origen de pruebas).
+Sin ella, las pruebas desde y hacia la DMZ quedan como OMITIDAS y se documentan así.
 
 ## 4. Valores para `fase3.env` (Leonardo y Sebastián)
 
 Los valores por defecto de `fase3/leonardo/fase3.env.example` y `fase3/sebastian/fase3.env.example`
-**se confirman sin cambios**. Majo completa, al lanzar las instancias, `IP_NAT` = `IP_DMZ` (IP privada
-de la NAT), `IP_MEDICOS` e `IP_VISITANTES`.
+**se confirman sin cambios**. Majo completa, al lanzar las instancias:
+- `IP_MEDICOS` e `IP_VISITANTES`;
+- `IP_DMZ`, solo si lanza la EC2 opcional de la DMZ;
+- `IP_NAT` **queda vacío**, porque el NAT Gateway no es una instancia.
