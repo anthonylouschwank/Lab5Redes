@@ -26,6 +26,9 @@ No se afirma que estos archivos ya estén configurados o probados en AWS.
 | `ldap/usuarios.sh` | Se reemplaza: dependía de un archivo de secretos persistente. |
 
 El nuevo instalador detecta una base existente. Si no coincide con la base solicitada, falla sin borrar ni reconfigurar datos.
+Si la VM local conserva usuarios del Lab 5, estos tampoco se eliminan. La prueba de
+Fase 3 filtra expresamente los seis UID ficticios para no confundir datos históricos
+con la entrega nueva.
 
 ## Archivos
 
@@ -35,6 +38,7 @@ El nuevo instalador detecta una base existente. Si no coincide con la base solic
 - `cargar-usuarios.sh`: agrega únicamente entradas inexistentes.
 - `probar-ldap.sh`: prueba consultas, bind válido y bind inválido.
 - `CONTRATO-APACHE.md`: datos exactos para Isabella.
+- `ENTREGA-SEBASTIAN.md`: estado, ejecución, evidencias y traspaso al equipo.
 - `fase3.env.example`: variables no secretas.
 
 `usuarios.ldif` está ignorado por Git porque contiene hashes de contraseñas.

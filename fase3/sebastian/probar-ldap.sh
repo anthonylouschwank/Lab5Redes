@@ -6,6 +6,7 @@ LDAP_URI="${LDAP_URI:-ldap://127.0.0.1}"
 LDAP_BASE_DN="${LDAP_BASE_DN:-dc=hospital,dc=redes,dc=test}"
 LDAP_TEST_UID="${LDAP_TEST_UID:-ti01}"
 LDAP_TEST_DN="uid=${LDAP_TEST_UID},ou=People,${LDAP_BASE_DN}"
+FICTITIOUS_USERS_FILTER='(|(uid=medico01)(uid=medico02)(uid=ti01)(uid=ti02)(uid=laboratorio01)(uid=laboratorio02))'
 
 if [[ -z "${LDAP_TEST_PASSWORD:-}" ]]; then
     [[ -t 0 ]] || { echo "ERROR: defina LDAP_TEST_PASSWORD o use una terminal." >&2; exit 1; }
@@ -22,7 +23,7 @@ printf '%s' "CredencialInvalida-Fase3" > "${WORK_DIR}/invalid.pw"
 echo "[1/4] Consulta de usuarios ficticios"
 users_output="$(ldapsearch -x -LLL -H "${LDAP_URI}" -D "${LDAP_TEST_DN}" \
     -y "${WORK_DIR}/valid.pw" -b "ou=People,${LDAP_BASE_DN}" \
-    '(objectClass=inetOrgPerson)' uid cn mail)"
+    "${FICTITIOUS_USERS_FILTER}" uid cn mail)"
 printf '%s\n' "${users_output}"
 user_count="$(grep -c '^uid: ' <<<"${users_output}")"
 [[ "${user_count}" -eq 6 ]] || { echo "FAIL: se esperaban 6 usuarios y se encontraron ${user_count}." >&2; exit 1; }
