@@ -1,0 +1,8 @@
+uid,givenName,sn,grupo,gidNumber,uidNumber,title
+medico01,Elena,Rios,medicos,5001,12001,Medica de turno
+medico02,Daniel,Soto,medicos,5001,12002,Medico de consulta
+ti01,Alex,Vega,ti,5002,12003,Administrador de sistemas
+ti02,Sam,Reyes,ti,5002,12004,Soporte de infraestructura
+laboratorio01,Nora,Diaz,laboratorio,5003,12005,Tecnica de laboratorio
+laboratorio02,Ivan,Mora,laboratorio,5003,12006,Analista de laboratorio
+

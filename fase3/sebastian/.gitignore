@@ -1,0 +1,5 @@
+# Artefactos generados en la VM. Contienen hashes o salidas de pruebas.
+usuarios.ldif
+salidas/
+*.secret
+
