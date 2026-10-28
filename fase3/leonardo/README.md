@@ -19,6 +19,16 @@ romper nada, respaldan antes de cambiar y terminan con `RESULTADO: OK` o `RESULT
 
 `pruebas-locales/` es lo que usé para probar sin AWS. **No se entrega.**
 
+## Qué necesita cada integrante de esta parte
+
+| Quién | Qué hacer o saber |
+|---|---|
+| **Anthony** (red AWS) | Estas reglas las asumen los scripts; si no están, fallan con un mensaje que lo dice. **SG-Servidores, entrada:** UDP 123 desde la VPC (NTP), TCP 389 desde Servidores y TI, TCP 80 desde Médicos, Servidores, DMZ y TI (nunca Visitantes). **SG-Servidores, salida:** hoy no tiene ninguna; necesita TCP 80/443 para `apt` por la NAT (y quizá UDP 123 hacia 169.254.169.123, ver §3). **NAT:** decidir instance o Gateway (§8); si es instance, los pasos de consola están en §2. **NACL:** permitir los puertos efímeros de vuelta (1024-65535). Revisar y ajustar los valores de `fase3.env.example` (§8). |
+| **Majo** (ejecuta) | Seguir §0 (copiar la carpeta y crear `fase3.env`) y el orden de §1. Responder las preguntas solo cuando aparezcan. Al terminar, **Stop** (nunca Terminate). |
+| **Sebastián** (LDAP) | Orden en Servidores: `chrony-servidor.sh` → su LDAP → Apache → `hardening.sh servidores` → pruebas. El hardening abre 389 **solo** desde Servidores y TI, como dice su contrato (`LDAP_ALLOW_CIDRS`). Si cambia el puerto o usa LDAPS, hay que ajustar `LDAP_PORT` y `LDAP_ALLOW_CIDRS`. `tests_fase3.sh` usa su usuario ficticio `ti01` (contraseña por `read -s`, nunca en archivos). |
+| **Isabella** (intranet) | El hardening abre `INTRANET_PORTS` (hoy 80) desde Médicos, Servidores, DMZ y TI, nunca Visitantes. Si usa HTTPS: `INTRANET_PORTS="80 443"`, `INTRANET_PORT=443`, `INTRANET_SCHEME=https`. Apache consulta LDAP por `127.0.0.1` (contrato de Sebastián), así que no pasa por ufw ni por el SG. |
+| **Roberto** (matriz e informe) | CSV `resultados-<origen>-<fecha>.csv` con columnas `fecha,origen,destino,protocolo_puerto,esperado,obtenido,resultado` (§5). Las OMITIDAS no van al CSV; `--solo` agrega una fila nueva (vale la más reciente). Inventario de puertos: `hardening-antes-<host>.txt` y `hardening-despues-<host>.txt`. Evidencias: `evidencias-<host>-<fecha>.txt`. Lo probado y lo pendiente, en §6; la documentación consultada, en §7. El DHCP lo da AWS (DHCP option set): no hay script. |
+
 ---
 
 ## 0. Preparación (una vez)
