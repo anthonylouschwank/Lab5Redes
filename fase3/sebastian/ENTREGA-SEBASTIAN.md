@@ -30,13 +30,14 @@
 - Existencia de las OUs `People` y `Groups`.
 - Sintaxis Bash correcta para todos los scripts de Fase 3.
 - La VM conserva los usuarios del Lab 5. No se eliminan; las pruebas nuevas filtran exclusivamente los seis UID ficticios.
+- Los seis usuarios ficticios y `svc-intranet` fueron generados y cargados.
+- Los grupos contienen exclusivamente los `memberUid` ficticios definidos para Fase 3.
+- `probar-ldap.sh` finalizó con `PASS`: consultas, bind válido y rechazo con `Invalid credentials (49)`.
+- Se guardaron salidas locales sanitizadas para instalación, generación, carga y pruebas.
 
-### Pendiente antes de marcarlo como probado
+### Pendiente para el cierre grupal
 
-- Ejecutar `instalar-ldap.sh` con la contraseña administrativa LDAP.
-- Generar y cargar `usuarios.ldif` en la VM local.
-- Ejecutar `probar-ldap.sh` y obtener `PASS`.
-- Guardar evidencias sanitizadas.
+- Tomar las capturas PNG requeridas para el informe a partir de las pruebas locales.
 - Recibir de Anthony la confirmación definitiva del dominio y base LDAP.
 - El despliegue y prueba en AWS corresponden exclusivamente a Majo.
 
@@ -286,9 +287,10 @@ La parte de Sebastián puede marcarse como completa cuando:
 - [x] Los scripts y documentación existen en `fase3/sebastian/`.
 - [x] La sintaxis Bash fue validada en Ubuntu 24.04.
 - [x] OpenLDAP local escucha en TCP/389 y expone la base correcta.
-- [ ] Se generaron y cargaron los seis usuarios ficticios y `svc-intranet`.
-- [ ] `probar-ldap.sh` terminó con `PASS`.
-- [ ] Se guardaron evidencias sanitizadas.
+- [x] Se generaron y cargaron los seis usuarios ficticios y `svc-intranet`.
+- [x] `probar-ldap.sh` terminó con `PASS`.
+- [x] Se guardaron evidencias de texto sanitizadas.
+- [ ] Se tomaron las capturas PNG seleccionadas para el informe.
 - [ ] Anthony confirmó dominio, base y orígenes autorizados.
 - [ ] Isabella recibió el contrato de integración.
 - [ ] Majo recibió scripts e instrucciones de despliegue.

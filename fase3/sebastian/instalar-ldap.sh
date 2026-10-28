@@ -111,7 +111,9 @@ EOF
 }
 
 ensure_ou() {
-    local ou="$1" description="$2" dn="ou=${ou},${LDAP_BASE_DN}"
+    local ou="$1"
+    local description="$2"
+    local dn="ou=${ou},${LDAP_BASE_DN}"
     if ldap_exists "${dn}"; then
         echo "    = OU existente: ${dn}"
         return
