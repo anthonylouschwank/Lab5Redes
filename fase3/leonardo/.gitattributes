@@ -1,0 +1,5 @@
+# Los scripts se ejecutan en Ubuntu: siempre LF, aunque se editen o clonen en Windows
+*.sh        text eol=lf
+*.example   text eol=lf
+*.env*      text eol=lf
+*.md        text eol=lf
