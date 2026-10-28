@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Intranet – Hospital Privado Castillejos</title>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+<header>
+    <h1>Hospital Privado Castillejos</h1>
+    <p>Portal interno · solo accesible desde la red del hospital</p>
+</header>
+
+<main>
+    <section>
+        <h2>Bienvenido a la intranet</h2>
+        <p>Este portal solo responde a equipos de las subredes autorizadas del hospital
+           (Médicos, Servidores, DMZ y TI). No está disponible para la red de Visitantes
+           ni desde Internet.</p>
+        <p>Para entrar a la intranet se necesita una cuenta del directorio del hospital (LDAP)
+           que pertenezca a los grupos <code>medicos</code>, <code>ti</code> o <code>laboratorio</code>.</p>
+        <p>
+            <a class="boton" href="/intranet/">Entrar a la intranet</a>
+            <a class="boton" href="/intranet/ti/">Panel de TI</a>
+        </p>
+    </section>
+
+    <section>
+        <h2>Servicios internos</h2>
+        <table>
+            <tr><th>Servicio</th><th>Descripción</th></tr>
+            <tr><td>Intranet</td><td>Este portal (Apache), con inicio de sesión contra el directorio</td></tr>
+            <tr><td>Directorio (LDAP)</td><td>Cuentas del personal y grupos por rol</td></tr>
+            <tr><td>Hora (NTP)</td><td>Hora sincronizada para todos los equipos de la red</td></tr>
+        </table>
+        <p class="nota">Proyecto académico CC3067 Redes. Todas las cuentas y datos son ficticios.</p>
+    </section>
+</main>
+
+<footer>Hospital Privado Castillejos · Intranet</footer>
+</body>
+</html>

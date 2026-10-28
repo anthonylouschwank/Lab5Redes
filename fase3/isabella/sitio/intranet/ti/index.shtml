@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel de TI – Hospital Privado Castillejos</title>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+<header>
+    <h1>Panel de TI</h1>
+    <p>Solo para miembros del grupo LDAP <code>ti</code></p>
+</header>
+
+<main>
+    <section>
+        <h2>Acceso concedido a <!--#echo var="AUTHENTICATE_CN" --></h2>
+        <p>Apache comprobó que <code><!--#echo var="REMOTE_USER" --></code> aparece como
+           <code>memberUid</code> del grupo <code>ti</code> en el directorio.
+           Los usuarios de los grupos <code>medicos</code> y <code>laboratorio</code> reciben 401 aquí.</p>
+        <p><a class="boton" href="/intranet/">Volver a la intranet</a></p>
+    </section>
+</main>
+
+<footer>Hospital Privado Castillejos · Intranet</footer>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Configuración local y salidas que no se versionan
+fase3.env
+salidas/
+*.secret

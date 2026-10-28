@@ -1,0 +1,65 @@
+# /etc/apache2/sites-available/@SITE@.conf — Intranet del Hospital Privado Castillejos (Fase 3)
+# Generado por fase3/isabella/instalar-web.sh a partir de esta plantilla. No editar a mano en la EC2.
+#
+# Defensa en profundidad para "solo desde la red interna, nunca Visitantes ni Internet":
+#   1. Security Group SG-Servidores: TCP @PORT@ solo desde Médicos, Servidores, DMZ y TI (Anthony, E4.4).
+#   2. ufw (hardening.sh servidores): la misma lista.
+#   3. Apache (este archivo): "Require ip" con la misma lista + login LDAP por grupo.
+
+# Sin caché de binds/búsquedas LDAP: cada intento se valida contra el servidor (más fácil de demostrar).
+LDAPCacheEntries 0
+LDAPOpCacheEntries 0
+LDAPConnectionTimeout 3
+
+<VirtualHost *:@PORT@>
+    ServerName @SERVERNAME@
+    DocumentRoot @DOCROOT@
+    DirectoryIndex index.html index.shtml
+
+    # Portal: solo desde las subredes autorizadas, sin login.
+    <Directory @DOCROOT@>
+        Options -Indexes
+        AllowOverride None
+        Require ip @ALLOW_IPS@
+    </Directory>
+
+    AddType text/html .shtml
+    AddOutputFilter INCLUDES .shtml
+
+    # Intranet: subred autorizada Y usuario LDAP de un grupo autorizado.
+    <Directory @DOCROOT@/intranet>
+        Options +Includes
+        AuthType Basic
+        AuthName "Intranet - Hospital Privado Castillejos"
+        AuthBasicProvider ldap
+        AuthLDAPURL "@LDAP_URI@/ou=People,@BASE_DN@?uid,cn,mail,title?one?(objectClass=inetOrgPerson)"
+        AuthLDAPBindDN "@BIND_DN@"
+        AuthLDAPBindPassword "exec:/bin/cat @BIND_SECRET@"
+        AuthLDAPGroupAttribute memberUid
+        AuthLDAPGroupAttributeIsDN off
+        <RequireAll>
+            Require ip @ALLOW_IPS@
+            <RequireAny>
+@REQUIRE_GRUPOS@
+            </RequireAny>
+        </RequireAll>
+    </Directory>
+
+    # Panel de TI: además, solo el grupo ti. mod_authnz_ldap no hereda URL ni bind del directorio padre.
+    <Directory @DOCROOT@/intranet/ti>
+        AuthLDAPURL "@LDAP_URI@/ou=People,@BASE_DN@?uid,cn,mail,title?one?(objectClass=inetOrgPerson)"
+        AuthLDAPBindDN "@BIND_DN@"
+        AuthLDAPBindPassword "exec:/bin/cat @BIND_SECRET@"
+        AuthLDAPGroupAttribute memberUid
+        AuthLDAPGroupAttributeIsDN off
+        <RequireAll>
+            Require ip @ALLOW_IPS@
+            Require ldap-group cn=@GRUPO_TI@,ou=Groups,@BASE_DN@
+        </RequireAll>
+    </Directory>
+
+    # authnz_ldap:info registra cada autenticación fallida y su motivo (evidencia)
+    LogLevel warn authnz_ldap:info
+    ErrorLog  ${APACHE_LOG_DIR}/@SITE@-error.log
+    CustomLog ${APACHE_LOG_DIR}/@SITE@-access.log combined
+</VirtualHost>
