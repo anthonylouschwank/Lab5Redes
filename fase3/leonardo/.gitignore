@@ -1,0 +1,9 @@
+# Pruebas en VM locales: no se entregan.
+pruebas-locales/
+# Valores reales de la VPC (se copia desde fase3.env.example en cada EC2).
+fase3.env
+# Salidas que generan los scripts al ejecutarse en las EC2.
+evidencias-*.txt
+resultados-*.csv
+hardening-antes-*.txt
+hardening-despues-*.txt
