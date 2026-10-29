@@ -1,0 +1,22 @@
+tema,evidencia_esperada,archivo_o_patron,quien_la_genera,casilla,estado,notas
+Red/AWS,Rutas finales (RT-Privada y RT-Publica) con 0.0.0.0/0,E?_rutas_*.png,Majo,por confirmar,pendiente,Hoy solo existe 10.0.0.0/24 -> local (verificado 28/10)
+Red/AWS,Internet Gateway asociado a la VPC,E?_igw_*.png,Majo,por confirmar,pendiente,Hoy no hay IGW
+Red/AWS,NAT instance: IP publica y Source/destination check desactivado,E?_nat_instancia_*.png,Majo,por confirmar,pendiente,
+Red/AWS,Estado previo de SG/NACL/rutas antes de cada cambio,E?_antes_*.png o exportacion CSV,Majo,por confirmar,pendiente,Regla del equipo: capturar antes de cada cambio
+Red/AWS,SG finales (SG-TI SG-Servidores SG-Medicos SG-Visitantes SG-NAT),E?_sg_*.png,Majo,por confirmar,pendiente,SG-Servidores hoy sin reglas de salida
+Red/AWS,NACL final de Visitantes (con ALLOW hacia/desde la NAT antes de la regla 100),E?_nacl_visitantes.png,Majo,por confirmar,pendiente,Depende de la decision de Anthony (E4.4 punto 1)
+Red/AWS,DHCP option set de la VPC,E5.1_dhcp_option_set.png,Majo/Roberto,E5.1,pendiente,Ver dhcp/DHCP-aws-administrado.md
+Red/AWS,Estado final de instancias (Stopped) y desglose de costos,E?_estado_final_*.png / E?_bills_*.png,Majo,por confirmar,pendiente,Stop nunca Terminate
+DHCP,Config recibida por cada EC2 encendida,texto/dhcp-<host>-<fecha>.txt,Roberto (script) en cada EC2 via Majo,E5.2,pendiente,bash dhcp-capturar.sh
+NTP,chronyc tracking y chronyc sources en servidor y clientes,E5.4_chronyc_tracking.png y texto/evidencias-<host>-<fecha>.txt,Leonardo/Majo,E5.4,pendiente,Ejemplo de nombre dado en el reparto
+NAT,Verificacion de nat-instance.sh e Internet desde Visitantes,texto/evidencias-<host>-<fecha>.txt,Leonardo/Majo,por confirmar,pendiente,
+Hardening,Puertos antes y despues (ss -tulnp) por rol,texto/hardening-antes-<host>.txt y hardening-despues-<host>.txt,Leonardo/Majo,por confirmar,pendiente,
+LDAP,Consulta de usuarios/grupos; bind valido; bind invalido (Invalid credentials),texto/probar-ldap_<fecha>.txt,Sebastian/Majo,E8.2,pendiente,Usuarios ficticios
+Intranet,curl sin credenciales (401) con valida (200) e invalida (401),texto/probar-web_<fecha>.txt,Isabella/Majo,por confirmar,pendiente,
+Intranet,Acceso desde Visitantes rechazado y desde Internet inexistente,csv/ (VIS-02) y captura,Majo,por confirmar,pendiente,No hay IP publica ni ruta de entrada a la intranet
+Matriz,CSV por origen de tests_fase3.sh,csv/resultados-<origen>-<fecha>.csv,Leonardo/Majo,E8,pendiente,Orígenes: ti medicos visitantes servidores dmz nat
+Matriz,Matriz consolidada,matriz/matriz-consolidada.md y .csv,Roberto (consolidar_matriz.py),E8,pendiente,35 pruebas esperadas
+Diseno,Diagrama de red actualizado (propuesto/configurado/probado),diagrama-fase3.*,Anthony,E10.1,pendiente,
+Diseno,Matriz de flujos y reglas concretas,anthony/ (E4.2 E4.4),Anthony,E4.2 E4.4,pendiente,Majo no crea nada antes de recibirlo
+Informe,Copia intacta del informe de Fase 2,informe/respaldo/Informe-Fase2-ORIGINAL.docx,Roberto,por confirmar,pendiente,Falta el DOCX
+Informe,Revision final de secretos,salida de revisar-secretos.sh + revision manual de PNG,Roberto,E10.6,pendiente,

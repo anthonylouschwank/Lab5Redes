@@ -1,0 +1,36 @@
+id,origen,destino,protocolo_puerto,esperado,descripcion
+TI-01,ti,servidores,TCP/22,permitido,SSH TI -> Servidores
+TI-02,ti,servidores,HTTP/80,permitido,Intranet desde TI
+TI-03,ti,servidores,LDAP TCP/389,permitido,LDAP desde TI
+TI-04,ti,servidores,NTP UDP/123,permitido,NTP interno (fuente ^*)
+TI-05,ti,servidores,ICMP,permitido,Ping TI -> Servidores
+TI-06,ti,medicos,TCP/22,permitido,TI llega a Médicos
+TI-07,ti,visitantes,TCP/22,permitido,TI llega a Visitantes
+TI-08,ti,dmz,TCP/22,permitido,TI llega a la DMZ
+SRV-01,servidores,ti,TCP/22,bloqueado,Ninguna subred llega a TI
+SRV-02,servidores,servidores,HTTP/80,permitido,Intranet desde Servidores
+SRV-03,servidores,servidores,NTP UDP/123,permitido,El servidor NTP está sincronizado
+MED-01,medicos,ti,TCP/22,bloqueado,Ninguna subred llega a TI
+MED-02,medicos,ti,ICMP,bloqueado,Ninguna subred llega a TI (ICMP)
+MED-03,medicos,servidores,HTTP/80,permitido,Intranet desde Médicos
+MED-04,medicos,servidores,LDAP TCP/389,bloqueado,LDAP solo desde Servidores y TI (contrato de Sebastián)
+MED-05,medicos,servidores,NTP UDP/123,permitido,NTP interno (fuente ^*)
+VIS-01,visitantes,ti,TCP/22,bloqueado,Visitantes no llega a TI
+VIS-02,visitantes,servidores,HTTP/80,bloqueado,Intranet NO desde Visitantes
+VIS-03,visitantes,servidores,TCP/22,bloqueado,Visitantes no llega a Servidores
+VIS-04,visitantes,servidores,LDAP TCP/389,bloqueado,LDAP NO desde Visitantes
+VIS-05,visitantes,medicos,TCP/22,bloqueado,Visitantes no llega a Médicos
+VIS-06,visitantes,dmz,TCP/22,bloqueado,Visitantes no llega a la DMZ
+VIS-07,visitantes,ti,ICMP,bloqueado,Visitantes no llega a TI (ICMP)
+VIS-08,visitantes,servidores,ICMP,bloqueado,Visitantes no llega a Servidores (ICMP)
+VIS-09,visitantes,medicos,ICMP,bloqueado,Visitantes no llega a Médicos (ICMP)
+VIS-10,visitantes,dmz,ICMP,bloqueado,Visitantes no llega a la DMZ (ICMP)
+VIS-11,visitantes,internet,TCP/443,permitido,Visitantes sí tiene Internet (por NAT)
+VIS-12,visitantes,internet,HTTPS/443,permitido,Visitantes navega (HTTPS por NAT)
+VIS-13,visitantes,local,NTP UDP/123,permitido,Hora sincronizada (Amazon Time Sync; no puede usar 10.0.0.46)
+DMZ-01,dmz,ti,TCP/22,bloqueado,Ninguna subred llega a TI
+DMZ-02,dmz,servidores,HTTP/80,permitido,Intranet desde la DMZ
+DMZ-03,dmz,servidores,NTP UDP/123,permitido,NTP interno (fuente ^*)
+NAT-01,nat,ti,TCP/22,bloqueado,Ninguna subred llega a TI
+NAT-02,nat,internet,HTTPS/443,permitido,La NAT tiene Internet
+NAT-03,nat,servidores,NTP UDP/123,permitido,NTP interno (fuente ^*)
