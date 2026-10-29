@@ -1,0 +1,37 @@
+﻿######## ip-10-0-0-69 2026-10-29T05:16:59+00:00
+== ufw
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    10.0.0.112/28              # fase3: SSH de administración (endpoint en la subred TI)
+
+== sshd efectivo
+permitrootlogin no
+passwordauthentication no
+kbdinteractiveauthentication no
+x11forwarding no
+== timer rollback (debe estar inactivo)
+inactive
+== servicios
+active
+inactive
+== chrony
+^* 169.254.169.123               3   4   377    15  +3614ns[+4412ns] +/-  511us
+== evidencias hardening
+evidencias-ip-10-0-0-69-2026-10-29.txt
+hardening-antes-ip-10-0-0-69-completo.txt
+hardening-antes-ip-10-0-0-69.txt
+hardening-despues-ip-10-0-0-69-completo.txt
+hardening-despues-ip-10-0-0-69.txt
+== diff puertos
+(sin cambios en puertos en escucha)
+== resultados en evidencia
+RESULTADO: OK — cliente NTP de 169.254.169.123 en ip-10-0-0-69
+    [OK] Acceso confirmado: rollback cancelado
+    Acceso confirmado por ubuntu a las 05:15:19
+    [OK] Deshabilitado: ModemManager (revertir: systemctl enable --now ModemManager)
+RESULTADO: OK — hardening 'cliente' en ip-10-0-0-69

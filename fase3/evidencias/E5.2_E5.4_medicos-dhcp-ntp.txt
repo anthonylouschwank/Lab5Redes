@@ -1,0 +1,140 @@
+﻿######## Equipo
+ip-10-0-0-28
+2026-10-29T05:09:19+00:00
+lo               UNKNOWN        127.0.0.1/8 
+ens5             UP             10.0.0.28/27 metric 100 
+######## DHCP (E5.2): concesi??n recibida de AWS
+ADDRESS=10.0.0.28
+NETMASK=255.255.255.224
+ROUTER=10.0.0.1
+SERVER_ADDRESS=10.0.0.1
+LIFETIME=1h
+DNS=10.0.0.2
+DOMAINNAME=ec2.internal
+default via 10.0.0.1 dev ens5 proto dhcp src 10.0.0.28 metric 100 
+10.0.0.0/27 dev ens5 proto kernel scope link src 10.0.0.28 metric 100 
+10.0.0.1 dev ens5 proto dhcp scope link src 10.0.0.28 metric 100 
+10.0.0.2 dev ens5 proto dhcp scope link src 10.0.0.28 metric 100 
+Link 2 (ens5)
+    Current Scopes: DNS
+         Protocols: +DefaultRoute -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+Current DNS Server: 10.0.0.2
+       DNS Servers: 10.0.0.2
+        DNS Domain: ec2.internal
+######## Puertos en escucha (antes de hardening)
+udp 127.0.0.1:323 users:(("chronyd",pid=739,fd=5))
+udp 127.0.0.54:53 users:(("systemd-resolve",pid=358,fd=16))
+udp 127.0.0.53%lo:53 users:(("systemd-resolve",pid=358,fd=14))
+udp 10.0.0.28%ens5:68 users:(("systemd-network",pid=531,fd=21))
+udp [::1]:323 users:(("chronyd",pid=739,fd=6))
+tcp 127.0.0.53%lo:53 users:(("systemd-resolve",pid=358,fd=15))
+tcp 127.0.0.54:53 users:(("systemd-resolve",pid=358,fd=17))
+tcp 0.0.0.0:22 users:(("sshd",pid=1057,fd=3),("systemd",pid=1,fd=175))
+tcp [::]:22 users:(("sshd",pid=1057,fd=4),("systemd",pid=1,fd=176))
+######## chrony-cliente.sh (NTP_SERVER=10.0.0.46)
+
+==> 1. Inspección previa (no cambia nada)
+    [OK] chrony instalado: chronyd (chrony) version 4.5 (+CMDMON +NTP +REFCLOCK +RTC +PRIVDROP +SCFILTER +SIGND +ASYNCDNS +NTS +SECHASH +IPV6 -DEBUG)
+    -- chronyc -n sources -v --
+      
+        .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+       / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+      | /             'x' = may be in error, '~' = too variable, '?' = unusable.
+      ||                                                 .- xxxx [ yyyy ] +/- zzzz
+      ||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+      ||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+      ||                                \     |          |  zzzz = estimated error.
+      ||                                 |    |           \
+      MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+      ===============================================================================
+      ^* 169.254.169.123               3   4   377    12    +29us[  +33us] +/-  577us
+      ^- 185.125.190.57                2   6   377    28  +4524us[+4527us] +/-   44ms
+      ^- 185.125.190.56                2   6   377    29  +4798us[+4806us] +/-   45ms
+      ^- 185.125.190.58                2   6   377    31  +1086us[+1093us] +/-   41ms
+      ^- 91.189.91.157                 2   6   377    28    +51us[  +59us] +/-   31ms
+      ^- 198.12.95.197                 3   6   377    30  +2668us[+2676us] +/-   51ms
+      ^- 50.205.57.38                  1   6   377    30    -32us[  -25us] +/- 6644us
+      ^- 149.28.200.179                2   6   377    32   -630us[ -622us] +/-   42ms
+      ^- 162.254.225.151               2   6   377    33  -7259us[-7252us] +/-   36ms
+    -- chronyc tracking --
+      Reference ID    : A9FEA97B (169.254.169.123)
+      Stratum         : 4
+      Ref time (UTC)  : Thu Oct 29 05:09:07 2026
+      System time     : 0.000003366 seconds fast of NTP time
+      Last offset     : +0.000003410 seconds
+      RMS offset      : 0.000010709 seconds
+      Frequency       : 9.506 ppm slow
+      Residual freq   : +0.003 ppm
+      Skew            : 0.083 ppm
+      Root delay      : 0.000420091 seconds
+      Root dispersion : 0.000260494 seconds
+      Update interval : 16.1 seconds
+      Leap status     : Normal
+    -- timedatectl (NTPSynchronized) --
+      NTP=yes
+      NTPSynchronized=yes
+    -- fuentes declaradas --
+      /etc/chrony/chrony.conf:20:pool ntp.ubuntu.com        iburst maxsources 4
+      /etc/chrony/chrony.conf:21:pool 0.ubuntu.pool.ntp.org iburst maxsources 1
+      /etc/chrony/chrony.conf:22:pool 1.ubuntu.pool.ntp.org iburst maxsources 1
+      /etc/chrony/chrony.conf:23:pool 2.ubuntu.pool.ntp.org iburst maxsources 2
+      /etc/chrony/chrony.conf:26:sourcedir /run/chrony-dhcp
+      /etc/chrony/chrony.conf:29:sourcedir /etc/chrony/sources.d
+      /etc/chrony/conf.d/00-cpc.conf:2:server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
+
+==> 2. chrony instalado
+    [OK] Paquetes ya instalados: chrony
+
+==> 3. Servidor interno 10.0.0.46
+    [OK] Escrito: /etc/chrony/conf.d/fase3-cliente.conf
+    NTP_SOLO_INTERNO=si: se comentan las demás fuentes (quedan con la marca '#fase3# ').
+    Respaldo: /etc/chrony/chrony.conf.bak.20261029050919   (restaurar: sudo cp -a /etc/chrony/chrony.conf.bak.20261029050919 /etc/chrony/chrony.conf)
+    [OK] Fuentes externas comentadas en /etc/chrony/chrony.conf
+    Respaldo: /etc/chrony/conf.d/00-cpc.conf.bak.20261029050919   (restaurar: sudo cp -a /etc/chrony/conf.d/00-cpc.conf.bak.20261029050919 /etc/chrony/conf.d/00-cpc.conf)
+    [OK] Fuentes externas comentadas en /etc/chrony/conf.d/00-cpc.conf
+    [OK] Configuración válida (chronyd -p)
+
+==> 4. Reinicio y verificación
+    Esperando a que chrony seleccione 10.0.0.46 (máx. 90 s)...
+    [OK] Sincronizado con el servidor interno 10.0.0.46 (marca ^*)
+    -- chronyc -n sources -v --
+      
+        .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+       / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+      | /             'x' = may be in error, '~' = too variable, '?' = unusable.
+      ||                                                 .- xxxx [ yyyy ] +/- zzzz
+      ||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+      ||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+      ||                                \     |          |  zzzz = estimated error.
+      ||                                 |    |           \
+      MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+      ===============================================================================
+      ^* 10.0.0.46                     4   6    17     1  +1075ns[+8657ns] +/-  539us
+    -- chronyc tracking --
+      Reference ID    : 0A00002E (10.0.0.46)
+      Stratum         : 5
+      Ref time (UTC)  : Thu Oct 29 05:09:25 2026
+      System time     : 0.000003020 seconds fast of NTP time
+      Last offset     : +0.000007582 seconds
+      RMS offset      : 0.000007582 seconds
+      Frequency       : 9.506 ppm slow
+      Residual freq   : +2.634 ppm
+      Skew            : 0.090 ppm
+      Root delay      : 0.000557101 seconds
+      Root dispersion : 0.000269556 seconds
+      Update interval : 2.0 seconds
+      Leap status     : Normal
+    -- timedatectl (NTPSynchronized) --
+      NTP=yes
+      NTPSynchronized=yes
+    -- chronyc ntpdata 10.0.0.46 --
+      Remote address  : 10.0.0.46 (0A00002E)
+      Stratum         : 4
+      Total TX        : 4
+      Total RX        : 4
+      Total valid RX  : 4
+    [OK] Leap status: Normal
+    [OK] timedatectl NTPSynchronized=yes
+
+RESULTADO: OK — cliente NTP de 10.0.0.46 en ip-10-0-0-28
+Evidencia: /home/ubuntu/fase3/evidencias/evidencias-ip-10-0-0-28-2026-10-29.txt

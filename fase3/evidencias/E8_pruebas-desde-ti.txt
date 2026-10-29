@@ -1,0 +1,23 @@
+﻿Pruebas de la Fase 3 desde ti  (ip-10-0-0-117, variables: /home/ubuntu/fase3/leonardo/fase3.env)
+
+ID      DESTINO                  PROTOCOLO      ESPERADO   RESULT OBTENIDO
+TI-01   servidores (10.0.0.46)   TCP/22         permitido  PASS   conectado
+TI-02   servidores (10.0.0.46)   HTTP/80        permitido  PASS   HTTP 200
+TI-03   servidores (10.0.0.46)   LDAP TCP/389   permitido  PASS   (solo TCP: falta ldap-utils) conectado
+TI-04   servidores (10.0.0.46)   NTP UDP/123    permitido  PASS   fuente ^* seleccionada (reach 6)
+TI-05   servidores (10.0.0.46)   ICMP           permitido  PASS   responde al ping
+TI-06   medicos (10.0.0.28)      TCP/22         permitido  PASS   conectado
+TI-07   visitantes (10.0.0.69)   TCP/22         permitido  PASS   conectado
+TI-08   dmz (sin IP)             TCP/22         permitido  OMITIDA IP de 'dmz' no definida en fase3.env (IP_DMZ)
+
+Resumen ti: 7 PASS, 0 FAIL, 1 OMITIDA(S)
+CSV: /home/ubuntu/fase3/evidencias/resultados-ti-2026-10-29.csv
+Las OMITIDAS no van al CSV: define sus IPs en fase3.env y repite con --solo <ID>.
+
+######## Pruebas complementarias (MATRIZ-E4.2 ??4 y E8.x)
+TI-09   Internet https://example.com  HTTPS     permitido  PASS HTTP 200
+TI-10   servidores /intranet/      HTTP/80   401        PASS  HTTP 401
+TI-11   medicos (10.0.0.28)        TCP/22    permitido  PASS  conectado
+
+CSV: /home/ubuntu/fase3/evidencias/resultados-ti-2026-10-29.csv
+Totales CSV: PASS=10 FAIL=0

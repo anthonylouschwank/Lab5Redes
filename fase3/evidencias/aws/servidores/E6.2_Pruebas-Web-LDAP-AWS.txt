@@ -1,0 +1,12 @@
+
+# Pruebas de la intranet — 2026-10-29 03:04:13 UTC — equipo ip-10-0-0-46 — destino http://127.0.0.1
+
+W-01      Portal sin login desde origen autorizado             esperado 200  obtenido 200  PASS
+W-02      /intranet/ sin credenciales                          esperado 401  obtenido 401  PASS
+W-03      /intranet/ con ti01 y contraseña válida            esperado 200  obtenido 200  PASS
+W-04      /intranet/ con ti01 y contraseña inválida          esperado 401  obtenido 401  PASS
+W-05      /intranet/ con usuario inexistente                   esperado 401  obtenido 401  PASS
+W-06      /intranet/ti/ con ti01 (grupo ti)                    esperado 200  obtenido 200  PASS
+W-07      /intranet/ti/ con medico01 (sin grupo ti)            esperado 401  obtenido 401  PASS
+
+RESULTADO: PASS

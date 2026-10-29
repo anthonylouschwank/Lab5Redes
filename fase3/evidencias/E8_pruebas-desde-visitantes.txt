@@ -1,0 +1,29 @@
+﻿Pruebas de la Fase 3 desde visitantes  (ip-10-0-0-69, variables: /home/ubuntu/fase3/leonardo/fase3.env)
+
+ID      DESTINO                  PROTOCOLO      ESPERADO   RESULT OBTENIDO
+VIS-01  ti (10.0.0.117)          TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-02  servidores (10.0.0.46)   HTTP/80        bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-03  servidores (10.0.0.46)   TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-04  servidores (10.0.0.46)   LDAP TCP/389   bloqueado  PASS   (solo TCP: falta ldap-utils) timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-05  medicos (10.0.0.28)      TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-06  dmz (sin IP)             TCP/22         bloqueado  OMITIDA IP de 'dmz' no definida en fase3.env (IP_DMZ)
+VIS-07  ti (10.0.0.117)          ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+VIS-08  servidores (10.0.0.46)   ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+VIS-09  medicos (10.0.0.28)      ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+VIS-10  dmz (sin IP)             ICMP           bloqueado  OMITIDA IP de 'dmz' no definida en fase3.env (IP_DMZ)
+VIS-11  internet (1.1.1.1)       TCP/443        permitido  PASS   conectado
+VIS-12  internet (1.1.1.1)       HTTPS/443      permitido  PASS   HTTP 200 desde https://example.com
+VIS-13  local (127.0.0.1)        NTP UDP/123    permitido  PASS   sincronizado; Reference ID A9FEA97B (169.254.169.123)
+
+Resumen visitantes: 11 PASS, 0 FAIL, 2 OMITIDA(S)
+CSV: /home/ubuntu/fase3/evidencias/resultados-visitantes-2026-10-29.csv
+Las OMITIDAS no van al CSV: define sus IPs en fase3.env y repite con --solo <ID>.
+
+######## Pruebas complementarias (MATRIZ-E4.2 ??4 y E8.x)
+VIS-14  servidores (10.0.0.46)     TCP/80    bloqueado  PASS  timeout 5s
+VIS-15  servidores (10.0.0.46)     TCP/389   bloqueado  PASS  timeout 5s
+Salida p??blica vista desde Visitantes (IP del NAT, no se publica en el informe):
+  obtenida (oculta)
+
+CSV: /home/ubuntu/fase3/evidencias/resultados-visitantes-2026-10-29.csv
+Totales CSV: PASS=13 FAIL=0

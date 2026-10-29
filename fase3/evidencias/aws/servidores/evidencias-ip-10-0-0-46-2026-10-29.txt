@@ -1,0 +1,273 @@
+
+################################################################
+# chrony-servidor.sh aplicar
+# Fecha: 2026-10-29 05:06:35 UTC   Equipo: ip-10-0-0-46   Usuario: ubuntu
+# Variables: /home/ubuntu/fase3/leonardo/fase3.env
+################################################################
+
+==> 1. Inspección previa (no cambia nada)
+    [OK] chrony instalado: chronyd (chrony) version 4.5 (+CMDMON +NTP +REFCLOCK +RTC +PRIVDROP +SCFILTER +SIGND +ASYNCDNS +NTS +SECHASH +IPV6 -DEBUG)
+    -- chronyc -n sources -v ($ chronyc -n sources -v) --
+      
+        .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+       / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+      | /             'x' = may be in error, '~' = too variable, '?' = unusable.
+      ||                                                 .- xxxx [ yyyy ] +/- zzzz
+      ||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+      ||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+      ||                                \     |          |  zzzz = estimated error.
+      ||                                 |    |           \
+      MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+      ===============================================================================
+      ^* 169.254.169.123               3   4   377    15  -6248ns[  -23us] +/-  484us
+      ^? 91.189.91.157                 0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.56                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.58                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.57                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 172.233.189.68                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 23.186.168.131                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 158.51.99.19                  0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 107.174.212.113               0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 38.80.8.230                   0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 5.161.111.190                 0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 139.177.202.26                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 198.137.202.56                0  10     0     -     +0ns[   +0ns] +/-    0ns
+    -- chronyc tracking ($ chronyc tracking) --
+      Reference ID    : A9FEA97B (169.254.169.123)
+      Stratum         : 4
+      Ref time (UTC)  : Thu Oct 29 05:06:19 2026
+      System time     : 0.000000021 seconds fast of NTP time
+      Last offset     : -0.000016804 seconds
+      RMS offset      : 0.000009767 seconds
+      Frequency       : 4.708 ppm slow
+      Residual freq   : -0.024 ppm
+      Skew            : 0.191 ppm
+      Root delay      : 0.000379840 seconds
+      Root dispersion : 0.000318673 seconds
+      Update interval : 16.1 seconds
+      Leap status     : Normal
+    -- timedatectl (NTPSynchronized) ($ timedatectl show -p NTPSynchronized -p NTP) --
+      NTP=yes
+      NTPSynchronized=yes
+    -- líneas activas de /etc/chrony/chrony.conf ($ grep -vE ^[[:space:]]*(#|$) /etc/chrony/chrony.conf) --
+      confdir /etc/chrony/conf.d
+      pool ntp.ubuntu.com        iburst maxsources 4
+      pool 0.ubuntu.pool.ntp.org iburst maxsources 1
+      pool 1.ubuntu.pool.ntp.org iburst maxsources 1
+      pool 2.ubuntu.pool.ntp.org iburst maxsources 2
+      sourcedir /run/chrony-dhcp
+      sourcedir /etc/chrony/sources.d
+      keyfile /etc/chrony/chrony.keys
+      driftfile /var/lib/chrony/chrony.drift
+      ntsdumpdir /var/lib/chrony
+      logdir /var/log/chrony
+      maxupdateskew 100.0
+      rtcsync
+      makestep 1 3
+      leapsectz right/UTC
+    -- /etc/chrony/conf.d y sources.d ($ sh -c ls -l /etc/chrony/conf.d /etc/chrony/sources.d 2>&1; grep -HvE "^[[:space:]]*(#|$)" /etc/chrony/conf.d/* /etc/chrony/sources.d/* 2>/dev/null) --
+      /etc/chrony/conf.d:
+      total 8
+      -rw-r--r-- 1 root root 135 Jun 10 10:16 00-cpc.conf
+      -rw-r--r-- 1 root root 422 Nov 14  2023 README
+      
+      /etc/chrony/sources.d:
+      total 4
+      -rw-r--r-- 1 root root 498 Nov 14  2023 README
+      /etc/chrony/conf.d/00-cpc.conf:server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
+      /etc/chrony/conf.d/README:Files found under the /etc/chrony/conf.d directory with the .conf suffix are
+      /etc/chrony/conf.d/README:parsed in the lexicographical order of the file names when chronyd starts up.
+      /etc/chrony/conf.d/README:This enables a fragmented configuration of chronyd.
+      /etc/chrony/conf.d/README:Although those files can contain any directives listed in chrony.conf(5),
+      /etc/chrony/conf.d/README:it would be wiser to add NTP sources in the /etc/chrony/sources.d
+      /etc/chrony/conf.d/README:directory. Please read /etc/chrony/sources.d/README for more information.
+      /etc/chrony/sources.d/README:Only NTP sources can be specified in the /etc/chrony/sources.d directory.
+      /etc/chrony/sources.d/README:Files in this directory must end with the ".sources" suffix. They can only
+      /etc/chrony/sources.d/README:contain the "peer", "pool" and "server" directives and must have all
+      /etc/chrony/sources.d/README:lines terminated by a trailing newline.
+      /etc/chrony/sources.d/README:There is no need to restart chronyd for these time sources to be usable,
+      /etc/chrony/sources.d/README:running 'chronyc reload sources' is sufficient.
+      /etc/chrony/sources.d/README:Example:
+
+==> 2. chrony instalado
+    [OK] Paquetes ya instalados: chrony
+
+==> 3. Configuración del servidor NTP interno
+    [OK] Escrito: /etc/chrony/conf.d/fase3-servidor.conf
+    El upstream 169.254.169.123 ya estaba en: /etc/chrony/conf.d/00-cpc.conf (no se duplica)
+    [OK] Configuración válida (chronyd -p)
+
+==> 4. Reinicio y verificación
+    Esperando a que chrony seleccione 169.254.169.123 (máx. 90 s)...
+    [OK] Sincronizado con 169.254.169.123 (marca ^*)
+    -- chronyc -n sources -v ($ chronyc -n sources -v) --
+      
+        .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+       / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+      | /             'x' = may be in error, '~' = too variable, '?' = unusable.
+      ||                                                 .- xxxx [ yyyy ] +/- zzzz
+      ||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+      ||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+      ||                                \     |          |  zzzz = estimated error.
+      ||                                 |    |           \
+      MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+      ===============================================================================
+      ^* 169.254.169.123               3   4     7     1    -12us[  -33us] +/-  376us
+      ^? 185.125.190.57                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 91.189.91.157                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.58                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.56                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 162.159.200.1                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 172.104.28.175                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 97.107.136.23                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 158.51.99.19                  0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 216.82.35.115                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 142.248.192.33                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 198.23.133.146                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 23.150.41.122                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+    -- chronyc tracking ($ chronyc tracking) --
+      Reference ID    : A9FEA97B (169.254.169.123)
+      Stratum         : 4
+      Ref time (UTC)  : Thu Oct 29 05:06:43 2026
+      System time     : 0.000013735 seconds slow of NTP time
+      Last offset     : -0.000021074 seconds
+      RMS offset      : 0.000021074 seconds
+      Frequency       : 4.737 ppm slow
+      Residual freq   : +1.042 ppm
+      Skew            : 0.127 ppm
+      Root delay      : 0.000408179 seconds
+      Root dispersion : 0.000187288 seconds
+      Update interval : 0.0 seconds
+      Leap status     : Normal
+    -- timedatectl (NTPSynchronized) ($ timedatectl show -p NTPSynchronized -p NTP) --
+      NTP=yes
+      NTPSynchronized=yes
+    -- ss -ulnp (UDP 123) ($ ss -ulnp sport = :123) --
+      State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess
+      UNCONN 0      0            0.0.0.0:123       0.0.0.0:*    users:(("chronyd",pid=11591,fd=7))
+    [OK] chronyd escucha en UDP 123 (sirve hora a: 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28)
+    [OK] Leap status: Normal
+
+==> Pendiente fuera de este script
+    SG-Servidores: entrada UDP 123 desde 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 (Anthony).
+    Luego, en cada cliente: sudo bash chrony-cliente.sh
+RESULTADO: OK — servidor NTP en ip-10-0-0-46
+
+################################################################
+# hardening.sh servidores
+# Fecha: 2026-10-29 05:12:16 UTC   Equipo: ip-10-0-0-46   Usuario: ubuntu
+# Variables: /home/ubuntu/fase3/leonardo/fase3.env
+################################################################
+
+==> 1. Inventario ANTES
+    [OK] Paquetes ya instalados: ufw
+    -- puertos en escucha (proto  dirección:puerto  proceso) ($ cat /home/ubuntu/fase3/evidencias/hardening-antes-ip-10-0-0-46.txt) --
+      tcp *:80 apache2
+      tcp 0.0.0.0:22 sshd
+      tcp 0.0.0.0:389 slapd
+      tcp 127.0.0.53%lo:53 systemd-resolve
+      tcp 127.0.0.54:53 systemd-resolve
+      tcp [::]:22 sshd
+      tcp [::]:389 slapd
+      udp 0.0.0.0:123 chronyd
+      udp 10.0.0.46%ens5:68 systemd-network
+      udp 127.0.0.1:323 chronyd
+      udp 127.0.0.53%lo:53 systemd-resolve
+      udp 127.0.0.54:53 systemd-resolve
+      udp [::1]:323 chronyd
+    -- ufw antes ($ ufw status verbose) --
+      Status: inactive
+
+==> 2. Revisión previa de seguridad
+    [OK] Sesión SSH desde 10.0.0.122: permitida por SSH_ALLOW_CIDRS (10.0.0.112/28)
+
+==> 3. Seguro anti-lockout (rollback automático en 300s)
+    [OK] Rollback programado: ufw-rollback.timer (se ejecuta en 300s si no lo cancelas)
+
+==> 4. SSH endurecido
+    [OK] Escrito: /etc/ssh/sshd_config.d/01-fase3-hardening.conf
+    [OK] sshd -t: configuración válida
+    -- valores efectivos (sshd -T) ($ printf %s\n kbdinteractiveauthentication no
+passwordauthentication no
+permitrootlogin no
+x11forwarding no) --
+      kbdinteractiveauthentication no
+      passwordauthentication no
+      permitrootlogin no
+      x11forwarding no
+    [OK] passwordauthentication no
+    [OK] permitrootlogin no
+    [OK] x11forwarding no
+    -- ssh.service / ssh.socket ($ systemctl is-active ssh.service ssh.socket) --
+      active
+      active
+
+==> 5. Firewall (ufw) — rol: servidores
+    permitir tcp/22 desde 10.0.0.112/28  (SSH de administración (endpoint en la subred TI))
+    permitir tcp/389 desde 10.0.0.32/27  (LDAP (Sebastián))
+    permitir tcp/389 desde 10.0.0.112/28  (LDAP (Sebastián))
+    permitir tcp/80 desde 10.0.0.0/27  (Intranet (Isabella))
+    permitir tcp/80 desde 10.0.0.32/27  (Intranet (Isabella))
+    permitir tcp/80 desde 10.0.0.96/28  (Intranet (Isabella))
+    permitir tcp/80 desde 10.0.0.112/28  (Intranet (Isabella))
+    permitir udp/123 desde 10.0.0.0/27  (NTP interno (chrony))
+    permitir udp/123 desde 10.0.0.32/27  (NTP interno (chrony))
+    permitir udp/123 desde 10.0.0.96/28  (NTP interno (chrony))
+    permitir udp/123 desde 10.0.0.112/28  (NTP interno (chrony))
+    [OK] ufw activo
+    -- ufw status verbose ($ ufw status verbose) --
+      Status: active
+      Logging: on (low)
+      Default: deny (incoming), allow (outgoing), disabled (routed)
+      New profiles: skip
+      
+      To                         Action      From
+      --                         ------      ----
+      22/tcp                     ALLOW IN    10.0.0.112/28              # fase3: SSH de administración (endpoint en la subred TI)
+      389/tcp                    ALLOW IN    10.0.0.32/27               # fase3: LDAP (Sebastián)
+      389/tcp                    ALLOW IN    10.0.0.112/28              # fase3: LDAP (Sebastián)
+      80/tcp                     ALLOW IN    10.0.0.0/27                # fase3: Intranet (Isabella)
+      80/tcp                     ALLOW IN    10.0.0.32/27               # fase3: Intranet (Isabella)
+      80/tcp                     ALLOW IN    10.0.0.96/28               # fase3: Intranet (Isabella)
+      80/tcp                     ALLOW IN    10.0.0.112/28              # fase3: Intranet (Isabella)
+      123/udp                    ALLOW IN    10.0.0.0/27                # fase3: NTP interno (chrony)
+      123/udp                    ALLOW IN    10.0.0.32/27               # fase3: NTP interno (chrony)
+      123/udp                    ALLOW IN    10.0.0.96/28               # fase3: NTP interno (chrony)
+      123/udp                    ALLOW IN    10.0.0.112/28              # fase3: NTP interno (chrony)
+
+==> 6. Confirmación de acceso
+    [OK] Acceso confirmado: rollback cancelado
+    Acceso confirmado por ubuntu a las 05:13:22
+
+==> 7. Servicios en ejecución
+    Corriendo y en la lista para deshabilitar: ModemManager
+    [OK] Deshabilitado: ModemManager (revertir: systemctl enable --now ModemManager)
+    [OK] Todos los servicios en ejecución son esperables para el rol 'servidores'
+
+==> 8. Inventario DESPUÉS y justificación
+    -- diferencias en puertos en escucha (- antes / + después) ($ sh -c diff -u '/home/ubuntu/fase3/evidencias/hardening-antes-ip-10-0-0-46.txt' '/home/ubuntu/fase3/evidencias/hardening-despues-ip-10-0-0-46.txt' | tail -n +3 || true) --
+      
+    Puertos en escucha y por qué se conservan (el acceso real lo limita ufw + SG/NACL):
+      tcp *:80 intranet Apache (rol servidores)
+      tcp 0.0.0.0:22 SSH: administración por el endpoint (solo desde 10.0.0.112/28)
+      tcp 0.0.0.0:389 LDAP (rol servidores)
+      tcp 127.0.0.53%lo:53 systemd-resolved: resolvedor local (127.0.0.53/54), no expuesto [solo local]
+      tcp 127.0.0.54:53 systemd-resolved: resolvedor local (127.0.0.53/54), no expuesto [solo local]
+      tcp [::]:22 SSH: administración por el endpoint (solo desde 10.0.0.112/28)
+      tcp [::]:389 LDAP (rol servidores)
+      udp 0.0.0.0:123 chrony: servidor NTP interno (rol servidores)
+      udp 10.0.0.46%ens5:68 cliente DHCP de AWS (systemd-networkd)
+      udp 127.0.0.1:323 chronyc: control local de chrony (solo 127.0.0.1/::1) [solo local]
+      udp 127.0.0.53%lo:53 systemd-resolved: resolvedor local (127.0.0.53/54), no expuesto [solo local]
+      udp 127.0.0.54:53 systemd-resolved: resolvedor local (127.0.0.53/54), no expuesto [solo local]
+      udp [::1]:323 chronyc: control local de chrony (solo 127.0.0.1/::1) [solo local]
+
+==> 9. Servicios del rol siguen respondiendo
+    [OK] chrony activo
+    [OK] slapd activo
+    [OK] apache2 activo
+    [OK] escuchando en TCP 389
+    [OK] escuchando en TCP 80
+    [OK] escuchando en UDP 123 (NTP)
+    Inventarios: /home/ubuntu/fase3/evidencias/hardening-antes-ip-10-0-0-46.txt y hardening-despues-ip-10-0-0-46.txt
+RESULTADO: OK — hardening 'servidores' en ip-10-0-0-46

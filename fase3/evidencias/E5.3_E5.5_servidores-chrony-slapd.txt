@@ -1,0 +1,165 @@
+﻿######## chrony-servidor.sh
+
+==> 1. Inspección previa (no cambia nada)
+    [OK] chrony instalado: chronyd (chrony) version 4.5 (+CMDMON +NTP +REFCLOCK +RTC +PRIVDROP +SCFILTER +SIGND +ASYNCDNS +NTS +SECHASH +IPV6 -DEBUG)
+    -- chronyc -n sources -v --
+      
+        .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+       / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+      | /             'x' = may be in error, '~' = too variable, '?' = unusable.
+      ||                                                 .- xxxx [ yyyy ] +/- zzzz
+      ||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+      ||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+      ||                                \     |          |  zzzz = estimated error.
+      ||                                 |    |           \
+      MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+      ===============================================================================
+      ^* 169.254.169.123               3   4   377    15  -6248ns[  -23us] +/-  484us
+      ^? 91.189.91.157                 0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.56                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.58                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.57                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 172.233.189.68                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 23.186.168.131                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 158.51.99.19                  0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 107.174.212.113               0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 38.80.8.230                   0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 5.161.111.190                 0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 139.177.202.26                0  10     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 198.137.202.56                0  10     0     -     +0ns[   +0ns] +/-    0ns
+    -- chronyc tracking --
+      Reference ID    : A9FEA97B (169.254.169.123)
+      Stratum         : 4
+      Ref time (UTC)  : Thu Oct 29 05:06:19 2026
+      System time     : 0.000000021 seconds fast of NTP time
+      Last offset     : -0.000016804 seconds
+      RMS offset      : 0.000009767 seconds
+      Frequency       : 4.708 ppm slow
+      Residual freq   : -0.024 ppm
+      Skew            : 0.191 ppm
+      Root delay      : 0.000379840 seconds
+      Root dispersion : 0.000318673 seconds
+      Update interval : 16.1 seconds
+      Leap status     : Normal
+    -- timedatectl (NTPSynchronized) --
+      NTP=yes
+      NTPSynchronized=yes
+    -- líneas activas de /etc/chrony/chrony.conf --
+      confdir /etc/chrony/conf.d
+      pool ntp.ubuntu.com        iburst maxsources 4
+      pool 0.ubuntu.pool.ntp.org iburst maxsources 1
+      pool 1.ubuntu.pool.ntp.org iburst maxsources 1
+      pool 2.ubuntu.pool.ntp.org iburst maxsources 2
+      sourcedir /run/chrony-dhcp
+      sourcedir /etc/chrony/sources.d
+      keyfile /etc/chrony/chrony.keys
+      driftfile /var/lib/chrony/chrony.drift
+      ntsdumpdir /var/lib/chrony
+      logdir /var/log/chrony
+      maxupdateskew 100.0
+      rtcsync
+      makestep 1 3
+      leapsectz right/UTC
+    -- /etc/chrony/conf.d y sources.d --
+      /etc/chrony/conf.d:
+      total 8
+      -rw-r--r-- 1 root root 135 Jun 10 10:16 00-cpc.conf
+      -rw-r--r-- 1 root root 422 Nov 14  2023 README
+      
+      /etc/chrony/sources.d:
+      total 4
+      -rw-r--r-- 1 root root 498 Nov 14  2023 README
+      /etc/chrony/conf.d/00-cpc.conf:server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
+      /etc/chrony/conf.d/README:Files found under the /etc/chrony/conf.d directory with the .conf suffix are
+      /etc/chrony/conf.d/README:parsed in the lexicographical order of the file names when chronyd starts up.
+      /etc/chrony/conf.d/README:This enables a fragmented configuration of chronyd.
+      /etc/chrony/conf.d/README:Although those files can contain any directives listed in chrony.conf(5),
+      /etc/chrony/conf.d/README:it would be wiser to add NTP sources in the /etc/chrony/sources.d
+      /etc/chrony/conf.d/README:directory. Please read /etc/chrony/sources.d/README for more information.
+      /etc/chrony/sources.d/README:Only NTP sources can be specified in the /etc/chrony/sources.d directory.
+      /etc/chrony/sources.d/README:Files in this directory must end with the ".sources" suffix. They can only
+      /etc/chrony/sources.d/README:contain the "peer", "pool" and "server" directives and must have all
+      /etc/chrony/sources.d/README:lines terminated by a trailing newline.
+      /etc/chrony/sources.d/README:There is no need to restart chronyd for these time sources to be usable,
+      /etc/chrony/sources.d/README:running 'chronyc reload sources' is sufficient.
+      /etc/chrony/sources.d/README:Example:
+
+==> 2. chrony instalado
+    [OK] Paquetes ya instalados: chrony
+
+==> 3. Configuración del servidor NTP interno
+    [OK] Escrito: /etc/chrony/conf.d/fase3-servidor.conf
+    El upstream 169.254.169.123 ya estaba en: /etc/chrony/conf.d/00-cpc.conf (no se duplica)
+    [OK] Configuración válida (chronyd -p)
+
+==> 4. Reinicio y verificación
+    Esperando a que chrony seleccione 169.254.169.123 (máx. 90 s)...
+    [OK] Sincronizado con 169.254.169.123 (marca ^*)
+    -- chronyc -n sources -v --
+      
+        .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+       / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+      | /             'x' = may be in error, '~' = too variable, '?' = unusable.
+      ||                                                 .- xxxx [ yyyy ] +/- zzzz
+      ||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+      ||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+      ||                                \     |          |  zzzz = estimated error.
+      ||                                 |    |           \
+      MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+      ===============================================================================
+      ^* 169.254.169.123               3   4     7     1    -12us[  -33us] +/-  376us
+      ^? 185.125.190.57                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 91.189.91.157                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.58                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 185.125.190.56                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 162.159.200.1                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 172.104.28.175                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 97.107.136.23                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 158.51.99.19                  0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 216.82.35.115                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 142.248.192.33                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 198.23.133.146                0   6     0     -     +0ns[   +0ns] +/-    0ns
+      ^? 23.150.41.122                 0   6     0     -     +0ns[   +0ns] +/-    0ns
+    -- chronyc tracking --
+      Reference ID    : A9FEA97B (169.254.169.123)
+      Stratum         : 4
+      Ref time (UTC)  : Thu Oct 29 05:06:43 2026
+      System time     : 0.000013735 seconds slow of NTP time
+      Last offset     : -0.000021074 seconds
+      RMS offset      : 0.000021074 seconds
+      Frequency       : 4.737 ppm slow
+      Residual freq   : +1.042 ppm
+      Skew            : 0.127 ppm
+      Root delay      : 0.000408179 seconds
+      Root dispersion : 0.000187288 seconds
+      Update interval : 0.0 seconds
+      Leap status     : Normal
+    -- timedatectl (NTPSynchronized) --
+      NTP=yes
+      NTPSynchronized=yes
+    -- ss -ulnp (UDP 123) --
+      State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess
+      UNCONN 0      0            0.0.0.0:123       0.0.0.0:*    users:(("chronyd",pid=11591,fd=7))
+    [OK] chronyd escucha en UDP 123 (sirve hora a: 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28)
+    [OK] Leap status: Normal
+
+==> Pendiente fuera de este script
+    SG-Servidores: entrada UDP 123 desde 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 (Anthony).
+    Luego, en cada cliente: sudo bash chrony-cliente.sh
+
+RESULTADO: OK — servidor NTP en ip-10-0-0-46
+Evidencia: /home/ubuntu/fase3/evidencias/evidencias-ip-10-0-0-46-2026-10-29.txt
+
+######## slapd: escuchar en todas las interfaces (Anthony Paso 2b)
+Antes: SLAPD_SERVICES="ldap://127.0.0.1:389/ ldapi:///"
+Despu?s: SLAPD_SERVICES="ldap:/// ldapi:///"
+active
+LISTEN 0      2048   0.0.0.0:389 0.0.0.0:*
+LISTEN 0      2048      [::]:389    [::]:*
+Consulta an?nima local (namingContexts):
+dn:
+namingContexts: dc=hospital,dc=redes,dc=test
+
+Apache (portal / intranet sin credenciales):
+200
+401

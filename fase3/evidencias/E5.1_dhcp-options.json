@@ -1,0 +1,29 @@
+﻿{
+    "DhcpOptions": [
+        {
+            "OwnerId": "<ACCOUNT_ID>",
+            "Tags": [],
+            "DhcpOptionsId": "dopt-0d28300b9723e6567",
+            "DhcpConfigurations": [
+                {
+                    "Key": "domain-name",
+                    "Values": [
+                        {
+                            "Value": "ec2.internal"
+                        }
+                    ]
+                },
+                {
+                    "Key": "domain-name-servers",
+                    "Values": [
+                        {
+                            "Value": "AmazonProvidedDNS"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+

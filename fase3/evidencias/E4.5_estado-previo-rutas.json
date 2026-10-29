@@ -1,0 +1,132 @@
+﻿{
+    "RouteTables": [
+        {
+            "Associations": [
+                {
+                    "Main": true,
+                    "RouteTableAssociationId": "rtbassoc-0adad6ea009f154d5",
+                    "RouteTableId": "rtb-00d7239d255912cda",
+                    "AssociationState": {
+                        "State": "associated"
+                    }
+                }
+            ],
+            "PropagatingVgws": [],
+            "RouteTableId": "rtb-00d7239d255912cda",
+            "Routes": [
+                {
+                    "DestinationCidrBlock": "10.0.0.0/24",
+                    "GatewayId": "local",
+                    "Origin": "CreateRouteTable",
+                    "State": "active"
+                }
+            ],
+            "Tags": [],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "OwnerId": "<ACCOUNT_ID>"
+        },
+        {
+            "Associations": [
+                {
+                    "Main": false,
+                    "RouteTableAssociationId": "rtbassoc-0c88c89b70bca8ae6",
+                    "RouteTableId": "rtb-01c06bde09cab6c86",
+                    "SubnetId": "subnet-0559b8f5c19df780a",
+                    "AssociationState": {
+                        "State": "associated"
+                    }
+                },
+                {
+                    "Main": false,
+                    "RouteTableAssociationId": "rtbassoc-0495d88b5b279946b",
+                    "RouteTableId": "rtb-01c06bde09cab6c86",
+                    "SubnetId": "subnet-013f7192c8daa2c43",
+                    "AssociationState": {
+                        "State": "associated"
+                    }
+                },
+                {
+                    "Main": false,
+                    "RouteTableAssociationId": "rtbassoc-0e9550a471512de28",
+                    "RouteTableId": "rtb-01c06bde09cab6c86",
+                    "SubnetId": "subnet-0a002a8020ab06113",
+                    "AssociationState": {
+                        "State": "associated"
+                    }
+                },
+                {
+                    "Main": false,
+                    "RouteTableAssociationId": "rtbassoc-01f187c6419b4fd3c",
+                    "RouteTableId": "rtb-01c06bde09cab6c86",
+                    "SubnetId": "subnet-01674fd912d6a740d",
+                    "AssociationState": {
+                        "State": "associated"
+                    }
+                }
+            ],
+            "PropagatingVgws": [],
+            "RouteTableId": "rtb-01c06bde09cab6c86",
+            "Routes": [
+                {
+                    "DestinationCidrBlock": "10.0.0.0/24",
+                    "GatewayId": "local",
+                    "Origin": "CreateRouteTable",
+                    "State": "active"
+                },
+                {
+                    "DestinationCidrBlock": "0.0.0.0/0",
+                    "NatGatewayId": "nat-055f042fc98d5b9cd",
+                    "Origin": "CreateRoute",
+                    "State": "active"
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Hospital-RT-Privada"
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "OwnerId": "<ACCOUNT_ID>"
+        },
+        {
+            "Associations": [
+                {
+                    "Main": false,
+                    "RouteTableAssociationId": "rtbassoc-0b9ce139fc6381ca6",
+                    "RouteTableId": "rtb-0961150b502395793",
+                    "SubnetId": "subnet-0633a93ad8cebdf05",
+                    "AssociationState": {
+                        "State": "associated"
+                    }
+                }
+            ],
+            "PropagatingVgws": [],
+            "RouteTableId": "rtb-0961150b502395793",
+            "Routes": [
+                {
+                    "DestinationCidrBlock": "10.0.0.0/24",
+                    "GatewayId": "local",
+                    "Origin": "CreateRouteTable",
+                    "State": "active"
+                },
+                {
+                    "DestinationCidrBlock": "0.0.0.0/0",
+                    "GatewayId": "igw-065003ae6b5cd9f6f",
+                    "Origin": "CreateRoute",
+                    "State": "active"
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Hospital-RT-Publica"
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "OwnerId": "<ACCOUNT_ID>"
+        }
+    ]
+}
+
+

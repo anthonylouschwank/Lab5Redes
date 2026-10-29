@@ -1,0 +1,8 @@
+﻿fecha,origen,destino,protocolo_puerto,esperado,obtenido,resultado
+2026-10-28 23:20:04,laptop (Internet),EIP del NAT Gateway (oculta),TCP/22,bloqueado,TcpTestSucceeded=False,PASS
+2026-10-28 23:20:35,laptop (Internet),EIP del NAT Gateway (oculta),TCP/80,bloqueado,TcpTestSucceeded=False,PASS
+2026-10-28 23:21:10,laptop (Internet),EIP del NAT Gateway (oculta),TCP/443,bloqueado,TcpTestSucceeded=False,PASS
+2026-10-28 23:21:45,laptop (Internet),EIP del NAT Gateway (oculta),TCP/389,bloqueado,TcpTestSucceeded=False,PASS
+
+IP publica de las instancias (EXT-02):
+Hospital-EC2-TI	None Hospital-EC2-Servidores	None Hospital-EC2-Visitantes-Prueba	None Hospital-EC2-Medicos-Prueba	None

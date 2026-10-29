@@ -1,0 +1,104 @@
+﻿{
+    "NetworkAcls": [
+        {
+            "Associations": [
+                {
+                    "NetworkAclAssociationId": "aclassoc-0eb4eaa4be76b5029",
+                    "NetworkAclId": "acl-0a0c9f31d75aada0c",
+                    "SubnetId": "subnet-0a002a8020ab06113"
+                }
+            ],
+            "Entries": [
+                {
+                    "CidrBlock": "10.0.0.112/28",
+                    "Egress": true,
+                    "PortRange": {
+                        "From": 1024,
+                        "To": 65535
+                    },
+                    "Protocol": "6",
+                    "RuleAction": "allow",
+                    "RuleNumber": 90
+                },
+                {
+                    "CidrBlock": "10.0.0.0/24",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 100
+                },
+                {
+                    "CidrBlock": "10.8.0.0/24",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 110
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "allow",
+                    "RuleNumber": 120
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 32767
+                },
+                {
+                    "CidrBlock": "10.0.0.112/28",
+                    "Egress": false,
+                    "PortRange": {
+                        "From": 22,
+                        "To": 22
+                    },
+                    "Protocol": "6",
+                    "RuleAction": "allow",
+                    "RuleNumber": 90
+                },
+                {
+                    "CidrBlock": "10.0.0.0/24",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 100
+                },
+                {
+                    "CidrBlock": "10.8.0.0/24",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 110
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "allow",
+                    "RuleNumber": 120
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 32767
+                }
+            ],
+            "IsDefault": false,
+            "NetworkAclId": "acl-0a0c9f31d75aada0c",
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Hospital-NACL-Visitantes"
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "OwnerId": "<ACCOUNT_ID>"
+        }
+    ]
+}
+

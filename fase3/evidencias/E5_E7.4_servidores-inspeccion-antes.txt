@@ -1,0 +1,145 @@
+﻿== fecha
+2026-10-29T05:05:22+00:00
+== puertos en escucha
+udp 127.0.0.54:53 users:(("systemd-resolve",pid=323,fd=16))
+udp 127.0.0.53%lo:53 users:(("systemd-resolve",pid=323,fd=14))
+udp 10.0.0.46%ens5:68 users:(("systemd-network",pid=465,fd=11))
+udp 127.0.0.1:323 users:(("chronyd",pid=651,fd=5))
+udp [::1]:323 users:(("chronyd",pid=651,fd=6))
+tcp 127.0.0.54:53 users:(("systemd-resolve",pid=323,fd=17))
+tcp 0.0.0.0:22 users:(("sshd",pid=879,fd=3),("systemd",pid=1,fd=129))
+tcp 127.0.0.53%lo:53 users:(("systemd-resolve",pid=323,fd=15))
+tcp 127.0.0.1:389 users:(("slapd",pid=2967,fd=8))
+tcp *:80 users:(("apache2",pid=8273,fd=4),("apache2",pid=8272,fd=4),("apache2",pid=7006,fd=4))
+tcp [::]:22 users:(("sshd",pid=879,fd=4),("systemd",pid=1,fd=130))
+== ufw
+Status: inactive
+== sshd efectivo
+permitrootlogin without-password
+passwordauthentication no
+kbdinteractiveauthentication no
+x11forwarding yes
+== slapd services
+24:SLAPD_SERVICES="ldap://127.0.0.1:389/ ldapi:///"
+== vhost Require
+7:#   3. Apache (este archivo): "Require ip" con la misma lista + login LDAP por grupo.
+17:    DirectoryIndex index.html index.shtml
+20:    <Directory /var/www/hospital-intranet>
+23:        Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 127.0.0.1 ::1
+24:    </Directory>
+30:    <Directory /var/www/hospital-intranet/intranet>
+35:        AuthLDAPURL "ldap://127.0.0.1/ou=People,dc=hospital,dc=redes,dc=test?uid,cn,mail,title?one?(objectClass=inetOrgPerson)"
+40:        <RequireAll>
+41:            Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 127.0.0.1 ::1
+42:            <RequireAny>
+43:                Require ldap-group cn=medicos,ou=Groups,dc=hospital,dc=redes,dc=test
+44:                Require ldap-group cn=ti,ou=Groups,dc=hospital,dc=redes,dc=test
+45:                Require ldap-group cn=laboratorio,ou=Groups,dc=hospital,dc=redes,dc=test
+46:            </RequireAny>
+47:        </RequireAll>
+48:    </Directory>
+51:    <Directory /var/www/hospital-intranet/intranet/ti>
+52:        AuthLDAPURL "ldap://127.0.0.1/ou=People,dc=hospital,dc=redes,dc=test?uid,cn,mail,title?one?(objectClass=inetOrgPerson)"
+57:        <RequireAll>
+58:            Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 127.0.0.1 ::1
+59:            Require ldap-group cn=ti,ou=Groups,dc=hospital,dc=redes,dc=test
+60:        </RequireAll>
+61:    </Directory>
+== chrony
+Reference ID    : A9FEA97B (169.254.169.123)
+Stratum         : 4
+Ref time (UTC)  : Thu Oct 29 05:05:15 2026
+System time     : 0.000004598 seconds slow of NTP time
+Last offset     : -0.000004275 seconds
+RMS offset      : 0.000009251 seconds
+Frequency       : 4.537 ppm slow
+Residual freq   : -0.005 ppm
+Skew            : 0.183 ppm
+Root delay      : 0.000395103 seconds
+Root dispersion : 0.000308506 seconds
+Update interval : 16.3 seconds
+Leap status     : Normal
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+^* 169.254.169.123               3   4   377     7    -11us[  -16us] +/-  491us
+^? 91.189.91.157                 0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 185.125.190.56                0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 185.125.190.58                0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 185.125.190.57                0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 172.233.189.68                0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 23.186.168.131                0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 158.51.99.19                  0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 107.174.212.113               0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 38.80.8.230                   0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 5.161.111.190                 0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 139.177.202.26                0  10     0     -     +0ns[   +0ns] +/-    0ns
+^? 198.137.202.56                0  10     0     -     +0ns[   +0ns] +/-    0ns
+/etc/chrony/chrony.conf:5:confdir /etc/chrony/conf.d
+/etc/chrony/chrony.conf:20:pool ntp.ubuntu.com        iburst maxsources 4
+/etc/chrony/chrony.conf:21:pool 0.ubuntu.pool.ntp.org iburst maxsources 1
+/etc/chrony/chrony.conf:22:pool 1.ubuntu.pool.ntp.org iburst maxsources 1
+/etc/chrony/chrony.conf:23:pool 2.ubuntu.pool.ntp.org iburst maxsources 2
+/etc/chrony/chrony.conf:26:sourcedir /run/chrony-dhcp
+/etc/chrony/chrony.conf:29:sourcedir /etc/chrony/sources.d
+/etc/chrony/conf.d/00-cpc.conf:2:server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
+== DHCP lease
+ADDRESS=10.0.0.46
+NETMASK=255.255.255.224
+ROUTER=10.0.0.33
+SERVER_ADDRESS=10.0.0.33
+LIFETIME=1h
+DNS=10.0.0.2
+DOMAINNAME=ec2.internal
+default via 10.0.0.33 dev ens5 proto dhcp src 10.0.0.46 metric 100 
+10.0.0.2 via 10.0.0.33 dev ens5 proto dhcp src 10.0.0.46 metric 100 
+10.0.0.32/27 dev ens5 proto kernel scope link src 10.0.0.46 metric 100 
+10.0.0.33 dev ens5 proto dhcp scope link src 10.0.0.46 metric 100 
+Link 2 (ens5)
+    Current Scopes: DNS
+         Protocols: +DefaultRoute -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+Current DNS Server: 10.0.0.2
+       DNS Servers: 10.0.0.2
+        DNS Domain: ec2.internal
+== fase3 dir
+/home/ubuntu/fase3:
+total 24
+drwxrwxr-x 6 ubuntu ubuntu 4096 Oct 29 02:28 .
+drwxr-x--- 6 ubuntu ubuntu 4096 Oct 28 21:50 ..
+drwx------ 2 ubuntu ubuntu 4096 Oct 29 02:16 backups
+drwx------ 5 ubuntu ubuntu 4096 Oct 29 02:52 isabella
+drwxrwxr-x 2 ubuntu ubuntu 4096 Oct 28 21:50 ldap
+drwx------ 2 ubuntu ubuntu 4096 Oct 29 02:23 sebastian
+
+/home/ubuntu/fase3/isabella/evidencias:
+total 16
+drwx------ 2 ubuntu ubuntu 4096 Oct 29 03:04 .
+drwx------ 5 ubuntu ubuntu 4096 Oct 29 02:52 ..
+-rw-rw-r-- 1 ubuntu ubuntu  797 Oct 29 03:04 E6.2_Pruebas-Web-LDAP-AWS.txt
+-rw-rw-rw- 1 ubuntu ubuntu  979 Oct 28 23:52 E6_probar-web_vm-local.txt
+== servicios corriendo
+acpid.service
+apache-htcacheclean.service
+apache2.service
+chrony.service
+cron.service
+dbus.service
+getty@tty1.service
+irqbalance.service
+ModemManager.service
+multipathd.service
+networkd-dispatcher.service
+polkit.service
+rsyslog.service
+serial-getty@ttyS0.service
+slapd.service
+snap.amazon-ssm-agent.amazon-ssm-agent.service
+snapd.service
+ssh.service
+systemd-journald.service
+systemd-logind.service
+systemd-networkd.service
+systemd-resolved.service
+systemd-udevd.service
+udisks2.service
+unattended-upgrades.service
+user@1000.service

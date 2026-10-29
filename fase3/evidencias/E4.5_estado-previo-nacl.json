@@ -1,0 +1,142 @@
+﻿{
+    "NetworkAcls": [
+        {
+            "Associations": [
+                {
+                    "NetworkAclAssociationId": "aclassoc-00f646944f50b0dbd",
+                    "NetworkAclId": "acl-0b7960ab2db5f98fa",
+                    "SubnetId": "subnet-0559b8f5c19df780a"
+                },
+                {
+                    "NetworkAclAssociationId": "aclassoc-0b9a4d7243d1ac71d",
+                    "NetworkAclId": "acl-0b7960ab2db5f98fa",
+                    "SubnetId": "subnet-013f7192c8daa2c43"
+                },
+                {
+                    "NetworkAclAssociationId": "aclassoc-00c5aed65ab5c120a",
+                    "NetworkAclId": "acl-0b7960ab2db5f98fa",
+                    "SubnetId": "subnet-0633a93ad8cebdf05"
+                },
+                {
+                    "NetworkAclAssociationId": "aclassoc-046daff5d73e6069f",
+                    "NetworkAclId": "acl-0b7960ab2db5f98fa",
+                    "SubnetId": "subnet-01674fd912d6a740d"
+                }
+            ],
+            "Entries": [
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "allow",
+                    "RuleNumber": 100
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 32767
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "allow",
+                    "RuleNumber": 100
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 32767
+                }
+            ],
+            "IsDefault": true,
+            "NetworkAclId": "acl-0b7960ab2db5f98fa",
+            "Tags": [],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "OwnerId": "<ACCOUNT_ID>"
+        },
+        {
+            "Associations": [
+                {
+                    "NetworkAclAssociationId": "aclassoc-0eb4eaa4be76b5029",
+                    "NetworkAclId": "acl-0a0c9f31d75aada0c",
+                    "SubnetId": "subnet-0a002a8020ab06113"
+                }
+            ],
+            "Entries": [
+                {
+                    "CidrBlock": "10.0.0.0/24",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 100
+                },
+                {
+                    "CidrBlock": "10.8.0.0/24",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 110
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "allow",
+                    "RuleNumber": 120
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": true,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 32767
+                },
+                {
+                    "CidrBlock": "10.0.0.0/24",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 100
+                },
+                {
+                    "CidrBlock": "10.8.0.0/24",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 110
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "allow",
+                    "RuleNumber": 120
+                },
+                {
+                    "CidrBlock": "0.0.0.0/0",
+                    "Egress": false,
+                    "Protocol": "-1",
+                    "RuleAction": "deny",
+                    "RuleNumber": 32767
+                }
+            ],
+            "IsDefault": false,
+            "NetworkAclId": "acl-0a0c9f31d75aada0c",
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Hospital-NACL-Visitantes"
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "OwnerId": "<ACCOUNT_ID>"
+        }
+    ]
+}
+
+

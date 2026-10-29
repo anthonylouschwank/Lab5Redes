@@ -1,0 +1,16 @@
+﻿[
+ {"IpProtocol":"tcp","FromPort":80,"ToPort":80,"IpRanges":[
+   {"CidrIp":"10.0.0.0/27","Description":"Intranet desde Medicos"},
+   {"CidrIp":"10.0.0.32/27","Description":"Intranet desde Servidores"},
+   {"CidrIp":"10.0.0.96/28","Description":"Intranet desde DMZ"},
+   {"CidrIp":"10.0.0.112/28","Description":"Intranet desde TI"}]},
+ {"IpProtocol":"tcp","FromPort":389,"ToPort":389,"IpRanges":[
+   {"CidrIp":"10.0.0.32/27","Description":"LDAP desde Servidores"},
+   {"CidrIp":"10.0.0.112/28","Description":"LDAP desde TI"}]},
+ {"IpProtocol":"udp","FromPort":123,"ToPort":123,"IpRanges":[
+   {"CidrIp":"10.0.0.0/27","Description":"NTP Medicos"},
+   {"CidrIp":"10.0.0.32/27","Description":"NTP Servidores"},
+   {"CidrIp":"10.0.0.96/28","Description":"NTP DMZ"},
+   {"CidrIp":"10.0.0.112/28","Description":"NTP TI"}]}
+]
+

@@ -1,0 +1,13 @@
+tcp *:80 apache2
+tcp 0.0.0.0:22 sshd
+tcp 0.0.0.0:389 slapd
+tcp 127.0.0.53%lo:53 systemd-resolve
+tcp 127.0.0.54:53 systemd-resolve
+tcp [::]:22 sshd
+tcp [::]:389 slapd
+udp 0.0.0.0:123 chronyd
+udp 10.0.0.46%ens5:68 systemd-network
+udp 127.0.0.1:323 chronyd
+udp 127.0.0.53%lo:53 systemd-resolve
+udp 127.0.0.54:53 systemd-resolve
+udp [::1]:323 chronyd

@@ -1,0 +1,11 @@
+fecha,origen,destino,protocolo_puerto,esperado,obtenido,resultado
+2026-10-29 05:17:41,ti,servidores (10.0.0.46),TCP/22,permitido,conectado,PASS
+2026-10-29 05:17:41,ti,servidores (10.0.0.46),HTTP/80,permitido,HTTP 200,PASS
+2026-10-29 05:17:41,ti,servidores (10.0.0.46),LDAP TCP/389,permitido,(solo TCP: falta ldap-utils) conectado,PASS
+2026-10-29 05:17:41,ti,servidores (10.0.0.46),NTP UDP/123,permitido,fuente ^* seleccionada (reach 6),PASS
+2026-10-29 05:17:42,ti,servidores (10.0.0.46),ICMP,permitido,responde al ping,PASS
+2026-10-29 05:17:42,ti,medicos (10.0.0.28),TCP/22,permitido,conectado,PASS
+2026-10-29 05:17:42,ti,visitantes (10.0.0.69),TCP/22,permitido,conectado,PASS
+2026-10-29 05:17:42,ti,internet (example.com),HTTPS/443,permitido,HTTP 200,PASS
+2026-10-29 05:17:42,ti,servidores (10.0.0.46) /intranet/,HTTP/80,HTTP 401,HTTP 401,PASS
+2026-10-29 05:17:42,ti,medicos (10.0.0.28),TCP/22,permitido,conectado,PASS

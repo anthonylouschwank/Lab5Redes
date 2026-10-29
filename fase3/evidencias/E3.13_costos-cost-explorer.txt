@@ -1,0 +1,29 @@
+E3.13 / E3.14 — Costos AWS (Cost Explorer, cuenta del proyecto, us-east-1)
+Consulta: 2026-10-29 ~05:25 UTC por fase3-admin (aws ce get-cost-and-usage, 2026-10-01 a 2026-10-29, UnblendedCost).
+Nota: Cost Explorer tiene un retraso de hasta 24 h; el NAT Gateway (creado el 28/10 20:59 UTC) y las EC2
+lanzadas el 29/10 pueden no estar reflejados por completo.
+
+Por tipo de registro (mes en curso):
+  Usage    US$ 7.7481528772
+  Credit   US$ -7.7481528788
+  Tax      US$ 0
+  Neto     ≈ US$ 0.00 (créditos promocionales cubren el uso)
+
+Uso por servicio (RECORD_TYPE = Usage):
+  Amazon Elastic Compute Cloud - Compute   US$ 6.6384
+  EC2 - Other (EBS, NAT Gateway, etc.)     US$ 1.0142
+  Amazon Virtual Private Cloud (IPv4 pública / EIP)  US$ 0.0954
+  Amazon Simple Storage Service            US$ 0.0001
+  AWS Secrets Manager                      US$ 0.0000
+  AWS Glue / KMS / SNS / SQS               US$ 0
+
+Tarifas de lista us-east-1 vigentes para los recursos de Fase 3:
+  EC2 t3.micro (Linux, on-demand)  US$ 0.0104/h  × 4 instancias en la demo ≈ US$ 0.042/h
+  NAT Gateway                      US$ 0.045/h + US$ 0.045/GB procesado (≈ US$ 32.85/mes si queda 24/7)
+  IPv4 pública (EIP del NAT)       US$ 0.005/h (≈ US$ 3.65/mes)
+  EBS gp3                          US$ 0.08/GB-mes × 5 volúmenes de 8 GiB (incluye SRV1 detenida) ≈ US$ 3.20/mes
+  EC2 Instance Connect Endpoint    sin costo
+  Amazon Time Sync, DHCP Options, Security Groups, NACL  sin costo
+
+El NAT Gateway y su EIP se cobran aunque todas las EC2 estén detenidas (ver REGLAS-E4.4, Paso 9).
+Captura pendiente para el informe: Billing and Cost Management → Bills (cuenta oculta).

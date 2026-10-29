@@ -1,0 +1,51 @@
+﻿[
+    {
+        "Id": "i-0bfd1235ccdec6e96",
+        "Name": "Hospital-EC2-TI",
+        "State": "running",
+        "Type": "t3.micro",
+        "PrivateIp": "10.0.0.117",
+        "PublicIp": null,
+        "Subnet": "subnet-0559b8f5c19df780a",
+        "SGs": [
+            "Hospital-SG-TI"
+        ]
+    },
+    {
+        "Id": "i-095520a21f761f97d",
+        "Name": "Hospital-EC2-Servidores",
+        "State": "running",
+        "Type": "t3.micro",
+        "PrivateIp": "10.0.0.46",
+        "PublicIp": null,
+        "Subnet": "subnet-01674fd912d6a740d",
+        "SGs": [
+            "Hospital-SG-Servidores"
+        ]
+    },
+    {
+        "Id": "i-0c8ad80ff90f5bdbd",
+        "Name": "Hospital-EC2-Visitantes-Prueba",
+        "State": "running",
+        "Type": "t3.micro",
+        "PrivateIp": "10.0.0.69",
+        "PublicIp": null,
+        "Subnet": "subnet-0a002a8020ab06113",
+        "SGs": [
+            "Hospital-SG-Visitantes"
+        ]
+    },
+    {
+        "Id": "i-080244876b92e25c6",
+        "Name": "Hospital-EC2-Medicos-Prueba",
+        "State": "running",
+        "Type": "t3.micro",
+        "PrivateIp": "10.0.0.28",
+        "PublicIp": null,
+        "Subnet": "subnet-013f7192c8daa2c43",
+        "SGs": [
+            "Hospital-SG-Medicos"
+        ]
+    }
+]
+

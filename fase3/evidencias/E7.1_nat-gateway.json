@@ -1,0 +1,34 @@
+﻿{
+    "NatGateways": [
+        {
+            "CreateTime": "2026-10-28T20:59:34+00:00",
+            "NatGatewayAddresses": [
+                {
+                    "AllocationId": "eipalloc-00cca94f5a778d933",
+                    "NetworkInterfaceId": "eni-0a3dd75a6c8daff2b",
+                    "PrivateIp": "10.0.0.101",
+                    "PublicIp": "<EIP-OCULTA>",
+                    "AssociationId": "eipassoc-016b488c1e6e78bdb",
+                    "IsPrimary": true,
+                    "Status": "succeeded"
+                }
+            ],
+            "NatGatewayId": "nat-055f042fc98d5b9cd",
+            "State": "available",
+            "SubnetId": "subnet-0633a93ad8cebdf05",
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Hospital-NAT"
+                }
+            ],
+            "ConnectivityType": "public",
+            "AvailabilityMode": "zonal",
+            "AttachedAppliances": []
+        }
+    ]
+}
+
+
+

@@ -1,0 +1,11 @@
+fecha,origen,destino,protocolo_puerto,esperado,obtenido,resultado
+2026-10-29 05:18:03,medicos,ti (10.0.0.117),TCP/22,bloqueado,timeout 5s (sin respuesta: probable SG/NACL/firewall),PASS
+2026-10-29 05:18:06,medicos,ti (10.0.0.117),ICMP,bloqueado,sin respuesta al ping (2 intentos),PASS
+2026-10-29 05:18:06,medicos,servidores (10.0.0.46),HTTP/80,permitido,HTTP 200,PASS
+2026-10-29 05:18:12,medicos,servidores (10.0.0.46),LDAP TCP/389,bloqueado,(solo TCP: falta ldap-utils) timeout 5s (sin respuesta: probable SG/NACL/firewall),PASS
+2026-10-29 05:18:12,medicos,servidores (10.0.0.46),NTP UDP/123,permitido,fuente ^* seleccionada (reach 6),PASS
+2026-10-29 05:18:17,medicos,servidores (10.0.0.46),TCP/22,bloqueado,timeout 5s,PASS
+2026-10-29 05:18:22,medicos,visitantes (10.0.0.69),TCP/22,bloqueado,timeout 5s,PASS
+2026-10-29 05:18:22,medicos,servidores (10.0.0.46) /intranet/,HTTP/80,HTTP 401,HTTP 401,PASS
+2026-10-29 05:18:22,medicos,servidores (10.0.0.46) /intranet/ti/,HTTP/80,HTTP 401,HTTP 401,PASS
+2026-10-29 05:18:22,medicos,internet (example.com),HTTPS/443,permitido,HTTP 200,PASS

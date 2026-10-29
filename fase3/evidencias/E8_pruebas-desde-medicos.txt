@@ -1,0 +1,21 @@
+﻿Pruebas de la Fase 3 desde medicos  (ip-10-0-0-28, variables: /home/ubuntu/fase3/leonardo/fase3.env)
+
+ID      DESTINO                  PROTOCOLO      ESPERADO   RESULT OBTENIDO
+MED-01  ti (10.0.0.117)          TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+MED-02  ti (10.0.0.117)          ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+MED-03  servidores (10.0.0.46)   HTTP/80        permitido  PASS   HTTP 200
+MED-04  servidores (10.0.0.46)   LDAP TCP/389   bloqueado  PASS   (solo TCP: falta ldap-utils) timeout 5s (sin respuesta: probable SG/NACL/firewall)
+MED-05  servidores (10.0.0.46)   NTP UDP/123    permitido  PASS   fuente ^* seleccionada (reach 6)
+
+Resumen medicos: 5 PASS, 0 FAIL, 0 OMITIDA(S)
+CSV: /home/ubuntu/fase3/evidencias/resultados-medicos-2026-10-29.csv
+
+######## Pruebas complementarias (MATRIZ-E4.2 ??4 y E8.x)
+MED-06  servidores (10.0.0.46)     TCP/22    bloqueado  PASS  timeout 5s
+MED-07  visitantes (10.0.0.69)     TCP/22    bloqueado  PASS  timeout 5s
+MED-08  servidores /intranet/      HTTP/80   401        PASS  HTTP 401
+MED-09  servidores /intranet/ti/   HTTP/80   401        PASS  HTTP 401
+MED-10  Internet https://example.com  HTTPS     permitido  PASS HTTP 200
+
+CSV: /home/ubuntu/fase3/evidencias/resultados-medicos-2026-10-29.csv
+Totales CSV: PASS=10 FAIL=0

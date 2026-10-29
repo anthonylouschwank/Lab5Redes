@@ -1,0 +1,34 @@
+﻿[
+    {
+        "Id": "i-0bfd1235ccdec6e96",
+        "Name": "Hospital-EC2-TI",
+        "State": "stopped",
+        "Type": "t3.micro",
+        "PrivateIp": "10.0.0.117",
+        "PublicIp": null,
+        "Subnet": "subnet-0559b8f5c19df780a",
+        "SGs": [
+            {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "GroupName": "Hospital-SG-TI"
+            }
+        ]
+    },
+    {
+        "Id": "i-095520a21f761f97d",
+        "Name": "Hospital-EC2-Servidores",
+        "State": "running",
+        "Type": "t3.micro",
+        "PrivateIp": "10.0.0.46",
+        "PublicIp": null,
+        "Subnet": "subnet-01674fd912d6a740d",
+        "SGs": [
+            {
+                "GroupId": "sg-02205cb84a48fc688",
+                "GroupName": "Hospital-SG-Servidores"
+            }
+        ]
+    }
+]
+
+

@@ -1,0 +1,14 @@
+﻿Pruebas de la Fase 3 desde servidores  (ip-10-0-0-46, variables: /home/ubuntu/fase3/leonardo/fase3.env)
+
+ID      DESTINO                  PROTOCOLO      ESPERADO   RESULT OBTENIDO
+SRV-01  ti (10.0.0.117)          TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+SRV-02  servidores (10.0.0.46)   HTTP/80        permitido  PASS   HTTP 200
+SRV-03  servidores (10.0.0.46)   NTP UDP/123    permitido  PASS   sincronizado; Reference ID A9FEA97B (169.254.169.123)
+
+Resumen servidores: 3 PASS, 0 FAIL, 0 OMITIDA(S)
+CSV: /home/ubuntu/fase3/evidencias/resultados-servidores-2026-10-29.csv
+
+######## Pruebas complementarias (MATRIZ-E4.2 ??4 y E8.x)
+
+CSV: /home/ubuntu/fase3/evidencias/resultados-servidores-2026-10-29.csv
+Totales CSV: PASS=3 FAIL=0

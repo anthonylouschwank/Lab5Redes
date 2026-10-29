@@ -1,0 +1,14 @@
+fecha,origen,destino,protocolo_puerto,esperado,obtenido,resultado
+2026-10-29 05:18:32,visitantes,ti (10.0.0.117),TCP/22,bloqueado,timeout 5s (sin respuesta: probable SG/NACL/firewall),PASS
+2026-10-29 05:18:37,visitantes,servidores (10.0.0.46),HTTP/80,bloqueado,timeout 5s (sin respuesta: probable SG/NACL/firewall),PASS
+2026-10-29 05:18:42,visitantes,servidores (10.0.0.46),TCP/22,bloqueado,timeout 5s (sin respuesta: probable SG/NACL/firewall),PASS
+2026-10-29 05:18:47,visitantes,servidores (10.0.0.46),LDAP TCP/389,bloqueado,(solo TCP: falta ldap-utils) timeout 5s (sin respuesta: probable SG/NACL/firewall),PASS
+2026-10-29 05:18:52,visitantes,medicos (10.0.0.28),TCP/22,bloqueado,timeout 5s (sin respuesta: probable SG/NACL/firewall),PASS
+2026-10-29 05:18:55,visitantes,ti (10.0.0.117),ICMP,bloqueado,sin respuesta al ping (2 intentos),PASS
+2026-10-29 05:18:58,visitantes,servidores (10.0.0.46),ICMP,bloqueado,sin respuesta al ping (2 intentos),PASS
+2026-10-29 05:19:01,visitantes,medicos (10.0.0.28),ICMP,bloqueado,sin respuesta al ping (2 intentos),PASS
+2026-10-29 05:19:01,visitantes,internet (1.1.1.1),TCP/443,permitido,conectado,PASS
+2026-10-29 05:19:01,visitantes,internet (1.1.1.1),HTTPS/443,permitido,HTTP 200 desde https://example.com,PASS
+2026-10-29 05:19:02,visitantes,local (127.0.0.1),NTP UDP/123,permitido,sincronizado; Reference ID A9FEA97B (169.254.169.123),PASS
+2026-10-29 05:19:07,visitantes,servidores (10.0.0.46),TCP/80,bloqueado,timeout 5s,PASS
+2026-10-29 05:19:12,visitantes,servidores (10.0.0.46),TCP/389,bloqueado,timeout 5s,PASS

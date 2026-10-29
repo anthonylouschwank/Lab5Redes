@@ -1,0 +1,52 @@
+﻿######## ip-10-0-0-46 2026-10-29T05:16:42+00:00
+== ufw
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    10.0.0.112/28              # fase3: SSH de administración (endpoint en la subred TI)
+389/tcp                    ALLOW IN    10.0.0.32/27               # fase3: LDAP (Sebastián)
+389/tcp                    ALLOW IN    10.0.0.112/28              # fase3: LDAP (Sebastián)
+80/tcp                     ALLOW IN    10.0.0.0/27                # fase3: Intranet (Isabella)
+80/tcp                     ALLOW IN    10.0.0.32/27               # fase3: Intranet (Isabella)
+80/tcp                     ALLOW IN    10.0.0.96/28               # fase3: Intranet (Isabella)
+80/tcp                     ALLOW IN    10.0.0.112/28              # fase3: Intranet (Isabella)
+123/udp                    ALLOW IN    10.0.0.0/27                # fase3: NTP interno (chrony)
+123/udp                    ALLOW IN    10.0.0.32/27               # fase3: NTP interno (chrony)
+123/udp                    ALLOW IN    10.0.0.96/28               # fase3: NTP interno (chrony)
+123/udp                    ALLOW IN    10.0.0.112/28              # fase3: NTP interno (chrony)
+
+== sshd efectivo
+permitrootlogin no
+passwordauthentication no
+kbdinteractiveauthentication no
+x11forwarding no
+== timer rollback (debe estar inactivo)
+inactive
+== servicios
+active
+inactive
+active
+active
+portal 200
+intranet sin cred 401
+namingContexts: dc=hospital,dc=redes,dc=test
+== chrony
+^* 169.254.169.123               3   4   377    31  -4760ns[-5408ns] +/-  391us
+== evidencias hardening
+evidencias-ip-10-0-0-46-2026-10-29.txt
+hardening-antes-ip-10-0-0-46-completo.txt
+hardening-antes-ip-10-0-0-46.txt
+hardening-despues-ip-10-0-0-46-completo.txt
+hardening-despues-ip-10-0-0-46.txt
+== diff puertos
+(sin cambios en puertos en escucha)
+== resultados en evidencia
+RESULTADO: OK — servidor NTP en ip-10-0-0-46
+    [OK] Acceso confirmado: rollback cancelado
+    Acceso confirmado por ubuntu a las 05:13:22
+    [OK] Deshabilitado: ModemManager (revertir: systemctl enable --now ModemManager)
+RESULTADO: OK — hardening 'servidores' en ip-10-0-0-46

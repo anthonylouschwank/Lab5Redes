@@ -1,0 +1,304 @@
+﻿{
+    "SecurityGroups": [
+        {
+            "GroupId": "sg-02205cb84a48fc688",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "HTTP package downloads",
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 443,
+                    "ToPort": 443,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "HTTPS package downloads",
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group/sg-02205cb84a48fc688",
+            "OwnerId": "<ACCOUNT_ID>",
+            "GroupName": "Hospital-SG-Servidores",
+            "Description": "Acceso controlado a servidores internos",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "Intranet desde Medicos",
+                            "CidrIp": "10.0.0.0/27"
+                        },
+                        {
+                            "Description": "Intranet desde Servidores",
+                            "CidrIp": "10.0.0.32/27"
+                        },
+                        {
+                            "Description": "Intranet desde DMZ",
+                            "CidrIp": "10.0.0.96/28"
+                        },
+                        {
+                            "Description": "Intranet desde TI",
+                            "CidrIp": "10.0.0.112/28"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "<ACCOUNT_ID>",
+                            "GroupId": "sg-083e7f3f0a6213824"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 389,
+                    "ToPort": 389,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "LDAP desde Servidores",
+                            "CidrIp": "10.0.0.32/27"
+                        },
+                        {
+                            "Description": "LDAP desde TI",
+                            "CidrIp": "10.0.0.112/28"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "udp",
+                    "FromPort": 123,
+                    "ToPort": 123,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "NTP Medicos",
+                            "CidrIp": "10.0.0.0/27"
+                        },
+                        {
+                            "Description": "NTP Servidores",
+                            "CidrIp": "10.0.0.32/27"
+                        },
+                        {
+                            "Description": "NTP DMZ",
+                            "CidrIp": "10.0.0.96/28"
+                        },
+                        {
+                            "Description": "NTP TI",
+                            "CidrIp": "10.0.0.112/28"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "icmp",
+                    "FromPort": -1,
+                    "ToPort": -1,
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "<ACCOUNT_ID>",
+                            "GroupId": "sg-083e7f3f0a6213824"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-083e7f3f0a6213824",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group/sg-083e7f3f0a6213824",
+            "OwnerId": "<ACCOUNT_ID>",
+            "GroupName": "Hospital-SG-TI",
+            "Description": "Administracion de instancias TI del hospital",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "SSH desde EC2 Instance Connect Endpoint",
+                            "UserId": "<ACCOUNT_ID>",
+                            "GroupId": "sg-083e7f3f0a6213824"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-035face96b639f9a2",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group/sg-035face96b639f9a2",
+            "OwnerId": "<ACCOUNT_ID>",
+            "GroupName": "default",
+            "Description": "default VPC security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "<ACCOUNT_ID>",
+                            "GroupId": "sg-035face96b639f9a2"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-00706c8f8ad13ba9e",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Hospital-SG-Visitantes"
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group/sg-00706c8f8ad13ba9e",
+            "OwnerId": "<ACCOUNT_ID>",
+            "GroupName": "Hospital-SG-Visitantes",
+            "Description": "Equipos de Visitantes - SSH solo desde SG-TI",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "SSH desde SG-TI (endpoint y TI)",
+                            "UserId": "<ACCOUNT_ID>",
+                            "GroupId": "sg-083e7f3f0a6213824"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-02585cf0a29cbae2f",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Hospital-SG-Medicos"
+                }
+            ],
+            "VpcId": "vpc-07782d0d08628b4a5",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group/sg-02585cf0a29cbae2f",
+            "OwnerId": "<ACCOUNT_ID>",
+            "GroupName": "Hospital-SG-Medicos",
+            "Description": "Equipos de Medicos - SSH solo desde SG-TI",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "SSH desde SG-TI (endpoint y TI)",
+                            "UserId": "<ACCOUNT_ID>",
+                            "GroupId": "sg-083e7f3f0a6213824"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        }
+    ]
+}
+
