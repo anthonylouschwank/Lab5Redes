@@ -1,0 +1,16 @@
+# Registro de cambios y reversión — Fase 3
+
+Región: `us-east-1` · VPC: `vpc-07782d0d08628b4a5` · Respaldos previos: `evidencias/E4.5_estado-previo-*.json` (ID de cuenta sanitizado).
+
+| # | Fecha | Recurso | Cambio | Comando de reversión | Estado |
+|---|---|---|---|---|---|
+| C0 | 2026-10-28 | — | Respaldos JSON de SG, NACL, rutas, instancias, DHCP Options y NAT | — (solo lectura) | Hecho |
+| C1 | 2026-10-28 | IAM `fase3-admin` | Usuario sin access keys ni contraseña. Políticas: AmazonEC2FullAccess, AWSBillingReadOnlyAccess, SignInLocalDevelopmentAccess + inline `Fase3-InstanceConnect-AMI` | `aws iam delete-user-policy --user-name fase3-admin --policy-name Fase3-InstanceConnect-AMI`; `aws iam detach-user-policy --user-name fase3-admin --policy-arn arn:aws:iam::aws:policy/<política>` (×3); `aws iam delete-login-profile --user-name fase3-admin`; `aws iam delete-user --user-name fase3-admin` | Hecho |
+| C2 | 2026-10-28 | SG nuevos | `Hospital-SG-Medicos` (`sg-02585cf0a29cbae2f`) y `Hospital-SG-Visitantes` (`sg-00706c8f8ad13ba9e`): entrada solo TCP 22 desde SG-TI, salida por defecto | `aws ec2 delete-security-group --region us-east-1 --group-id <id>` (después de detener o retirar las EC2 que los usan) | Hecho |
+| C3 | 2026-10-28 | SG-Servidores `sg-02205cb84a48fc688` | Entrada TCP 80 (Méd/Srv/DMZ/TI), TCP 389 (Srv/TI), UDP 123 (Méd/Srv/DMZ/TI). JSON: `evidencias/E7.2_sg-servidores-ingress-agregado.json` | `aws ec2 revoke-security-group-ingress --region us-east-1 --group-id sg-02205cb84a48fc688 --ip-permissions file://evidencias/E7.2_sg-servidores-ingress-agregado.json` | Hecho |
+| C4 | 2026-10-28 | NACL Visitantes `acl-0a0c9f31d75aada0c` | Regla 90 de entrada TCP 22 desde 10.0.0.112/28 · regla 90 de salida TCP 1024-65535 hacia 10.0.0.112/28 | `aws ec2 delete-network-acl-entry --region us-east-1 --network-acl-id acl-0a0c9f31d75aada0c --rule-number 90 --ingress` y lo mismo con `--egress` | Hecho |
+| C5 | 2026-10-28 | EC2 TI `i-0bfd1235ccdec6e96` | Start | `aws ec2 stop-instances --region us-east-1 --instance-ids i-0bfd1235ccdec6e96` | Hecho |
+| C6 | 2026-10-28 | EC2 nuevas | `Hospital-EC2-Medicos-Prueba` `i-080244876b92e25c6` (10.0.0.28) y `Hospital-EC2-Visitantes-Prueba` `i-0c8ad80ff90f5bdbd` (10.0.0.69): t3.micro, Ubuntu 24.04 `ami-0d6dd9e8265d48906`, 8 GiB gp3, sin IP pública, IMDSv2 | `aws ec2 stop-instances --region us-east-1 --instance-ids i-080244876b92e25c6 i-0c8ad80ff90f5bdbd` (Terminate solo con autorización) | Hecho |
+| C7 | 2026-10-29 | Servidores · chrony | `chrony-servidor.sh` crea `/etc/chrony/conf.d/fase3-servidor.conf` con `allow` para 10.0.0.0/27, 10.0.0.32/27, 10.0.0.96/28 y 10.0.0.112/28, más `local stratum 10`. Upstream Time Sync sin cambios (`00-cpc.conf`) | `sudo bash ~/fase3/leonardo/chrony-servidor.sh --revertir` | Hecho |
+| C8 | 2026-10-29 | Servidores · slapd | `SLAPD_SERVICES` pasa de `ldap://127.0.0.1:389/ ldapi:///` a `ldap:/// ldapi:///` (Anthony, Paso 2b). Lo filtran el SG (389 solo Srv/TI) y ufw | `sudo cp -a /etc/default/slapd.bak.fase3 /etc/default/slapd && sudo systemctl restart slapd` | Hecho |
+| C9 | 2026-10-29 | TI, Médicos, Visitantes · chrony | `chrony-cliente.sh`: TI y Médicos → 10.0.0.46; Visitantes → 169.254.169.123 (aislamiento). Las demás fuentes quedan comentadas con `#fase3#` | `sudo bash ~/fase3/leonardo/chrony-cliente.sh --revertir` (en cada equipo) | Hecho |

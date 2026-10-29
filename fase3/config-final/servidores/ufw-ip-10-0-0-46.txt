@@ -1,0 +1,19 @@
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    10.0.0.112/28              # fase3: SSH de administración (endpoint en la subred TI)
+389/tcp                    ALLOW IN    10.0.0.32/27               # fase3: LDAP (Sebastián)
+389/tcp                    ALLOW IN    10.0.0.112/28              # fase3: LDAP (Sebastián)
+80/tcp                     ALLOW IN    10.0.0.0/27                # fase3: Intranet (Isabella)
+80/tcp                     ALLOW IN    10.0.0.32/27               # fase3: Intranet (Isabella)
+80/tcp                     ALLOW IN    10.0.0.96/28               # fase3: Intranet (Isabella)
+80/tcp                     ALLOW IN    10.0.0.112/28              # fase3: Intranet (Isabella)
+123/udp                    ALLOW IN    10.0.0.0/27                # fase3: NTP interno (chrony)
+123/udp                    ALLOW IN    10.0.0.32/27               # fase3: NTP interno (chrony)
+123/udp                    ALLOW IN    10.0.0.96/28               # fase3: NTP interno (chrony)
+123/udp                    ALLOW IN    10.0.0.112/28              # fase3: NTP interno (chrony)
+
