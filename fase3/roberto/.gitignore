@@ -1,0 +1,18 @@
+# Capturas sin sanitizar: NO se suben (el repo es público)
+evidencias/crudas/
+
+# Salidas generadas en pruebas locales
+matriz/t/
+*.tmp
+
+# Claves y secretos
+*.pem
+*.key
+secrets/
+fase3.env
+
+# Respaldo del informe (puede contener datos de cuenta)
+informe/respaldo/
+
+# Sistema / editores
+.DS_Store
