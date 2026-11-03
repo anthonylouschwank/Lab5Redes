@@ -1,0 +1,20 @@
+:root { --azul: #0b5c8a; --fondo: #f4f7f9; --texto: #1d2a33; --error: #a32020; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, "Segoe UI", Roboto, sans-serif; background: var(--fondo); color: var(--texto); }
+header { background: var(--azul); color: #fff; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; }
+.marca { font-weight: 700; font-size: 1.1rem; }
+nav a { color: #fff; margin-left: 14px; text-decoration: none; }
+nav a:hover { text-decoration: underline; }
+main { max-width: 640px; margin: 0 auto; padding: 16px; }
+.aviso { background: #fff7d6; border-left: 4px solid #e0b000; padding: 8px 12px; font-size: .9rem; }
+.tarjeta { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.1); margin: 12px 0; }
+label { display: block; margin-bottom: 12px; font-weight: 600; }
+input, select { display: block; width: 100%; padding: 8px; margin-top: 4px; font: inherit; border: 1px solid #b8c4cc; border-radius: 4px; }
+.check { font-weight: 400; display: flex; gap: 8px; align-items: center; }
+.check input { width: auto; display: inline; margin: 0; }
+.fila { display: flex; gap: 12px; }
+.fila label { flex: 1; }
+button { background: var(--azul); color: #fff; border: 0; padding: 10px 18px; border-radius: 4px; font: inherit; cursor: pointer; }
+.error { background: #fde8e8; color: var(--error); padding: 8px 12px; border-radius: 4px; margin: 12px 0; }
+.codigo { font-size: 2rem; font-weight: 700; letter-spacing: 3px; color: var(--azul); }
+footer { text-align: center; font-size: .85rem; padding: 16px; color: #5a6a75; }

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block titulo %}Agendar cita{% endblock %}
+{% block contenido %}
+<h1>Agendar una cita</h1>
+{% if errores %}
+<div class="error"><ul>{% for e in errores %}<li>{{ e }}</li>{% endfor %}</ul></div>
+{% endif %}
+<form method="post" action="/citas" class="tarjeta">
+  <label>Nombre del paciente (ficticio)
+    <input name="nombre" required minlength="3" maxlength="60" value="{{ datos.nombre or '' }}" autocomplete="off">
+  </label>
+  <label>Especialidad
+    <select name="especialidad" required>
+      {% for e in especialidades %}<option {% if datos.especialidad == e %}selected{% endif %}>{{ e }}</option>{% endfor %}
+    </select>
+  </label>
+  <div class="fila">
+    <label>Fecha
+      <input type="date" name="fecha" required min="{{ fmin }}" max="{{ fmax }}" value="{{ datos.fecha or '' }}">
+    </label>
+    <label>Hora
+      <select name="hora" required>
+        {% for h in horas %}<option {% if datos.hora == h %}selected{% endif %}>{{ h }}</option>{% endfor %}
+      </select>
+    </label>
+  </div>
+  <label>Motivo breve (opcional, sin datos clínicos)
+    <input name="motivo" maxlength="200" value="{{ datos.motivo or '' }}" autocomplete="off">
+  </label>
+  <label class="check"><input type="checkbox" name="acepto" value="si" required> He leído el <a href="/privacidad">aviso de privacidad</a>.</label>
+  <button type="submit">Agendar</button>
+</form>
+{% endblock %}

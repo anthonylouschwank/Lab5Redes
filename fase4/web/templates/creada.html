@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo %}Cita creada{% endblock %}
+{% block contenido %}
+<h1>Cita registrada</h1>
+<div class="tarjeta">
+  <p>Guarde este código para consultar su cita:</p>
+  <p class="codigo" id="codigo">{{ codigo }}</p>
+  <p>{{ datos.especialidad }} · {{ datos.fecha }} a las {{ datos.hora }}</p>
+  <p><a href="/consulta?codigo={{ codigo }}">Consultar esta cita</a></p>
+</div>
+{% endblock %}

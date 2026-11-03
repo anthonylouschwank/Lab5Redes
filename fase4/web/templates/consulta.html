@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %}Consultar cita{% endblock %}
+{% block contenido %}
+<h1>Consultar una cita</h1>
+<form method="get" action="/consulta" class="tarjeta">
+  <label>Código de la cita
+    <input name="codigo" required maxlength="9" placeholder="XXXX-XXXX" value="{{ codigo }}" autocomplete="off">
+  </label>
+  <button type="submit">Consultar</button>
+</form>
+{% if error %}<div class="error">{{ error }}</div>{% endif %}
+{% if cita %}
+<div class="tarjeta" id="resultado">
+  <p><strong>Código:</strong> {{ cita.codigo }}</p>
+  <p><strong>Paciente:</strong> {{ cita.paciente }}</p>
+  <p><strong>Especialidad:</strong> {{ cita.especialidad }}</p>
+  <p><strong>Fecha y hora:</strong> {{ cita.fecha }} · {{ cita.hora }}</p>
+  <p><strong>Estado:</strong> Confirmada</p>
+</div>
+{% endif %}
+{% endblock %}

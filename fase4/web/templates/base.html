@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Citas{% endblock %} · Hospital Privado Castillejos</title>
+  <link rel="stylesheet" href="/static/estilo.css">
+</head>
+<body>
+  <header>
+    <div class="marca">Hospital Privado Castillejos</div>
+    <nav>
+      <a href="/">Agendar cita</a>
+      <a href="/consulta">Consultar cita</a>
+      <a href="/privacidad">Privacidad</a>
+    </nav>
+  </header>
+  <main>
+    <p class="aviso">Sitio académico (CC3067). Use únicamente <strong>datos ficticios</strong>. Este sitio no gestiona expedientes clínicos.</p>
+    {% block contenido %}{% endblock %}
+  </main>
+  <footer>Conexión cifrada (HTTPS) · <a href="/privacidad">Aviso de privacidad</a></footer>
+</body>
+</html>

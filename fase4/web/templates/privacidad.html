@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titulo %}Aviso de privacidad{% endblock %}
+{% block contenido %}
+<h1>Aviso de privacidad</h1>
+<div class="tarjeta">
+  <p>Este portal es un <strong>proyecto académico</strong> del curso CC3067 Redes (UVG). El Hospital Privado Castillejos es una organización ficticia.</p>
+  <ul>
+    <li><strong>Datos que se piden:</strong> nombre, especialidad, fecha, hora y un motivo breve. Use solo datos ficticios.</li>
+    <li><strong>Datos que NO se piden:</strong> expedientes, diagnósticos, documentos de identidad, teléfonos ni correos.</li>
+    <li><strong>Finalidad:</strong> demostrar la gestión de citas en un servidor web público con HTTPS.</li>
+    <li><strong>Acceso:</strong> la consulta solo muestra las iniciales del paciente y requiere el código de la cita.</li>
+    <li><strong>Conservación:</strong> los datos se eliminan al finalizar el proyecto.</li>
+    <li><strong>Seguridad:</strong> la comunicación viaja cifrada con TLS (Let's Encrypt) y el servidor está en una DMZ aislada de la red interna.</li>
+  </ul>
+</div>
+{% endblock %}
