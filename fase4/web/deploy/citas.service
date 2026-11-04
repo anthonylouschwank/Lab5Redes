@@ -1,0 +1,27 @@
+[Unit]
+Description=Citas Hospital Castillejos (gunicorn, Fase 4)
+After=network.target
+
+[Service]
+Type=simple
+User=citas
+Group=citas
+WorkingDirectory=/opt/citas
+Environment=CITAS_DB=/var/lib/citas/citas.db
+ExecStart=/usr/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --access-logfile - app:app
+Restart=on-failure
+# Endurecimiento del servicio
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/citas
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target
