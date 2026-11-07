@@ -1,0 +1,10 @@
+# /etc/grafana/provisioning/dashboards/hospital.yaml
+apiVersion: 1
+providers:
+  - name: hospital
+    folder: Hospital Castillejos
+    type: file
+    disableDeletion: true
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards

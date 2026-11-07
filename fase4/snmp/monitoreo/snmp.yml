@@ -1,0 +1,95 @@
+# /etc/prometheus/snmp.yml — módulo "hospital" escrito a mano con OID numéricos (Fase 4).
+# Ubuntu no distribuye snmp.yml generado (licencia de los MIB). Las credenciales están
+# en /etc/prometheus/snmp-auth.yml (auth "hospital_v3", 0640 root:prometheus).
+modules:
+  hospital:
+    walk:
+      - 1.3.6.1.2.1.2.2.1.2        # ifDescr
+      - 1.3.6.1.2.1.2.2.1.8        # ifOperStatus
+      - 1.3.6.1.2.1.31.1.1.1.6     # ifHCInOctets
+      - 1.3.6.1.2.1.31.1.1.1.10    # ifHCOutOctets
+      - 1.3.6.1.4.1.2021.10.1.5    # laLoadInt (carga x100)
+      - 1.3.6.1.4.1.2021.9.1.2     # dskPath
+      - 1.3.6.1.4.1.2021.9.1.9     # dskPercent
+    get:
+      - 1.3.6.1.2.1.1.3.0          # sysUpTime
+      - 1.3.6.1.2.1.1.5.0          # sysName
+      - 1.3.6.1.2.1.25.1.1.0       # hrSystemUptime (tiempo encendido del equipo)
+      - 1.3.6.1.4.1.2021.4.5.0     # memTotalReal (KiB)
+      - 1.3.6.1.4.1.2021.4.6.0     # memAvailReal (KiB)
+    metrics:
+      - name: sysUpTime
+        oid: 1.3.6.1.2.1.1.3
+        type: gauge
+        help: Tiempo desde el arranque del agente (centésimas de segundo)
+      - name: hrSystemUptime
+        oid: 1.3.6.1.2.1.25.1.1
+        type: gauge
+        help: Tiempo desde el arranque del equipo (centésimas de segundo)
+      - name: sysName
+        oid: 1.3.6.1.2.1.1.5
+        type: DisplayString
+        help: Nombre del equipo
+      - name: ifOperStatus
+        oid: 1.3.6.1.2.1.2.2.1.8
+        type: gauge
+        help: Estado operativo de la interfaz (1=up, 2=down)
+        indexes:
+          - labelname: ifIndex
+            type: gauge
+        lookups:
+          - labels: [ifIndex]
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+      - name: ifHCInOctets
+        oid: 1.3.6.1.2.1.31.1.1.1.6
+        type: counter
+        help: Octetos recibidos por la interfaz (64 bits)
+        indexes:
+          - labelname: ifIndex
+            type: gauge
+        lookups:
+          - labels: [ifIndex]
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+      - name: ifHCOutOctets
+        oid: 1.3.6.1.2.1.31.1.1.1.10
+        type: counter
+        help: Octetos enviados por la interfaz (64 bits)
+        indexes:
+          - labelname: ifIndex
+            type: gauge
+        lookups:
+          - labels: [ifIndex]
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+      - name: laLoadInt
+        oid: 1.3.6.1.4.1.2021.10.1.5
+        type: gauge
+        help: Carga promedio x100 (laIndex 1=1 min, 2=5 min, 3=15 min)
+        indexes:
+          - labelname: laIndex
+            type: gauge
+      - name: memTotalReal
+        oid: 1.3.6.1.4.1.2021.4.5
+        type: gauge
+        help: Memoria física total (KiB)
+      - name: memAvailReal
+        oid: 1.3.6.1.4.1.2021.4.6
+        type: gauge
+        help: Memoria física disponible (KiB)
+      - name: dskPercent
+        oid: 1.3.6.1.4.1.2021.9.1.9
+        type: gauge
+        help: Porcentaje de disco usado
+        indexes:
+          - labelname: dskIndex
+            type: gauge
+        lookups:
+          - labels: [dskIndex]
+            labelname: dskPath
+            oid: 1.3.6.1.4.1.2021.9.1.2
+            type: DisplayString

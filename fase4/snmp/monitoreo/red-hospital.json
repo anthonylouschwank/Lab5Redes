@@ -1,0 +1,99 @@
+{
+  "uid": "red-hospital",
+  "title": "Red Hospital",
+  "description": "Monitoreo SNMPv3 de las 5 EC2 del Hospital Privado Castillejos (Fase 4)",
+  "tags": ["snmp", "hospital", "fase4"],
+  "timezone": "browser",
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "time": { "from": "now-1h", "to": "now" },
+  "templating": {
+    "list": [
+      {
+        "name": "equipo",
+        "label": "Equipo",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+        "query": "label_values(up{job=\"snmp\"}, equipo)",
+        "definition": "label_values(up{job=\"snmp\"}, equipo)",
+        "refresh": 2,
+        "multi": true,
+        "includeAll": true,
+        "current": { "selected": true, "text": ["All"], "value": ["$__all"] }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Equipos respondiendo SNMP",
+      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+      "targets": [ { "refId": "A", "expr": "count(up{job=\"snmp\"} == 1)", "legendFormat": "en línea" } ],
+      "fieldConfig": { "defaults": { "unit": "none", "min": 0, "max": 5,
+        "thresholds": { "mode": "absolute", "steps": [ { "color": "red", "value": null }, { "color": "orange", "value": 4 }, { "color": "green", "value": 5 } ] } }, "overrides": [] },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "value" }
+    },
+    {
+      "id": 2, "type": "stat", "title": "Uptime por equipo",
+      "gridPos": { "h": 5, "w": 18, "x": 6, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+      "targets": [ { "refId": "A", "expr": "hrSystemUptime{job=\"snmp\", equipo=~\"$equipo\"} / 100", "legendFormat": "{{equipo}}" } ],
+      "fieldConfig": { "defaults": { "unit": "s", "decimals": 1,
+        "thresholds": { "mode": "absolute", "steps": [ { "color": "blue", "value": null } ] } }, "overrides": [] },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "none", "textMode": "value_and_name", "orientation": "horizontal" }
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "Tráfico de entrada (bits/s)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+      "targets": [ { "refId": "A", "expr": "rate(ifHCInOctets{job=\"snmp\", equipo=~\"$equipo\", ifDescr!=\"lo\"}[2m]) * 8", "legendFormat": "{{equipo}} {{ifDescr}}" } ],
+      "fieldConfig": { "defaults": { "unit": "bps", "custom": { "fillOpacity": 10 } }, "overrides": [] },
+      "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } }
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "Tráfico de salida (bits/s)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+      "targets": [ { "refId": "A", "expr": "rate(ifHCOutOctets{job=\"snmp\", equipo=~\"$equipo\", ifDescr!=\"lo\"}[2m]) * 8", "legendFormat": "{{equipo}} {{ifDescr}}" } ],
+      "fieldConfig": { "defaults": { "unit": "bps", "custom": { "fillOpacity": 10 } }, "overrides": [] },
+      "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } }
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "Carga promedio (1 min)",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 13 },
+      "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+      "targets": [ { "refId": "A", "expr": "laLoadInt{job=\"snmp\", equipo=~\"$equipo\", laIndex=\"1\"} / 100", "legendFormat": "{{equipo}}" } ],
+      "fieldConfig": { "defaults": { "unit": "none", "decimals": 2, "min": 0 }, "overrides": [] },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } }
+    },
+    {
+      "id": 6, "type": "bargauge", "title": "Memoria usada (%)",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 13 },
+      "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+      "targets": [ { "refId": "A", "expr": "100 * (1 - memAvailReal{job=\"snmp\", equipo=~\"$equipo\"} / memTotalReal{job=\"snmp\", equipo=~\"$equipo\"})", "legendFormat": "{{equipo}}" } ],
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "decimals": 0,
+        "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "orange", "value": 75 }, { "color": "red", "value": 90 } ] } }, "overrides": [] },
+      "options": { "orientation": "horizontal", "displayMode": "gradient", "reduceOptions": { "calcs": ["lastNotNull"] } }
+    },
+    {
+      "id": 7, "type": "bargauge", "title": "Disco / usado (%)",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 13 },
+      "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+      "targets": [ { "refId": "A", "expr": "dskPercent{job=\"snmp\", equipo=~\"$equipo\", dskPath=\"/\"}", "legendFormat": "{{equipo}}" } ],
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "decimals": 0,
+        "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "orange", "value": 75 }, { "color": "red", "value": 90 } ] } }, "overrides": [] },
+      "options": { "orientation": "horizontal", "displayMode": "gradient", "reduceOptions": { "calcs": ["lastNotNull"] } }
+    },
+    {
+      "id": 8, "type": "table", "title": "Estado de interfaces (1 = up)",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 21 },
+      "datasource": { "type": "prometheus", "uid": "prometheus-hospital" },
+      "targets": [ { "refId": "A", "expr": "ifOperStatus{job=\"snmp\", equipo=~\"$equipo\"}", "format": "table", "instant": true } ],
+      "transformations": [ { "id": "organize", "options": { "excludeByName": { "Time": true, "__name__": true, "job": true, "red": true, "ifIndex": true, "subred": true },
+        "renameByName": { "equipo": "Equipo", "instance": "IP", "ifDescr": "Interfaz", "Value": "Estado" } } } ],
+      "fieldConfig": { "defaults": { "mappings": [ { "type": "value", "options": { "1": { "text": "up", "color": "green" }, "2": { "text": "down", "color": "red" } } } ],
+        "custom": { "cellOptions": { "type": "color-text" } } }, "overrides": [] },
+      "options": { "showHeader": true }
+    }
+  ]
+}
