@@ -1,0 +1,43 @@
+# F4.6 — Regresión tests_fase3.sh con IP_DMZ=10.0.0.100 (2026-11-08 16:35 local)
+######## origen: ti
+TI-01   servidores (10.0.0.46)   TCP/22         permitido  PASS   conectado
+TI-02   servidores (10.0.0.46)   HTTP/80        permitido  PASS   HTTP 200
+TI-03   servidores (10.0.0.46)   LDAP TCP/389   permitido  PASS   (solo TCP: falta ldap-utils) conectado
+TI-04   servidores (10.0.0.46)   NTP UDP/123    permitido  PASS   fuente ^* seleccionada (reach 10)
+TI-05   servidores (10.0.0.46)   ICMP           permitido  PASS   responde al ping
+TI-06   medicos (10.0.0.28)      TCP/22         permitido  PASS   conectado
+TI-07   visitantes (10.0.0.69)   TCP/22         permitido  PASS   conectado
+TI-08   dmz (10.0.0.100)         TCP/22         permitido  PASS   conectado
+Resumen ti: 8 PASS, 0 FAIL, 0 OMITIDA(S)
+######## origen: servidores
+SRV-01  ti (10.0.0.117)          TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+SRV-02  servidores (10.0.0.46)   HTTP/80        permitido  PASS   HTTP 200
+SRV-03  servidores (10.0.0.46)   NTP UDP/123    permitido  PASS   sincronizado; Reference ID A9FEA97B (169.254.169.123)
+Resumen servidores: 3 PASS, 0 FAIL, 0 OMITIDA(S)
+######## origen: medicos
+MED-01  ti (10.0.0.117)          TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+MED-02  ti (10.0.0.117)          ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+MED-03  servidores (10.0.0.46)   HTTP/80        permitido  PASS   HTTP 200
+MED-04  servidores (10.0.0.46)   LDAP TCP/389   bloqueado  PASS   (solo TCP: falta ldap-utils) timeout 5s (sin respuesta: probable SG/NACL/firewall)
+MED-05  servidores (10.0.0.46)   NTP UDP/123    permitido  PASS   fuente ^* seleccionada (reach 7)
+Resumen medicos: 5 PASS, 0 FAIL, 0 OMITIDA(S)
+######## origen: visitantes
+VIS-01  ti (10.0.0.117)          TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-02  servidores (10.0.0.46)   HTTP/80        bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-03  servidores (10.0.0.46)   TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-04  servidores (10.0.0.46)   LDAP TCP/389   bloqueado  PASS   (solo TCP: falta ldap-utils) timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-05  medicos (10.0.0.28)      TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-06  dmz (10.0.0.100)         TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+VIS-07  ti (10.0.0.117)          ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+VIS-08  servidores (10.0.0.46)   ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+VIS-09  medicos (10.0.0.28)      ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+VIS-10  dmz (10.0.0.100)         ICMP           bloqueado  PASS   sin respuesta al ping (2 intentos)
+VIS-11  internet (1.1.1.1)       TCP/443        permitido  PASS   conectado
+VIS-12  internet (1.1.1.1)       HTTPS/443      permitido  PASS   HTTP 200 desde https://example.com
+VIS-13  local (127.0.0.1)        NTP UDP/123    permitido  PASS   sincronizado; Reference ID A9FEA97B (169.254.169.123)
+Resumen visitantes: 13 PASS, 0 FAIL, 0 OMITIDA(S)
+######## origen: dmz
+DMZ-01  ti (10.0.0.117)          TCP/22         bloqueado  PASS   timeout 5s (sin respuesta: probable SG/NACL/firewall)
+DMZ-02  servidores (10.0.0.46)   HTTP/80        permitido  PASS   HTTP 200
+DMZ-03  servidores (10.0.0.46)   NTP UDP/123    permitido  PASS   fuente ^* seleccionada (reach 6)
+Resumen dmz: 3 PASS, 0 FAIL, 0 OMITIDA(S)
