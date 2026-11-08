@@ -1,0 +1,232 @@
+{
+    "SecurityGroupRules": [
+        {
+            "SecurityGroupRuleId": "sgr-038846108a668d34e",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIpv4": "10.0.0.0/27",
+            "Description": "Intranet desde Medicos",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-038846108a668d34e"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0c18de632bffc87f9",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "CidrIpv4": "10.8.0.2/32",
+            "Description": "SSH desde VPN peer ti-remoto",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0c18de632bffc87f9"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0e35616e64d8bc723",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "udp",
+            "FromPort": 123,
+            "ToPort": 123,
+            "CidrIpv4": "10.0.0.96/28",
+            "Description": "NTP DMZ",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0e35616e64d8bc723"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0cecc1445544d96d5",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "UserId": "<ACCOUNT_ID>"
+            },
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0cecc1445544d96d5"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0c52e5ff8be5acb09",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "icmp",
+            "FromPort": -1,
+            "ToPort": -1,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "UserId": "<ACCOUNT_ID>"
+            },
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0c52e5ff8be5acb09"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-069118eb11ff97bd4",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 389,
+            "ToPort": 389,
+            "CidrIpv4": "10.0.0.32/27",
+            "Description": "LDAP desde Servidores",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-069118eb11ff97bd4"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-09bdf289e693f589a",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIpv4": "10.8.0.0/24",
+            "Description": "Intranet desde la VPN",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-09bdf289e693f589a"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0d0f677e768a6d470",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": true,
+            "IpProtocol": "tcp",
+            "FromPort": 443,
+            "ToPort": 443,
+            "CidrIpv4": "0.0.0.0/0",
+            "Description": "HTTPS package downloads",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0d0f677e768a6d470"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-083f2ddabdb58474e",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 389,
+            "ToPort": 389,
+            "CidrIpv4": "10.0.0.112/28",
+            "Description": "LDAP desde TI",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-083f2ddabdb58474e"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0547f1a33907a719a",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIpv4": "10.0.0.96/28",
+            "Description": "Intranet desde DMZ",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0547f1a33907a719a"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0db48215237fd2333",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "udp",
+            "FromPort": 161,
+            "ToPort": 161,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "UserId": "<ACCOUNT_ID>"
+            },
+            "Description": "SNMP desde TI",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0db48215237fd2333"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-045adcdfc3513798e",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIpv4": "10.0.0.32/27",
+            "Description": "Intranet desde Servidores",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-045adcdfc3513798e"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0d74c394b5eb58825",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "udp",
+            "FromPort": 123,
+            "ToPort": 123,
+            "CidrIpv4": "10.0.0.0/27",
+            "Description": "NTP Medicos",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0d74c394b5eb58825"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0e60ecf9a05130932",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "udp",
+            "FromPort": 123,
+            "ToPort": 123,
+            "CidrIpv4": "10.0.0.112/28",
+            "Description": "NTP TI",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0e60ecf9a05130932"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-06a4e533807899f75",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": true,
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIpv4": "0.0.0.0/0",
+            "Description": "HTTP package downloads",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-06a4e533807899f75"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0df96501a4faf4dad",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "udp",
+            "FromPort": 123,
+            "ToPort": 123,
+            "CidrIpv4": "10.0.0.32/27",
+            "Description": "NTP Servidores",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0df96501a4faf4dad"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0589175236cce3937",
+            "GroupId": "sg-02205cb84a48fc688",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIpv4": "10.0.0.112/28",
+            "Description": "Intranet desde TI",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0589175236cce3937"
+        }
+    ]
+}

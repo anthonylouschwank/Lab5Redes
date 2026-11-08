@@ -1,0 +1,7 @@
+[
+ {"IpProtocol":"tcp","FromPort":80,"ToPort":80,"IpRanges":[{"CidrIp":"0.0.0.0/0","Description":"HTTP publico (solo redirige a HTTPS y reto ACME)"}]},
+ {"IpProtocol":"tcp","FromPort":443,"ToPort":443,"IpRanges":[{"CidrIp":"0.0.0.0/0","Description":"HTTPS publico - web de citas"}]},
+ {"IpProtocol":"udp","FromPort":51820,"ToPort":51820,"IpRanges":[{"CidrIp":"0.0.0.0/0","Description":"VPN WireGuard trabajadores remotos"}]},
+ {"IpProtocol":"tcp","FromPort":22,"ToPort":22,"UserIdGroupPairs":[{"GroupId":"sg-083e7f3f0a6213824","Description":"SSH desde SG-TI (endpoint y TI)"}]},
+ {"IpProtocol":"udp","FromPort":161,"ToPort":161,"UserIdGroupPairs":[{"GroupId":"sg-083e7f3f0a6213824","Description":"SNMP desde TI"}]}
+]

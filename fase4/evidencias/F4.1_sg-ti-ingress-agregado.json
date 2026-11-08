@@ -1,0 +1,45 @@
+{
+    "SecurityGroupRules": [
+        {
+            "SecurityGroupRuleId": "sgr-0c8a8ce2f7de7bc0b",
+            "GroupId": "sg-083e7f3f0a6213824",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": true,
+            "IpProtocol": "-1",
+            "FromPort": -1,
+            "ToPort": -1,
+            "CidrIpv4": "0.0.0.0/0",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0c8a8ce2f7de7bc0b"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0b6625f032abcf1a3",
+            "GroupId": "sg-083e7f3f0a6213824",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "CidrIpv4": "10.8.0.2/32",
+            "Description": "SSH desde VPN peer ti-remoto",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0b6625f032abcf1a3"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0a3c419dcbd5e50c5",
+            "GroupId": "sg-083e7f3f0a6213824",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "UserId": "<ACCOUNT_ID>"
+            },
+            "Description": "SSH desde EC2 Instance Connect Endpoint",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0a3c419dcbd5e50c5"
+        }
+    ]
+}

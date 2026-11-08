@@ -1,0 +1,51 @@
+== host: ip-10-0-0-46 | 2026-11-08T21:16:18+00:00
+== SO: Ubuntu 24.04.4 LTS | kernel 6.17.0-1017-aws
+== IPs:
+ens5             UP             10.0.0.46/27 metric 100 fe80::ff:e0ff:fe35:e687/64 
+== uptime:
+ 21:16:18 up 11 days, 8 min,  1 user,  load average: 0.08, 0.02, 0.01
+== ip_forward: 0
+== puertos en escucha:
+Netid State  Recv-Q Send-Q  Local Address:Port Peer Address:PortProcess                                                                                  
+udp   UNCONN 0      0          127.0.0.54:53        0.0.0.0:*    systemd-resolve
+udp   UNCONN 0      0       127.0.0.53%lo:53        0.0.0.0:*    systemd-resolve
+udp   UNCONN 0      0      10.0.0.46%ens5:68        0.0.0.0:*    systemd-network
+udp   UNCONN 0      0             0.0.0.0:123       0.0.0.0:*    chronyd
+udp   UNCONN 0      0           127.0.0.1:323       0.0.0.0:*    chronyd
+udp   UNCONN 0      0               [::1]:323          [::]:*    chronyd
+tcp   LISTEN 0      4096       127.0.0.54:53        0.0.0.0:*    systemd-resolve
+tcp   LISTEN 0      4096          0.0.0.0:22        0.0.0.0:*    systemd
+tcp   LISTEN 0      4096    127.0.0.53%lo:53        0.0.0.0:*    systemd-resolve
+tcp   LISTEN 0      2048          0.0.0.0:389       0.0.0.0:*    slapd
+tcp   LISTEN 0      511                 *:80              *:*    apache2
+tcp   LISTEN 0      4096             [::]:22           [::]:*    systemd
+tcp   LISTEN 0      2048             [::]:389          [::]:*    slapd
+== ufw:
+Status: active
+     To                         Action      From
+     --                         ------      ----
+[ 1] 22/tcp                     ALLOW IN    10.0.0.112/28              # fase3: SSH de administración (endpoint en la subred TI)
+[ 2] 389/tcp                    ALLOW IN    10.0.0.32/27               # fase3: LDAP (Sebastián)
+[ 3] 389/tcp                    ALLOW IN    10.0.0.112/28              # fase3: LDAP (Sebastián)
+[ 4] 80/tcp                     ALLOW IN    10.0.0.0/27                # fase3: Intranet (Isabella)
+[ 5] 80/tcp                     ALLOW IN    10.0.0.32/27               # fase3: Intranet (Isabella)
+[ 6] 80/tcp                     ALLOW IN    10.0.0.96/28               # fase3: Intranet (Isabella)
+[ 7] 80/tcp                     ALLOW IN    10.0.0.112/28              # fase3: Intranet (Isabella)
+[ 8] 123/udp                    ALLOW IN    10.0.0.0/27                # fase3: NTP interno (chrony)
+[ 9] 123/udp                    ALLOW IN    10.0.0.32/27               # fase3: NTP interno (chrony)
+[10] 123/udp                    ALLOW IN    10.0.0.96/28               # fase3: NTP interno (chrony)
+[11] 123/udp                    ALLOW IN    10.0.0.112/28              # fase3: NTP interno (chrony)
+== servicios clave:
+ssh            active
+slapd          active
+apache2        active
+chrony         active
+nginx          inactive
+wg-quick@wg0   inactive
+snmpd          inactive
+== sshd efectivo:
+permitrootlogin no
+pubkeyauthentication yes
+passwordauthentication no
+== disco:
+/dev/root       6.8G  2.7G  4.1G  40% /

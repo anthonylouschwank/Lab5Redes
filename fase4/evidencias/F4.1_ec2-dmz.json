@@ -1,0 +1,19 @@
+[
+    {
+        "Id": "i-01df9ec0d0856322c",
+        "Type": "t3.micro",
+        "State": "running",
+        "Ip": "10.0.0.100",
+        "Pub": "3.227.168.73",
+        "SrcDst": false,
+        "Imds": "required",
+        "SG": [
+            {
+                "GroupId": "sg-08da64aa3bd55a2fe",
+                "GroupName": "Hospital-SG-DMZ"
+            }
+        ],
+        "Subnet": "subnet-0633a93ad8cebdf05",
+        "Ami": "ami-0d6dd9e8265d48906"
+    }
+]

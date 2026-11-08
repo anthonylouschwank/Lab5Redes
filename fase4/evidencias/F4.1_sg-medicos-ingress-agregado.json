@@ -1,0 +1,61 @@
+{
+    "SecurityGroupRules": [
+        {
+            "SecurityGroupRuleId": "sgr-058ac0ec0f8fbe8d7",
+            "GroupId": "sg-02585cf0a29cbae2f",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": true,
+            "IpProtocol": "-1",
+            "FromPort": -1,
+            "ToPort": -1,
+            "CidrIpv4": "0.0.0.0/0",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-058ac0ec0f8fbe8d7"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0882d87e8bf37c4ee",
+            "GroupId": "sg-02585cf0a29cbae2f",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "CidrIpv4": "10.8.0.2/32",
+            "Description": "SSH desde VPN peer hospital-ti",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0882d87e8bf37c4ee"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0d309a462f20ed952",
+            "GroupId": "sg-02585cf0a29cbae2f",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "udp",
+            "FromPort": 161,
+            "ToPort": 161,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "UserId": "<ACCOUNT_ID>"
+            },
+            "Description": "SNMP desde TI",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0d309a462f20ed952"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0d4a8ba0d52449099",
+            "GroupId": "sg-02585cf0a29cbae2f",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "UserId": "<ACCOUNT_ID>"
+            },
+            "Description": "SSH desde SG-TI (endpoint y TI)",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0d4a8ba0d52449099"
+        }
+    ]
+}

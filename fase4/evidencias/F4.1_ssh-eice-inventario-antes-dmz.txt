@@ -1,0 +1,34 @@
+== host: ip-10-0-0-100 | 2026-11-08T21:16:24+00:00
+== SO: Ubuntu 24.04.5 LTS | kernel 7.0.0-1014-aws
+== IPs:
+ens5             UP             10.0.0.100/28 metric 100 fe80::ff:edff:feee:6d43/64 
+== uptime:
+ 21:16:24 up 4 min,  1 user,  load average: 0.00, 0.02, 0.00
+== ip_forward: 0
+== puertos en escucha:
+Netid State  Recv-Q Send-Q   Local Address:Port Peer Address:PortProcess                                                 
+udp   UNCONN 0      0            127.0.0.1:323       0.0.0.0:*    chronyd
+udp   UNCONN 0      0           127.0.0.54:53        0.0.0.0:*    systemd-resolve
+udp   UNCONN 0      0        127.0.0.53%lo:53        0.0.0.0:*    systemd-resolve
+udp   UNCONN 0      0      10.0.0.100%ens5:68        0.0.0.0:*    systemd-network
+udp   UNCONN 0      0                [::1]:323          [::]:*    chronyd
+tcp   LISTEN 0      4096        127.0.0.54:53        0.0.0.0:*    systemd-resolve
+tcp   LISTEN 0      4096     127.0.0.53%lo:53        0.0.0.0:*    systemd-resolve
+tcp   LISTEN 0      4096           0.0.0.0:22        0.0.0.0:*    systemd
+tcp   LISTEN 0      4096              [::]:22           [::]:*    systemd
+== ufw:
+Status: inactive
+== servicios clave:
+ssh            active
+slapd          inactive
+apache2        inactive
+chrony         active
+nginx          inactive
+wg-quick@wg0   inactive
+snmpd          inactive
+== sshd efectivo:
+permitrootlogin without-password
+pubkeyauthentication yes
+passwordauthentication no
+== disco:
+/dev/root       6.8G  2.1G  4.7G  31% /

@@ -1,0 +1,48 @@
+{
+    "SecurityGroupRules": [
+        {
+            "SecurityGroupRuleId": "sgr-05369c16d37048342",
+            "GroupId": "sg-00706c8f8ad13ba9e",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": true,
+            "IpProtocol": "-1",
+            "FromPort": -1,
+            "ToPort": -1,
+            "CidrIpv4": "0.0.0.0/0",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-05369c16d37048342"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-0da77ab44e2e32d68",
+            "GroupId": "sg-00706c8f8ad13ba9e",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "UserId": "<ACCOUNT_ID>"
+            },
+            "Description": "SSH desde SG-TI (endpoint y TI)",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-0da77ab44e2e32d68"
+        },
+        {
+            "SecurityGroupRuleId": "sgr-04396efd5d7d06080",
+            "GroupId": "sg-00706c8f8ad13ba9e",
+            "GroupOwnerId": "<ACCOUNT_ID>",
+            "IsEgress": false,
+            "IpProtocol": "udp",
+            "FromPort": 161,
+            "ToPort": 161,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-083e7f3f0a6213824",
+                "UserId": "<ACCOUNT_ID>"
+            },
+            "Description": "SNMP desde TI",
+            "Tags": [],
+            "SecurityGroupRuleArn": "arn:aws:ec2:us-east-1:<ACCOUNT_ID>:security-group-rule/sgr-04396efd5d7d06080"
+        }
+    ]
+}
