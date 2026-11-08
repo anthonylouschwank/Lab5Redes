@@ -1,0 +1,16 @@
+origen,destino,protocolo,esperado,obtenido,resultado
+ip-10-0-0-117,10.0.0.117,udp/161,responde,responde (REPORT 112 bytes),PASS
+ip-10-0-0-117,10.0.0.46,udp/161,responde,responde (REPORT 112 bytes),PASS
+ip-10-0-0-117,10.0.0.28,udp/161,responde,responde (REPORT 112 bytes),PASS
+ip-10-0-0-117,10.0.0.69,udp/161,responde,responde (REPORT 112 bytes),PASS
+ip-10-0-0-117,10.0.0.100,udp/161,responde,responde (REPORT 112 bytes),PASS
+ip-10-0-0-28,10.0.0.117,udp/161,bloqueado,bloqueado (timeout 3s),PASS
+ip-10-0-0-28,10.0.0.46,udp/161,bloqueado,bloqueado (timeout 3s),PASS
+ip-10-0-0-28,10.0.0.28,udp/161,bloqueado,responde (REPORT 112 bytes),N/A (consulta a si mismo por loopback; no cruza la red)
+ip-10-0-0-28,10.0.0.69,udp/161,bloqueado,bloqueado (timeout 3s),PASS
+ip-10-0-0-28,10.0.0.100,udp/161,bloqueado,bloqueado (timeout 3s),PASS
+ip-10-0-0-69,10.0.0.117,udp/161,bloqueado,bloqueado (timeout 3s),PASS
+ip-10-0-0-69,10.0.0.46,udp/161,bloqueado,bloqueado (timeout 3s),PASS
+ip-10-0-0-69,10.0.0.28,udp/161,bloqueado,bloqueado (timeout 3s),PASS
+ip-10-0-0-69,10.0.0.69,udp/161,bloqueado,responde (REPORT 112 bytes),N/A (consulta a si mismo por loopback; no cruza la red)
+ip-10-0-0-69,10.0.0.100,udp/161,bloqueado,bloqueado (timeout 3s),PASS

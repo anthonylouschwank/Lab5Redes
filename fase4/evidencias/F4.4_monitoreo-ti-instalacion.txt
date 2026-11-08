@@ -1,0 +1,105 @@
+# F4.4 — TI: swap + Prometheus + snmp_exporter (etapa A)
+== 1. swap
+NAME      TYPE  SIZE USED PRIO
+/swapfile file 1024M   0B   -2
+               total        used        free      shared  buff/cache   available
+Mem:             911         414         194           2         482         496
+== 2. paquetes (sin recommends)
+   prometheus 2.45.3+ds-2ubuntu0.3
+   prometheus-snmp-exporter 0.25.0-1ubuntu0.3
+== 3. valores por defecto
+-- /etc/default/prometheus
+ARGS=""
+-- /etc/default/prometheus-snmp-exporter
+ARGS=""
+User=prometheus
+EnvironmentFile=/etc/default/prometheus-snmp-exporter
+ExecStart=/usr/bin/prometheus-snmp-exporter $ARGS
+PrivateUsers=true
+total 16
+drwxr-xr-x 2 root root 4096 Nov  8 21:56 console_libraries
+drwxr-xr-x 2 root root 4096 Nov  8 21:56 consoles
+-rw-r--r-- 1 root root 1429 Feb 27  2024 prometheus.yml
+-rw-r--r-- 1 root root  248 Dec 12  2023 snmp.yml
+-- módulos en snmp.yml
+
+# Etapa B: snmp_exporter, Prometheus, Grafana
+== 1. snmp_exporter
+   -rw-r--r-- root:root /etc/prometheus/snmp.yml
+   -rw-r----- root:prometheus /etc/prometheus/snmp-auth.yml
+ts=2026-11-08T21:58:44.690Z caller=main.go:195 level=info build_context="(go=go1.22.2, platform=linux/amd64, user=team+pkg-go@tracker.debian.org, date=20250721-02:10:40, tags=unknown)"
+ts=2026-11-08T21:58:44.692Z caller=main.go:209 level=info msg="Configuration parsed successfully"
+active
+   dskPercent{dskIndex="1",dskPath="/"} 40
+   ifHCInOctets{ifDescr="ens5",ifIndex="2"} 5.94652207e+08
+   ifHCInOctets{ifDescr="lo",ifIndex="1"} 1.267735e+06
+   laLoadInt{laIndex="1"} 0
+   memAvailReal 207104
+   sysName{sysName="ip-10-0-0-46"} 1
+   sysUpTime 24219
+== 2. Prometheus
+   Checking /etc/prometheus/prometheus.yml
+    SUCCESS: /etc/prometheus/prometheus.yml is valid prometheus config file syntax
+   
+active
+== 3. Grafana OSS (apt.grafana.com)
+         B53A E77B ADB6 30A6 8304  6005 963F A277 1045 8545
+   uid                      Grafana Labs <engineering@grafana.com>
+   grafana 13.3.0
+== 4. Configuración de Grafana (solo 127.0.0.1)
+{  "database": "ok",  "version": "13.3.0",  "commit": "6f8ce3c693b493043ebcd4787566d2b6b118b0f0"}
+== 5. Puertos (deben ser solo 127.0.0.1)
+   127.0.0.1:9090
+   127.0.0.1:9116
+   127.0.0.1:3000
+               total        used        free      shared  buff/cache   available
+Mem:             911         623          74           2         395         287
+
+# Limpieza de disco
+antes: 6.4G usados, 307M libres (96%)
+-- plugins de Grafana:
+   cloudwatch
+   elasticsearch
+   grafana-advisor-app
+   grafana-exploretraces-app
+   grafana-lokiexplore-app
+   grafana-metricsdrilldown-app
+   grafana-postgresql-datasource
+   grafana-pyroscope-app
+   grafana-pyroscope-datasource
+   influxdb
+   jaeger
+   loki
+   mssql
+   opentsdb
+   prometheus
+   tempo
+   zipkin
+   4.0K	/var/lib/grafana/csv
+   12K	/var/lib/grafana/dashboards
+   1.7M	/var/lib/grafana/grafana.db
+   4.0K	/var/lib/grafana/pdf
+   543M	/var/lib/grafana/plugins
+   75M	/var/lib/grafana/plugins-bundled
+   4.0K	/var/lib/grafana/png
+   8.0K	/var/lib/grafana/unified-search
+grafana: {"database":"ok","version":"13.3.0","commit":"6f8ce3c693b493043ebcd4787566d2b6b118b0f0"}
+-- plugins tras reinicio:
+   cloudwatch
+   elasticsearch
+   grafana-advisor-app
+   grafana-exploretraces-app
+   grafana-lokiexplore-app
+   grafana-metricsdrilldown-app
+   grafana-postgresql-datasource
+   grafana-pyroscope-app
+   grafana-pyroscope-datasource
+   influxdb
+   jaeger
+   loki
+   mssql
+   opentsdb
+   prometheus
+   tempo
+   zipkin
+después: 5.9G usados, 882M libres (88%)

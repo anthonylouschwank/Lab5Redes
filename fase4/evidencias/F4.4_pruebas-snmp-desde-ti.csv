@@ -1,0 +1,12 @@
+# Pruebas SNMP desde ip-10-0-0-117 2026-11-08T21:55:49+00:00
+prueba,destino,esperado,obtenido,resultado
+v3-authPriv,10.0.0.117,responde,""ip-10-0-0-117" 0:0:02:02.72 "0.09" 191292 40 2 ",PASS
+v3-authPriv,10.0.0.46,responde,""ip-10-0-0-46" 0:0:01:05.17 "0.07" 207104 40 2 ",PASS
+v3-authPriv,10.0.0.28,responde,""ip-10-0-0-28" 0:0:00:50.59 "0.29" 288472 35 2 ",PASS
+v3-authPriv,10.0.0.69,responde,""ip-10-0-0-69" 0:0:00:34.24 "0.13" 307436 34 2 ",PASS
+v3-authPriv,10.0.0.100,responde,""ip-10-0-0-100" 0:0:00:21.21 "0.06" 239564 34 3 ",PASS
+v2c-public,10.0.0.46,rechazado,"Timeout: No Response from 10.0.0.46.",PASS
+v2c-public,10.0.0.100,rechazado,"Timeout: No Response from 10.0.0.100.",PASS
+v3-clave-incorrecta,10.0.0.46,rechazado,"snmpget: Authentication failure (incorrect password, community or key)",PASS
+v3-noAuthNoPriv,10.0.0.46,rechazado,"Error in packet",PASS
+# FAIL: 0

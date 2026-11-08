@@ -1,0 +1,66 @@
+# F4.4 — snmpd SNMPv3 authPriv en las 5 EC2 (credenciales no impresas)
+== ip-10-0-0-117
+-- 1. paquetes
+   snmpd 5.9.4+dfsg-1.1ubuntu3.3
+   snmp 5.9.4+dfsg-1.1ubuntu3.3
+-- 2. configuración
+-- 3. usuario SNMPv3 (createUser con snmpd detenido)
+   snmpd active
+   createUser pendiente en /var/lib/snmp/snmpd.conf: 0 (0 = ya convertido a usmUser localizado)
+   comunidades v1/v2c en /etc/snmp/snmpd.conf: 0
+   UNCONN 0.0.0.0:*
+-- 4. ufw
+   Rule added
+   Status: active
+   161/udp                    ALLOW       10.0.0.117                 # fase4: SNMP desde TI (monitoreo)
+== ip-10-0-0-46
+-- 1. paquetes
+   snmpd 5.9.4+dfsg-1.1ubuntu3.3
+-- 2. configuración
+-- 3. usuario SNMPv3 (createUser con snmpd detenido)
+   snmpd active
+   createUser pendiente en /var/lib/snmp/snmpd.conf: 0 (0 = ya convertido a usmUser localizado)
+   comunidades v1/v2c en /etc/snmp/snmpd.conf: 0
+   UNCONN 0.0.0.0:*
+-- 4. ufw
+   Rule added
+   Status: active
+   161/udp                    ALLOW       10.0.0.117                 # fase4: SNMP desde TI (monitoreo)
+== ip-10-0-0-28
+-- 1. paquetes
+   snmpd 5.9.4+dfsg-1.1ubuntu3.3
+-- 2. configuración
+-- 3. usuario SNMPv3 (createUser con snmpd detenido)
+   snmpd active
+   createUser pendiente en /var/lib/snmp/snmpd.conf: 0 (0 = ya convertido a usmUser localizado)
+   comunidades v1/v2c en /etc/snmp/snmpd.conf: 0
+   UNCONN 0.0.0.0:*
+-- 4. ufw
+   Rule added
+   Status: active
+   161/udp                    ALLOW       10.0.0.117                 # fase4: SNMP desde TI (monitoreo)
+== ip-10-0-0-69
+-- 1. paquetes
+   snmpd 5.9.4+dfsg-1.1ubuntu3.3
+-- 2. configuración
+-- 3. usuario SNMPv3 (createUser con snmpd detenido)
+   snmpd active
+   createUser pendiente en /var/lib/snmp/snmpd.conf: 0 (0 = ya convertido a usmUser localizado)
+   comunidades v1/v2c en /etc/snmp/snmpd.conf: 0
+   UNCONN 0.0.0.0:*
+-- 4. ufw
+   Rule added
+   Status: active
+   161/udp                    ALLOW       10.0.0.117                 # fase4: SNMP desde TI (monitoreo)
+== ip-10-0-0-100
+-- 1. paquetes
+   snmpd 5.9.4+dfsg-1.1ubuntu3.3
+-- 2. configuración
+-- 3. usuario SNMPv3 (createUser con snmpd detenido)
+   snmpd active
+   createUser pendiente en /var/lib/snmp/snmpd.conf: 0 (0 = ya convertido a usmUser localizado)
+   comunidades v1/v2c en /etc/snmp/snmpd.conf: 0
+   UNCONN 0.0.0.0:*
+-- 4. ufw
+   Rules updated
+   Status: inactive

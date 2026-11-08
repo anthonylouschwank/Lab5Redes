@@ -1,0 +1,16 @@
+# Monitoreo en ip-10-0-0-117 2026-11-08T22:04:25+00:00
+== Objetivos de Prometheus
+   prometheus     -            127.0.0.1:9090 up    
+   snmp           TI           10.0.0.117  up    
+   snmp           Servidores   10.0.0.46   up    
+   snmp           Medicos      10.0.0.28   up    
+   snmp           Visitantes   10.0.0.69   up    
+   snmp           DMZ          10.0.0.100  up    
+   snmp-exporter  -            127.0.0.1:9116 up    
+== Uptime del equipo (h)
+   DMZ          0.9
+   Medicos      257.1
+   Servidores   264.9
+   TI           257.1
+   Visitantes   257.1
+== Memoria usada (%)

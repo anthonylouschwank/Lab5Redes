@@ -1,0 +1,20 @@
+# F4.4 — Ampliación del volumen de TI vol-065ca518d1554816a 8 -> 12 GiB (gp3, en caliente)
+aws ec2 modify-volume --size 12 -> modifying 8 12 -> optimizing
+
+antes:
+/dev/root       6.8G  5.9G  881M  88% /
+NAME          SIZE TYPE MOUNTPOINT
+nvme0n1        12G disk 
+├─nvme0n1p1     7G part /
+├─nvme0n1p14    4M part 
+├─nvme0n1p15  106M part /boot/efi
+└─nvme0n1p16  913M part /boot
+raíz=/dev/nvme0n1p1 disco=/dev/nvme0n1 partición=1 fs=ext4
+CHANGED: partition=1 start=2099200 old: size=14677983 end=16777182 new: size=23066591 end=25165790
+ 
+Filesystem at /dev/nvme0n1p1 is mounted on /; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 2
+The filesystem on /dev/nvme0n1p1 is now 2883323 (4k) blocks long.
+
+después:
+/dev/root        11G  5.9G  4.8G  56% /
