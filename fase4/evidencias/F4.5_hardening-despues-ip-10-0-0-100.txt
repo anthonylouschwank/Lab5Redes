@@ -1,0 +1,17 @@
+﻿tcp 0.0.0.0:22 sshd
+tcp 0.0.0.0:443 nginx
+tcp 0.0.0.0:80 nginx
+tcp 127.0.0.1:8000 gunicorn
+tcp 127.0.0.53%lo:53 systemd-resolve
+tcp 127.0.0.54:53 systemd-resolve
+tcp [::]:22 sshd
+tcp [::]:443 nginx
+tcp [::]:80 nginx
+udp 0.0.0.0:161 snmpd
+udp 0.0.0.0:51820 -
+udp 10.0.0.100%ens5:68 systemd-network
+udp 127.0.0.1:323 chronyd
+udp 127.0.0.53%lo:53 systemd-resolve
+udp 127.0.0.54:53 systemd-resolve
+udp [::1]:323 chronyd
+udp [::]:51820 -

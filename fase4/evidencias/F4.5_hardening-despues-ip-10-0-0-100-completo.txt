@@ -1,0 +1,18 @@
+﻿Netid State  Recv-Q Send-Q   Local Address:Port  Peer Address:PortProcess                                                                                  
+udp   UNCONN 0      0            127.0.0.1:323        0.0.0.0:*    users:(("chronyd",pid=710,fd=5))                                                        
+udp   UNCONN 0      0           127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=323,fd=16))                                               
+udp   UNCONN 0      0        127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=323,fd=14))                                               
+udp   UNCONN 0      0      10.0.0.100%ens5:68         0.0.0.0:*    users:(("systemd-network",pid=524,fd=21))                                               
+udp   UNCONN 0      0              0.0.0.0:51820      0.0.0.0:*                                                                                            
+udp   UNCONN 0      0              0.0.0.0:161        0.0.0.0:*    users:(("snmpd",pid=8241,fd=6))                                                         
+udp   UNCONN 0      0                [::1]:323           [::]:*    users:(("chronyd",pid=710,fd=6))                                                        
+udp   UNCONN 0      0                 [::]:51820         [::]:*                                                                                            
+tcp   LISTEN 0      4096        127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=323,fd=17))                                               
+tcp   LISTEN 0      511            0.0.0.0:80         0.0.0.0:*    users:(("nginx",pid=5150,fd=5),("nginx",pid=5149,fd=5),("nginx",pid=3082,fd=5))         
+tcp   LISTEN 0      4096     127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=323,fd=15))                                               
+tcp   LISTEN 0      2048         127.0.0.1:8000       0.0.0.0:*    users:(("gunicorn",pid=3388,fd=5),("gunicorn",pid=3387,fd=5),("gunicorn",pid=3385,fd=5))
+tcp   LISTEN 0      4096           0.0.0.0:22         0.0.0.0:*    users:(("sshd",pid=1031,fd=3),("systemd",pid=1,fd=186))                                 
+tcp   LISTEN 0      511            0.0.0.0:443        0.0.0.0:*    users:(("nginx",pid=5150,fd=12),("nginx",pid=5149,fd=12),("nginx",pid=3082,fd=12))      
+tcp   LISTEN 0      511               [::]:80            [::]:*    users:(("nginx",pid=5150,fd=6),("nginx",pid=5149,fd=6),("nginx",pid=3082,fd=6))         
+tcp   LISTEN 0      4096              [::]:22            [::]:*    users:(("sshd",pid=1031,fd=4),("systemd",pid=1,fd=187))                                 
+tcp   LISTEN 0      511               [::]:443           [::]:*    users:(("nginx",pid=5150,fd=11),("nginx",pid=5149,fd=11),("nginx",pid=3082,fd=11))      

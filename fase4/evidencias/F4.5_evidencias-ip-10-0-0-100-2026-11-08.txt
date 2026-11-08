@@ -1,0 +1,119 @@
+
+################################################################
+# hardening.sh cliente
+# Fecha: 2026-11-08 22:21:05 UTC   Equipo: ip-10-0-0-100   Usuario: ubuntu
+# Variables: /home/ubuntu/fase3/leonardo/fase3.env
+################################################################
+
+==> 1. Inventario ANTES
+    [OK] Paquetes ya instalados: ufw
+    -- puertos en escucha (proto  dirección:puerto  proceso) ($ cat /home/ubuntu/fase3/evidencias/hardening-antes-ip-10-0-0-100.txt) --
+      tcp 0.0.0.0:22 sshd
+      tcp 0.0.0.0:443 nginx
+      tcp 0.0.0.0:80 nginx
+      tcp 127.0.0.1:8000 gunicorn
+      tcp 127.0.0.53%lo:53 systemd-resolve
+      tcp 127.0.0.54:53 systemd-resolve
+      tcp [::]:22 sshd
+      tcp [::]:443 nginx
+      tcp [::]:80 nginx
+      udp 0.0.0.0:161 snmpd
+      udp 0.0.0.0:51820 -
+      udp 10.0.0.100%ens5:68 systemd-network
+      udp 127.0.0.1:323 chronyd
+      udp 127.0.0.53%lo:53 systemd-resolve
+      udp 127.0.0.54:53 systemd-resolve
+      udp [::1]:323 chronyd
+      udp [::]:51820 -
+    -- ufw antes ($ ufw status verbose) --
+      Status: inactive
+
+==> 2. Revisión previa de seguridad
+    [OK] Sesión SSH desde 10.0.0.122: permitida por SSH_ALLOW_CIDRS (10.0.0.112/28)
+
+==> 3. Seguro anti-lockout (rollback automático en 300s)
+    [OK] Rollback programado: ufw-rollback.timer (se ejecuta en 300s si no lo cancelas)
+
+==> 4. SSH endurecido
+    [OK] Escrito: /etc/ssh/sshd_config.d/01-fase3-hardening.conf
+    [OK] sshd -t: configuración válida
+    -- valores efectivos (sshd -T) ($ printf %s\n kbdinteractiveauthentication no
+passwordauthentication no
+permitrootlogin no
+x11forwarding no) --
+      kbdinteractiveauthentication no
+      passwordauthentication no
+      permitrootlogin no
+      x11forwarding no
+    [OK] passwordauthentication no
+    [OK] permitrootlogin no
+    [OK] x11forwarding no
+    -- ssh.service / ssh.socket ($ systemctl is-active ssh.service ssh.socket) --
+      active
+      active
+
+==> 5. Firewall (ufw) — rol: cliente
+    permitir tcp/22 desde 10.0.0.112/28  (SSH de administración (endpoint en la subred TI))
+    [AVISO] Hay reglas de ufw que no son de la Fase 3 (revísalas; borrar con 'ufw delete <regla>'):
+    [OK] ufw activo
+    -- ufw status verbose ($ ufw status verbose) --
+      Status: active
+      Logging: on (low)
+      Default: deny (incoming), allow (outgoing), deny (routed)
+      New profiles: skip
+      
+      To                         Action      From
+      --                         ------      ----
+      161/udp                    ALLOW IN    10.0.0.117                 # fase4: SNMP desde TI (monitoreo)
+      80/tcp                     ALLOW IN    Anywhere                   # fase4: web publica (ACME + 301 a https)
+      443/tcp                    ALLOW IN    Anywhere                   # fase4: web publica HTTPS
+      51820/udp                  ALLOW IN    Anywhere                   # fase4: WireGuard VPN
+      22/tcp                     ALLOW IN    10.0.0.112/28              # fase3: SSH de administración (endpoint en la subred TI)
+      80/tcp (v6)                ALLOW IN    Anywhere (v6)              # fase4: web publica (ACME + 301 a https)
+      443/tcp (v6)               ALLOW IN    Anywhere (v6)              # fase4: web publica HTTPS
+      51820/udp (v6)             ALLOW IN    Anywhere (v6)              # fase4: WireGuard VPN
+      
+      10.0.0.117 22/tcp on ens5  ALLOW FWD   10.8.0.2 on wg0            # fase4: VPN hospital-ti SSH
+      10.0.0.46 22/tcp on ens5   ALLOW FWD   10.8.0.2 on wg0            # fase4: VPN hospital-ti SSH
+      10.0.0.28 22/tcp on ens5   ALLOW FWD   10.8.0.2 on wg0            # fase4: VPN hospital-ti SSH
+      10.0.0.46 80/tcp on ens5   ALLOW FWD   10.8.0.2 on wg0            # fase4: VPN hospital-ti intranet
+      10.0.0.46 80/tcp on ens5   ALLOW FWD   10.8.0.10 on wg0           # fase4: VPN hospital-medico intranet
+
+==> 6. Confirmación de acceso
+    [OK] Acceso confirmado: rollback cancelado
+    Acceso confirmado por ubuntu a las 22:21:29
+
+==> 7. Servicios en ejecución
+    Corriendo y en la lista para deshabilitar: ModemManager
+    No se deshabilitó ninguno.
+    [AVISO] Servicios corriendo que no son del rol 'cliente' (revisar a mano, no se tocaron): citas nginx snmpd 
+
+==> 8. Inventario DESPUÉS y justificación
+    -- diferencias en puertos en escucha (- antes / + después) ($ sh -c diff -u '/home/ubuntu/fase3/evidencias/hardening-antes-ip-10-0-0-100.txt' '/home/ubuntu/fase3/evidencias/hardening-despues-ip-10-0-0-100.txt' | tail -n +3 || true) --
+      
+    Puertos en escucha y por qué se conservan (el acceso real lo limita ufw + SG/NACL):
+      tcp 0.0.0.0:22 SSH: administración por el endpoint (solo desde 10.0.0.112/28)
+      tcp 0.0.0.0:443 intranet Apache (rol servidores)
+      tcp 0.0.0.0:80 intranet Apache (rol servidores)
+      tcp 127.0.0.1:8000 REVISAR: no previsto para el rol 'cliente' [solo local]
+      tcp 127.0.0.53%lo:53 systemd-resolved: resolvedor local (127.0.0.53/54), no expuesto [solo local]
+      tcp 127.0.0.54:53 systemd-resolved: resolvedor local (127.0.0.53/54), no expuesto [solo local]
+      tcp [::]:22 SSH: administración por el endpoint (solo desde 10.0.0.112/28)
+      tcp [::]:443 intranet Apache (rol servidores)
+      tcp [::]:80 intranet Apache (rol servidores)
+      udp 0.0.0.0:161 REVISAR: no previsto para el rol 'cliente'
+    [AVISO] Puerto udp/161 expuesto y no previsto para el rol (ufw lo bloquea, pero conviene apagar el servicio).
+      udp 0.0.0.0:51820 REVISAR: no previsto para el rol 'cliente'
+    [AVISO] Puerto udp/51820 expuesto y no previsto para el rol (ufw lo bloquea, pero conviene apagar el servicio).
+      udp 10.0.0.100%ens5:68 cliente DHCP de AWS (systemd-networkd)
+      udp 127.0.0.1:323 chronyc: control local de chrony (solo 127.0.0.1/::1) [solo local]
+      udp 127.0.0.53%lo:53 systemd-resolved: resolvedor local (127.0.0.53/54), no expuesto [solo local]
+      udp 127.0.0.54:53 systemd-resolved: resolvedor local (127.0.0.53/54), no expuesto [solo local]
+      udp [::1]:323 chronyc: control local de chrony (solo 127.0.0.1/::1) [solo local]
+      udp [::]:51820 REVISAR: no previsto para el rol 'cliente'
+    [AVISO] Puerto udp/51820 expuesto y no previsto para el rol (ufw lo bloquea, pero conviene apagar el servicio).
+
+==> 9. Servicios del rol siguen respondiendo
+    [OK] chrony activo
+    Inventarios: /home/ubuntu/fase3/evidencias/hardening-antes-ip-10-0-0-100.txt y hardening-despues-ip-10-0-0-100.txt
+RESULTADO: OK — hardening 'cliente' en ip-10-0-0-100

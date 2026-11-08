@@ -1,0 +1,28 @@
+# F4.5 — ufw de la DMZ antes de hardening.sh (ufw inactivo)
+== ufw: Status: inactive
+   Rules updated
+   Rules updated (v6)
+   Rules updated
+   Rules updated (v6)
+   Rules updated
+   Rules updated (v6)
+   Rules updated
+   Rules updated
+   Rules updated
+   Rules updated
+   Rules updated
+== reglas añadidas (ufw show added)
+   Added user rules (see 'ufw status' for running firewall):
+   ufw allow from 10.0.0.117 to any port 161 proto udp comment 'fase4: SNMP desde TI (monitoreo)'
+   ufw allow 80/tcp comment 'fase4: web publica (ACME + 301 a https)'
+   ufw allow 443/tcp comment 'fase4: web publica HTTPS'
+   ufw allow 51820/udp comment 'fase4: WireGuard VPN'
+   ufw route allow in on wg0 out on ens5 from 10.8.0.2 to 10.0.0.117 port 22 proto tcp comment 'fase4: VPN hospital-ti SSH'
+   ufw route allow in on wg0 out on ens5 from 10.8.0.2 to 10.0.0.46 port 22 proto tcp comment 'fase4: VPN hospital-ti SSH'
+   ufw route allow in on wg0 out on ens5 from 10.8.0.2 to 10.0.0.28 port 22 proto tcp comment 'fase4: VPN hospital-ti SSH'
+   ufw route allow in on wg0 out on ens5 from 10.8.0.2 to 10.0.0.46 port 80 proto tcp comment 'fase4: VPN hospital-ti intranet'
+   ufw route allow in on wg0 out on ens5 from 10.8.0.10 to 10.0.0.46 port 80 proto tcp comment 'fase4: VPN hospital-medico intranet'
+== preparar directorio de evidencias de hardening
+-rw-rw-r-- 1 ubuntu ubuntu   610 Nov  8 22:19 /home/ubuntu/fase3/leonardo/fase3.env
+-rw-rw-r-- 1 ubuntu ubuntu 14934 Nov  8 22:19 /home/ubuntu/fase3/leonardo/hardening.sh
+-rw-rw-r-- 1 ubuntu ubuntu  9829 Nov  8 22:19 /home/ubuntu/fase3/leonardo/lib.sh
