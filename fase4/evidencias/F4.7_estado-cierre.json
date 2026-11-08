@@ -1,0 +1,57 @@
+{
+    "fecha_utc":  "2026-11-08T23:16:00",
+    "instancias":  {
+                       "value":  [
+                                     {
+                                         "Id":  "i-03dd81293509a620e",
+                                         "Nombre":  "SRV1-Hospital-castillejos",
+                                         "Estado":  "stopped",
+                                         "IpPrivada":  "172.31.34.112"
+                                     },
+                                     {
+                                         "Id":  "i-0bfd1235ccdec6e96",
+                                         "Nombre":  "Hospital-EC2-TI",
+                                         "Estado":  "stopped",
+                                         "IpPrivada":  "10.0.0.117"
+                                     },
+                                     {
+                                         "Id":  "i-095520a21f761f97d",
+                                         "Nombre":  "Hospital-EC2-Servidores",
+                                         "Estado":  "stopped",
+                                         "IpPrivada":  "10.0.0.46"
+                                     },
+                                     {
+                                         "Id":  "i-0c8ad80ff90f5bdbd",
+                                         "Nombre":  "Hospital-EC2-Visitantes-Prueba",
+                                         "Estado":  "stopped",
+                                         "IpPrivada":  "10.0.0.69"
+                                     },
+                                     {
+                                         "Id":  "i-080244876b92e25c6",
+                                         "Nombre":  "Hospital-EC2-Medicos-Prueba",
+                                         "Estado":  "stopped",
+                                         "IpPrivada":  "10.0.0.28"
+                                     },
+                                     {
+                                         "Id":  "i-01df9ec0d0856322c",
+                                         "Nombre":  "Hospital-EC2-DMZ",
+                                         "Estado":  "stopped",
+                                         "IpPrivada":  "10.0.0.100"
+                                     }
+                                 ],
+                       "Count":  6
+                   },
+    "eip_dmz":  {
+                    "Alloc":  "eipalloc-07841315489a39f09",
+                    "IpPublica":  "3.227.168.73",
+                    "Asociacion":  "eipassoc-059c062307c3d3614",
+                    "Instancia":  "i-01df9ec0d0856322c"
+                },
+    "nat_gateway":  {
+                        "Id":  "nat-055f042fc98d5b9cd",
+                        "Estado":  "available",
+                        "Subred":  "subnet-0633a93ad8cebdf05",
+                        "IpPrivada":  "10.0.0.101"
+                    },
+    "nota":  "IP publica del NAT omitida. NAT y EIP se conservan por decision del usuario."
+}

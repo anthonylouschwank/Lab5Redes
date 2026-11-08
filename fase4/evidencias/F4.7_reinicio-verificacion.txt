@@ -1,0 +1,101 @@
+# F4.7 — Prueba de reinicio de las 5 EC2 antes de detenerlas (2026-11-08, reboot-instances 23:10 UTC)
+
+== ip-10-0-0-117 | arranque: 2026-11-08 23:10:13 | up 1 minute
+   ssh                        active / disabled
+   ufw                        active / enabled
+   chrony                     active / enabled
+   snmpd                      active / enabled
+   prometheus                 active / enabled
+   prometheus-snmp-exporter   active / enabled
+   grafana-server             active / enabled
+   ufw: Status: active
+   swap: /swapfile 1024M 
+   chrony: 10.0.0.46
+== ip-10-0-0-46 | arranque: 2026-11-08 23:10:06 | up 1 minute
+   ssh                        active / disabled
+   ufw                        active / enabled
+   chrony                     active / enabled
+   snmpd                      active / enabled
+   slapd                      active / enabled
+   apache2                    active / enabled
+   ufw: Status: active
+   swap: 
+   chrony: 169.254.169.123
+   intranet / -> 200 ; /intranet/ -> 401
+   ldap: 1
+== ip-10-0-0-28 | arranque: 2026-11-08 23:10:07 | up 1 minute
+   ssh                        active / disabled
+   ufw                        active / enabled
+   chrony                     active / enabled
+   snmpd                      active / enabled
+   ufw: Status: active
+   swap: 
+   chrony: 10.0.0.46
+== ip-10-0-0-69 | arranque: 2026-11-08 23:10:11 | up 1 minute
+   ssh                        active / disabled
+   ufw                        active / enabled
+   chrony                     active / enabled
+   snmpd                      active / enabled
+   ufw: Status: active
+   swap: 
+   chrony: 169.254.169.123
+== ip-10-0-0-100 | arranque: 2026-11-08 23:10:06 | up 2 minutes
+   ssh                        active / disabled
+   ufw                        active / enabled
+   chrony                     active / enabled
+   snmpd                      active / enabled
+   nginx                      active / enabled
+   citas                      active / enabled
+   wg-quick@wg0               active / enabled
+   ufw: Status: active
+   swap: 
+   chrony: 10.0.0.46
+== DMZ tras el arranque (sin reiniciar wg0)
+-P FORWARD DROP
+-A FORWARD -j WG-FWD
+-A FORWARD -j ufw-before-logging-forward
+-A FORWARD -j ufw-before-forward
+ip_forward=1  wg0: 10.8.0.1/24  peers: 2
+Default: deny (incoming), allow (outgoing), deny (routed)
+permitrootlogin no
+https local -> 200
+active
+# Monitoreo en ip-10-0-0-117 2026-11-08T23:13:06+00:00
+== Objetivos de Prometheus
+   prometheus     -            127.0.0.1:9090 up    
+   snmp           TI           10.0.0.117  up    
+   snmp           Servidores   10.0.0.46   up    
+   snmp           Medicos      10.0.0.28   up    
+   snmp           Visitantes   10.0.0.69   up    
+   snmp           DMZ          10.0.0.100  up    
+   snmp-exporter  -            127.0.0.1:9116 up    
+== Uptime del equipo (h)
+   DMZ          0
+   Medicos      0
+# Pruebas SNMP desde ip-10-0-0-117 2026-11-08T23:13:10+00:00
+prueba,destino,esperado,obtenido,resultado
+v3-authPriv,10.0.0.117,responde,""ip-10-0-0-117" 0:0:02:49.22 "0.21" 40384 55 2 ",PASS
+v3-authPriv,10.0.0.46,responde,""ip-10-0-0-46" 0:0:02:54.74 "0.05" 377048 40 2 ",PASS
+v3-authPriv,10.0.0.28,responde,""ip-10-0-0-28" 0:0:02:56.07 "0.02" 411516 35 2 ",PASS
+v3-authPriv,10.0.0.69,responde,""ip-10-0-0-69" 0:0:02:51.80 "0.11" 479764 34 2 ",PASS
+v3-authPriv,10.0.0.100,responde,""ip-10-0-0-100" 0:0:02:57.22 "0.03" 423448 34 3 ",PASS
+v2c-public,10.0.0.46,rechazado,"Timeout: No Response from 10.0.0.46.",PASS
+v2c-public,10.0.0.100,rechazado,"Timeout: No Response from 10.0.0.100.",PASS
+v3-clave-incorrecta,10.0.0.46,rechazado,"snmpget: Authentication failure (incorrect password, community or key)",PASS
+v3-noAuthNoPriv,10.0.0.46,rechazado,"Error in packet",PASS
+# FAIL: 0
+== Regresión tras el reinicio
+Resumen ti: 8 PASS, 0 FAIL, 0 OMITIDA(S)
+Resumen servidores: 3 PASS, 0 FAIL, 0 OMITIDA(S)
+Resumen medicos: 5 PASS, 0 FAIL, 0 OMITIDA(S)
+Resumen visitantes: 13 PASS, 0 FAIL, 0 OMITIDA(S)
+Resumen dmz: 3 PASS, 0 FAIL, 0 OMITIDA(S)
+== Web desde la laptop
+http  -> 
+301 https://hospital-castillejos.duckdns.org/
+https -> 
+200 ssl_verify=0
+consulta W9FQ-PE6M -> 
+200
+TCP 22 a la EIP -> abierto=False
+TCP 389 a la EIP -> abierto=False
