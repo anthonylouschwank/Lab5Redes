@@ -1,0 +1,42 @@
+# F4.3 / F6 — Pruebas VPN peer hospital-medico (10.8.0.10) desde la laptop
+destino,esperado,obtenido,resultado
+10.0.0.117:22,bloqueado,bloqueado,PASS
+10.0.0.28:22,bloqueado,bloqueado,PASS
+10.0.0.46:22,bloqueado,bloqueado,PASS
+10.0.0.46:389,bloqueado,bloqueado,PASS
+10.0.0.46:80,abierto,abierto,PASS
+10.0.0.69:22,bloqueado,bloqueado,PASS
+10.0.0.69:80,bloqueado,bloqueado,PASS
+http://10.0.0.46/,200,200,PASS
+http://10.0.0.46/intranet/ (sin credenciales),401,401,PASS
+# FAIL: 0
+
+# Los bloqueos ocurren en la DMZ: regla 7 (REJECT desde wg0) pasa de 9 a 36 paquetes; regla 6 (10.8.0.10 -> .46:80) = 3.
+
+# Estado en la DMZ (wg show sin claves privadas ni endpoints; contadores WG-FWD)
+== wg show (sin claves privadas, sin endpoints)
+interface: wg0
+  public key: Br1c39sv1jTYJTlTF7yFsOSq9pqfKp7B8n9asRd3eHU=
+  listening port: 51820
+
+peer: s1tYepKqtvkK+u08qPRl853fY0qpLTy5l4LCQHZJigU=
+  allowed ips: 10.8.0.10/32
+  latest handshake: 45 seconds ago
+  transfer: 3.41 KiB received, 5.71 KiB sent
+
+peer: tEeBEkG/4XI/5Wm39iqWqLKUWRDoxEemzvmWDHrjEx0=
+  allowed ips: 10.8.0.2/32
+  latest handshake: 1 minute, 39 seconds ago
+  transfer: 18.50 KiB received, 26.13 KiB sent
+== contadores WG-FWD
+Chain WG-FWD (1 references)
+num pkts bytes target prot opt in out source destination
+1 231 34893 ACCEPT 0 -- * * 0.0.0.0/0 0.0.0.0/0 ctstate RELATED,ESTABLISHED
+2 3 156 ACCEPT 6 -- wg0 * 10.8.0.2 10.0.0.117 tcp dpt:22 ctstate NEW
+3 3 156 ACCEPT 6 -- wg0 * 10.8.0.2 10.0.0.46 tcp dpt:22 ctstate NEW
+4 3 156 ACCEPT 6 -- wg0 * 10.8.0.2 10.0.0.28 tcp dpt:22 ctstate NEW
+5 7 364 ACCEPT 6 -- wg0 * 10.8.0.2 10.0.0.46 tcp dpt:80 ctstate NEW
+6 3 156 ACCEPT 6 -- wg0 * 10.8.0.10 10.0.0.46 tcp dpt:80 ctstate NEW
+7 36 1872 REJECT 0 -- wg0 * 0.0.0.0/0 0.0.0.0/0 reject-with icmp-admin-prohibited
+8 0 0 REJECT 0 -- * wg0 0.0.0.0/0 0.0.0.0/0 reject-with icmp-admin-prohibited
+9 0 0 RETURN 0 -- * * 0.0.0.0/0 0.0.0.0/0

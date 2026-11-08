@@ -1,0 +1,96 @@
+# F4.3 — Configuración VPN WireGuard (2026-11-08 15:40 hora local)
+
+######## DMZ (wg-dmz.sh)
+== 1. Paquete
+
+
+
+
+
+   wireguard-tools 1.0.20210914-1ubuntu4
+== 2. Claves del servidor (solo root)
+   clave nueva generada
+   total  
+   -rw------- root server.key
+   -rw-r--r-- root server.pub
+== 3. Firewall de reenvío y wg0.conf
+== 4. ip_forward
+net.ipv4.ip_forward = 1
+== 5. Servicio
+active
+wg0              UNKNOWN        10.8.0.1/24 
+== 6. Estado (sin claves privadas)
+   Clave pública del servidor: Br1c39sv1jTYJTlTF7yFsOSq9pqfKp7B8n9asRd3eHU=
+interface: wg0
+  public key: Br1c39sv1jTYJTlTF7yFsOSq9pqfKp7B8n9asRd3eHU=
+  listening port: 51820
+
+peer: tEeBEkG/4XI/5Wm39iqWqLKUWRDoxEemzvmWDHrjEx0=
+  allowed ips: 10.8.0.2/32
+
+peer: s1tYepKqtvkK+u08qPRl853fY0qpLTy5l4LCQHZJigU=
+  allowed ips: 10.8.0.10/32
+-N WG-FWD
+-A WG-FWD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A WG-FWD -s 10.8.0.2/32 -d 10.0.0.117/32 -i wg0 -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+-A WG-FWD -s 10.8.0.2/32 -d 10.0.0.46/32 -i wg0 -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+-A WG-FWD -s 10.8.0.2/32 -d 10.0.0.28/32 -i wg0 -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+-A WG-FWD -s 10.8.0.2/32 -d 10.0.0.46/32 -i wg0 -p tcp -m tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
+-A WG-FWD -s 10.8.0.10/32 -d 10.0.0.46/32 -i wg0 -p tcp -m tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
+-A WG-FWD -i wg0 -j REJECT --reject-with icmp-admin-prohibited
+-A WG-FWD -o wg0 -j REJECT --reject-with icmp-admin-prohibited
+-A WG-FWD -j RETURN
+-P FORWARD ACCEPT
+-A FORWARD -j WG-FWD
+-A FORWARD -i wg0 -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+-A FORWARD -o wg0 -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+UNCONN 0      0              0.0.0.0:51820      0.0.0.0:*                                             
+UNCONN 0      0                 [::]:51820         [::]:*                                             
+
+######## Servidores (vpn-servidores.sh)
+== 1. ufw
+Rule added
+Rule added
+== 2. Apache
+   configtest OK, Apache recargado
+7:#   3. Apache (este archivo): "Require ip" con la misma lista + login LDAP por grupo.
+23:        Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 10.8.0.0/24 127.0.0.1 ::1
+41:            Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 10.8.0.0/24 127.0.0.1 ::1
+58:            Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 10.8.0.0/24 127.0.0.1 ::1
+   diferencias con el respaldo:
+23c23
+<         Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 127.0.0.1 ::1
+---
+>         Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 10.8.0.0/24 127.0.0.1 ::1
+41c41
+<             Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 127.0.0.1 ::1
+---
+>             Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 10.8.0.0/24 127.0.0.1 ::1
+58c58
+<             Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 127.0.0.1 ::1
+---
+>             Require ip 10.0.0.0/27 10.0.0.32/27 10.0.0.96/28 10.0.0.112/28 10.8.0.0/24 127.0.0.1 ::1
+active
+== 3. Regresión local
+   http://127.0.0.1/ -> 200
+   http://127.0.0.1/intranet/ (sin credenciales) -> 401
+Status: active
+     To                         Action      From
+[12] 80/tcp                     ALLOW IN    10.8.0.0/24                # fase4: Intranet desde la VPN
+[13] 22/tcp                     ALLOW IN    10.8.0.2                   # fase4: SSH desde VPN peer hospital-ti
+
+######## TI (vpn-ssh-cliente.sh)
+== ip-10-0-0-117
+Rule added
+Status: active
+[ 1] 22/tcp                     ALLOW IN    10.0.0.112/28              # fase3: SSH de administración (endpoint en la subred TI)
+[ 2] 22/tcp                     ALLOW IN    10.8.0.2                   # fase4: SSH desde VPN peer hospital-ti
+
+######## Médicos (vpn-ssh-cliente.sh)
+== ip-10-0-0-28
+Rule added
+Status: active
+[ 1] 22/tcp                     ALLOW IN    10.0.0.112/28              # fase3: SSH de administración (endpoint en la subred TI)
+[ 2] 22/tcp                     ALLOW IN    10.8.0.2                   # fase4: SSH desde VPN peer hospital-ti
+
+######## NACL: TI, Médicos, Servidores y DMZ usan la NACL por defecto acl-0b7960ab2db5f98fa (permite todo); Visitantes acl-0a0c9f31d75aada0c niega 10.8.0.0/24 (regla 110).
