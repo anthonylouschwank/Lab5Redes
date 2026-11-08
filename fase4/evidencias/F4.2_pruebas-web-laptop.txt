@@ -1,0 +1,16 @@
+# F4.2 — Pruebas web desde la laptop (Internet) · 2026-11-08 15:36 hora local
+DNS hospital-castillejos.duckdns.org -> 3.227.168.73 (1.1.1.1 y 8.8.8.8)
+http  /                    -> 301 -> https://hospital-castillejos.duckdns.org/
+http  /consulta?codigo=X   -> 301 -> https://hospital-castillejos.duckdns.org/consulta?codigo=X
+https /                    -> 200, ssl_verify_result=0 (certificado válido, Let's Encrypt YE2, vence 2027-02-06)
+Cabeceras: Strict-Transport-Security max-age=31536000; X-Content-Type-Options nosniff; X-Frame-Options DENY; Referrer-Policy no-referrer; CSP default-src 'self'; Permissions-Policy; Server: nginx (sin versión)
+POST /citas (datos ficticios)  -> 201, código W9FQ-PE6M
+GET  /consulta?codigo=W9FQ-PE6M -> 200, muestra solo iniciales (P. D. U.)
+GET  /consulta?codigo=AAAA-BBBB -> 404
+POST /citas inválido           -> 400
+GET  /privacidad               -> 200
+http://3.227.168.73/  (por IP)  -> conexión cerrada (nginx 444)
+https://3.227.168.73/ (por IP)  -> antes 200; tras rechazo-ip: handshake TLS rechazado (curl rc=35)
+TCP 22 a la EIP  -> bloqueado (SG-DMZ solo permite 22 desde SG-TI)
+TCP 389 a la EIP -> bloqueado
+certbot renew --dry-run -> "Congratulations, all simulated renewals succeeded"; certbot.timer enabled

@@ -1,0 +1,53 @@
+== 1. Respaldo de nginx
+total 12
+-rw-r--r-- 1 root root 1405 Nov  8 21:19 citas
+-rw-r--r-- 1 root root 1405 Nov  8 21:19 citas.pre-certbot
+-rw-r--r-- 1 root root 2412 Nov 30  2023 default
+== 2. certbot --nginx --redirect
+Account registered.
+Requesting a certificate for hospital-castillejos.duckdns.org
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/hospital-castillejos.duckdns.org/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/hospital-castillejos.duckdns.org/privkey.pem
+This certificate expires on 2027-02-06.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+Deploying certificate
+Successfully deployed certificate for hospital-castillejos.duckdns.org to /etc/nginx/sites-enabled/citas
+Congratulations! You have successfully enabled HTTPS on https://hospital-castillejos.duckdns.org
+== 3. Configuración resultante
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+10:    listen 80 default_server;
+11:    listen [::]:80 default_server;
+12:    server_name _;
+13:    return 444;
+17:    server_name hospital-castillejos.duckdns.org;
+22:    add_header Strict-Transport-Security "max-age=31536000" always;
+43:    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+44:    listen 443 ssl; # managed by Certbot
+45:    ssl_certificate /etc/letsencrypt/live/hospital-castillejos.duckdns.org/fullchain.pem; # managed by Certbot
+46:    ssl_certificate_key /etc/letsencrypt/live/hospital-castillejos.duckdns.org/privkey.pem; # managed by Certbot
+47:    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+48:    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+55:        return 301 https://$host$request_uri;
+56:    } # managed by Certbot
+59:    listen 80;
+60:    listen [::]:80;
+61:    server_name hospital-castillejos.duckdns.org;
+62:    return 404; # managed by Certbot
+== 4. Certificado
+  Certificate Name: hospital-castillejos.duckdns.org
+    Domains: hospital-castillejos.duckdns.org
+    Expiry Date: 2027-02-06 20:30:44+00:00 (VALID: 89 days)
+subject=CN = hospital-castillejos.duckdns.org
+issuer=C = US, O = Let's Encrypt, CN = YE2
+notBefore=Nov  8 20:30:45 2026 GMT
+notAfter=Feb  6 20:30:44 2027 GMT
+== 5. Renovación
+enabled
+NEXT                        LEFT LAST PASSED UNIT          ACTIVATES
+Mon 2026-11-09 11:29:06 UTC  13h -         - certbot.timer certbot.service
+Simulating renewal of an existing certificate for hospital-castillejos.duckdns.org
+Congratulations, all simulated renewals succeeded: 
+[exited with code 0]
